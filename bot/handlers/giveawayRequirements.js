@@ -23,6 +23,20 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
     const client = reaction.message.client
 
+    const d = await client.objects.guilds.findOne({ where: { guildID: reaction.message.guild.id }})
+
+    if (d) {
+        const bypass_role_id = d.get("bypass_role")
+
+        const role = reaction.message.guild.roles.cache.get(bypass_role_id)
+
+        if (role) {
+            const member = await reaction.message.guild.members.fetch(user.id)
+
+            if (member.roles.cache.has(bypass_role_id)) return true
+        }
+    }
+
     function giveawayEntryError(error) {
 
         if (cooldown.get(user.id)) return
@@ -38,7 +52,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
         setTimeout(() => {
             cooldown.delete(user.id)
-        }, 90000)
+        }, 45000)
 
         return user.send(embed).catch(Err => {})
     }
@@ -98,7 +112,13 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
             const value = Number(req_value[0])
 
             if (!isNaN(value)) {
-                const item = await db.fetch(`messages_${reaction.message.guild.id}_${user.id}`) || 0
+                let item 
+
+                const d = await reaction.message.client.objects.messages.findOne({ where: { guildID: reaction.message.guild.id, userID: user.id }})
+
+                if (d) {
+                    item = d.get("messages")
+                } else item = 0
 
                 if (value > item) {
 
