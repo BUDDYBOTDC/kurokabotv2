@@ -52,10 +52,11 @@ module.exports = async (d) => {
         } else if (req[0] === "guild_roles") {
             if (!req[1][0]) return { message: `No role IDs given for field roles.` }
             for (const id of req[1]) {
-                const guild = d.message.guild.roles.cache.get(id)
+                const role = d.message.guild.roles.cache.get(id)
 
-                if (!guild) return { message: `Role with ID ${id} does not exist.` }
+                if (!role) return { message: `Role with ID ${id} does not exist.` }
                 
+                if (role.managed) return { message: `This role (${id}) seems to be managed by discord, remember you can't use nitro booster role ID.`}
             }
             replacer = req[1].filter(id => d.message.guild.roles.cache.get(id)).map(id => `<@&${id}>`).join(", ")
         } else if (req[0] === "guild_messages") {
