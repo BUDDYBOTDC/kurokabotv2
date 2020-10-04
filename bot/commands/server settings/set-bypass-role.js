@@ -29,18 +29,8 @@ module.exports = {
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
 
         if (args[0].toLowerCase() === "disable") {
-            const d = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 
-            if (!d) {
-                await client.objects.guilds.create({
-                    guildID: message.guild.id,
-                    bypass_role: "0",
-                    giveaway_role: "0",
-                    premium: false
-                })
-            } else {
-                await client.objects.guilds.update({ bypass_role: "0" }, { where: { guildID: message.guild.id }})
-            }
+            await client.objects.guilds.update({ bypass_role: "0" }, { where: { guildID: message.guild.id }})
 
             message.channel.send(`Giveaway Bypass role has been disabled / deleted.`)
 
@@ -61,18 +51,7 @@ module.exports = {
             .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
             .setDescription(`Successfully set Giveaway Bypass role to ${role}.`)
 
-            const d = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
-
-            if (!d) {
-                await client.objects.guilds.create({
-                    guildID: message.guild.id,
-                    bypass_role: role.id,
-                    giveaway_role: "0",
-                    premium: false
-                })
-            } else {
-                await client.objects.guilds.update({ bypass_role: role.id }, { where: { guildID: message.guild.id }})
-            }
+            await client.objects.guilds.update({ bypass_role: role.id }, { where: { guildID: message.guild.id }})
 
             message.channel.send(embed)
         } else {
@@ -94,19 +73,8 @@ module.exports = {
             .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
             .setDescription(`Successfully set Giveaway Bypass role to ${role}.`)
 
-            const d = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
+            await client.objects.guilds.update({ bypass_role: role.id }, { where: { guildID: message.guild.id }})
 
-            if (!d) {
-                await client.objects.guilds.create({
-                    guildID: message.guild.id,
-                    bypass_role: role.id,
-                    giveaway_role: "0",
-                    premium: false
-                })
-            } else {
-                await client.objects.guilds.update({ bypass_role: role.id }, { where: { guildID: message.guild.id }})
-            }
-            
             message.channel.send(embed)
 
         }

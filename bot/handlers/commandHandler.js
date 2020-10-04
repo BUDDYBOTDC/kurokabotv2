@@ -20,6 +20,8 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
 
     if (!command) return
 
+    if (!client.objects) return message.channel.send(`:x: Command timed out.`)
+    
     if (command.category === "owner" && !client.owners.includes(message.author.id)) return
     
     if (command.permissions && !command.permissions.every(perm => message.member.hasPermission(perm))) {

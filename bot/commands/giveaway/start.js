@@ -6,6 +6,7 @@ const findChannel = require("../../functions/findChannel");
 const daysToMs = require("../../utils/daysToMs");
 const getRequirements = require("../../handlers/getRequirements");
 const logGiveaway = require("../../handlers/logGiveaway");
+const parseTime = require("../../handlers/parseTime");
 const isMakingOne = new Collection()
 
 module.exports = {
@@ -24,7 +25,7 @@ module.exports = {
         .setColor("BLUE")
         .setTitle(`Giveaway setup`)
         .setDescription(`Alright, let's start, what are you giving away?`)
-        .setFooter(`As for example, a shirt`)
+        .setFooter(`As for example, a shirt\nType "cancel" to cancel the setup.`)
 
         const msg = await message.channel.send(embed)
 
@@ -46,10 +47,12 @@ module.exports = {
 
             const m = collected.first()
 
+            if (m.content.toLowerCase() === "cancel") return cancelGiveaway("User canceled the setup.")
+
             data.title = m.content
 
             embed.setDescription(`So you're giving away a ${m.content}, ok, which channel should be this giveaway in?`)
-            embed.setFooter(`Either mention the channel, give ID or name, or "here" for this channel.`)
+            embed.setFooter(`Either mention the channel, give ID or name, or "here" for this channel.\nType "cancel" to cancel the setup.`)
 
             await msg.edit(embed)
 
@@ -68,6 +71,8 @@ module.exports = {
 
             const m = collected.first()
 
+            if (m.content.toLowerCase() === "cancel") return cancelGiveaway("User canceled the setup.")
+
             let channel = findChannel(m, m.content.split(" "), false)
 
             if (m.content === "here") channel = m.channel
@@ -77,7 +82,7 @@ module.exports = {
             data.channelID = channel.id
 
             embed.setDescription(`Channel set to ${channel}, how many winners for this giveaway?`)
-            embed.setFooter(`Give a valid number of winners\nMinimum is 1, maximum is 20.`)
+            embed.setFooter(`Give a valid number of winners\nMinimum is 1, maximum is 20.\nType "cancel" to cancel the setup.`)
 
             await msg.edit(embed)
 
@@ -96,6 +101,8 @@ module.exports = {
 
             const m = collected.first()
 
+            if (m.content.toLowerCase() === "cancel") return cancelGiveaway("User canceled the setup.")
+
             const winners = Number(m.content)
 
             if (isNaN(winners) || winners < 1 || winners > 20) return cancelGiveaway("Invalid number of winners have been given.")
@@ -103,7 +110,7 @@ module.exports = {
             data.winners = winners
 
             embed.setDescription(`Amount of winners for this giveaway set to ${winners}, How much time should this giveaway last for?`)
-            embed.setFooter(`Give a valid time to parse, example: 5h (h stand for hours)\nMinimum time is a minute, maximum time is a month.`)
+            embed.setFooter(`Give a valid time to parse, example: 5h (h stand for hours)\nMinimum time is a minute, maximum time is a month.\nType "cancel" to cancel the setup.`)
 
             await msg.edit(embed)
 
@@ -123,21 +130,23 @@ module.exports = {
 
             const m = collected.first()
 
-            const time = ms(m.content)
+            if (m.content.toLowerCase() === "cancel") return cancelGiveaway("User canceled the setup.")
 
-            if (!time) return cancelGiveaway("Could not parse " + m.content + ".")
+            const time = await parseTime(m.content)
 
-            if (time < 60000 || time > daysToMs(30)) return cancelGiveaway(`Time cant be smaller than a minute nor bigger than 30 days.`)
+            if (time.message) return cancelGiveaway(time.message)
 
-            data.endsAt = Date.now() + time
+            if (time.ms < 60000 || time.ms > daysToMs(30)) return cancelGiveaway(`Time cant be smaller than a minute nor bigger than 30 days.`)
 
-            data.removeCache = Date.now() + time + daysToMs(7)
+            data.endsAt = Date.now() + time.ms
+
+            data.removeCache = Date.now() + time.ms + daysToMs(7)
 
             data.ended = false
 
-            data.time = time
+            data.time = time.ms
 
-            embed.setDescription(`This giveaway will last ${m.content}, what are the requirements to join this giveaway?
+            embed.setDescription(`This giveaway will last ${time.text}, what are the requirements to join this giveaway?
 
 **Fields:**
 guilds <guildID> <guildID> ... (defaulted to none)
@@ -145,10 +154,13 @@ roles <roleID> ... (defaulted to none)
 messages <number> (defaulted to "0")
 member_older <days> (defaulted to "0")
 account_older <days> (defaulted to "0")
+user_tag_equals <tag> (only numbers)
 badges <badge> <badge> ...
 
 `)
-            embed.setFooter(`Requirements field, use "skip" to skip it.\nOrder does not matter.`)
+            embed.addField(`Requirements ToS:`, " For legal reasons, You may **NOT** have a paid role as a bonus role. It is not legal. We hold no accountability for users actions if you (user) fails to follow this warning.")
+            
+            embed.setFooter(`Requirements field, use "skip" to skip it.\nOrder does not matter.\nType "cancel" to cancel the setup.`)
 
             await msg.edit(embed)
 
@@ -168,6 +180,8 @@ badges <badge> <badge> ...
 
             const m = collected.first()
 
+            if (m.content.toLowerCase() === "cancel") return cancelGiveaway("User canceled the setup.")
+            
             embed.setColor("GREEN")
             embed.setDescription(`The giveaway has been successfully set up.`)
             embed.setFooter(`Time to win!`)
@@ -188,8 +202,7 @@ roles <roleID> ... (defaulted to none)
 messages <number> (defaulted to "0")
 member_older <days> (defaulted to "0")
 account_older <days> (defaulted to "0")
-booster <yes> (defaulted to "no")
-booster_older <days> (defaulted to "0" (booster field must be set to "yes"))
+user_tag_equals <tag> (only numbers)
 badges <badge> <badge> ...
                 
 :x: ${read.message}

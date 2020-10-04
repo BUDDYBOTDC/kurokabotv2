@@ -3,14 +3,14 @@ const filterRoles = require("../../functions/filterRoles");
 const awaitMessage = require("../../handlers/awaitMessage");
 
 module.exports = {
-    name: "set-giveaway-role",
-    description: "sets a giveaway manager role, users with this role will not need Manage Guild permission to make giveaways.",
+    name: "set-blacklist-role",
+    description: "sets a blacklist role, users with this role will not be able to join to any of the giveaways.",
     aliases: [
-        "setgiveawayrole",
-        "set-giveaway",
-        "set-g-role",
-        "setgrole",
-        "grole"
+        "setblacklistrole",
+        "set-blacklist",
+        "set-gl-role",
+        "setblrole",
+        "blrole"
     ],
     permissions: [
         "MANAGE_GUILD"
@@ -29,9 +29,9 @@ module.exports = {
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
 
         if (args[0].toLowerCase() === "disable") {
-            await client.objects.guilds.update({ giveaway_role: "0" }, { where: { guildID: message.guild.id }})
+            await client.objects.guilds.update({ black_role: "0" }, { where: { guildID: message.guild.id }})
 
-            message.channel.send(`Giveaway Manager role has been disabled / deleted.`)
+            message.channel.send(`Blacklist role has been disabled / deleted.`)
 
             return
         }
@@ -46,11 +46,11 @@ module.exports = {
             
             const embed = new MessageEmbed()
             .setColor("GREEN")
-            .setAuthor(`Giveaway Manager role set:`, message.author.displayAvatarURL({dynamic:true}))
+            .setAuthor(`Blacklist role set:`, message.author.displayAvatarURL({dynamic:true}))
             .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
-            .setDescription(`Successfully set Giveaway Manager role to ${role}.`)
+            .setDescription(`Successfully set Blacklist role to ${role}.`)
 
-            await client.objects.guilds.update({ giveaway_role: role.id }, { where: { guildID: message.guild.id }})
+            await client.objects.guilds.update({ black_role: role.id }, { where: { guildID: message.guild.id }})
 
             message.channel.send(embed)
         } else {
@@ -68,11 +68,11 @@ module.exports = {
 
             const embed = new MessageEmbed()
             .setColor("GREEN")
-            .setAuthor(`Giveaway Manager role set:`, message.author.displayAvatarURL({dynamic:true}))
+            .setAuthor(`Blacklist role set:`, message.author.displayAvatarURL({dynamic:true}))
             .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
-            .setDescription(`Successfully set Giveaway Manager role to ${role}.`)
+            .setDescription(`Successfully set Blacklist role to ${role}.`)
 
-            await client.objects.guilds.update({ giveaway_role: role.id }, { where: { guildID: message.guild.id }})
+            await client.objects.guilds.update({ black_role: role.id }, { where: { guildID: message.guild.id }})
 
             message.channel.send(embed)
 

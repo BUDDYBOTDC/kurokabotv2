@@ -14,7 +14,8 @@ module.exports = (client = new Client(), requirements) => {
         member_older: "member_older",
         booster: "booster",
         booster_older: "booster_older",
-        badges: "badges"        
+        badges: "badges",
+        user_tag_equals: "user_tag_equals"
     }
 
     for (const field of requirements.split("\n")) {

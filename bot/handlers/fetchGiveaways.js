@@ -30,8 +30,8 @@ module.exports = async (client = new Client(), db = new Sequelize()) => {
                             giveaway.checkReactions()
                         }
                     }
-                } else console.log(`Giveaway with message ID ${data.messageID} not found`)
-            } else console.log(`Giveaway with channel ID ${data.messageID} not found`)
-        } else console.log(`Giveaway with guild ID ${data.messageID} not found`)
+                }
+            }
+        }
     }
 }

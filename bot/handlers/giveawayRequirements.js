@@ -19,23 +19,9 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
     if (!data) return true
 
-    if (!data.requirements) return true
-
     const client = reaction.message.client
 
     const d = await client.objects.guilds.findOne({ where: { guildID: reaction.message.guild.id }})
-
-    if (d) {
-        const bypass_role_id = d.get("bypass_role")
-
-        const role = reaction.message.guild.roles.cache.get(bypass_role_id)
-
-        if (role) {
-            const member = await reaction.message.guild.members.fetch(user.id)
-
-            if (member.roles.cache.has(bypass_role_id)) return true
-        }
-    }
 
     function giveawayEntryError(error) {
 
@@ -56,6 +42,44 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
         return user.send(embed).catch(Err => {})
     }
+
+    if (d) {
+        const bypass_role_id = d.get("bypass_role")
+
+        const role = reaction.message.guild.roles.cache.get(bypass_role_id)
+
+        if (role) {
+            const member = await reaction.message.guild.members.fetch(user.id)
+
+            if (member.roles.cache.has(bypass_role_id)) return true
+        }
+
+        const black_role_id = d.get("black_role")
+
+        const brole = reaction.message.guild.roles.cache.get(black_role_id)
+
+        if (brole) {
+
+            const member = await reaction.message.guild.members.fetch(user.id)
+
+            if (member.roles.cache.has(black_role_id)) {
+
+                if (returnCheck) return false
+
+                if (!data.ended) {
+
+                    let r = await reaction.users.remove(user.id).catch(err => {})
+
+                    if (!r) return
+
+                    return giveawayEntryError(`You have a role that was blacklisted in this guild. (${reaction.message.guild.name})`)
+
+                }
+            }
+        }
+    }
+
+    if (!data.requirements) return true
 
     for (const req of Object.entries(data.requirements)) {
 
@@ -114,7 +138,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
             if (!isNaN(value)) {
                 let item 
 
-                const d = await reaction.message.client.objects.messages.findOne({ where: { guildID: reaction.message.guild.id, userID: user.id }})
+                const d = await reaction.message.client.objects.guild_members.findOne({ where: { guildID: reaction.message.guild.id, userID: user.id }})
 
                 if (d) {
                     item = d.get("messages")
@@ -188,6 +212,20 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
      
                     }
                }
+            }
+        } else if (req_name === "user_tag_equals") {
+            console.log(req_value[0])
+            if (req_value[0] !== user.discriminator) {
+                if (returnCheck) return false
+
+                if (!data.ended) {
+                    let r = await reaction.users.remove(user.id).catch(err => {})
+
+                    if (!r) return
+
+                    return giveawayEntryError(`You need to have the tag / discriminator as #${req_value[0]} to join to this giveaway.`)
+ 
+                }
             }
         }
     }

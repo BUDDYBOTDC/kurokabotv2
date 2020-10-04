@@ -6,6 +6,7 @@ const findChannel = require("../../functions/findChannel");
 const daysToMs = require("../../utils/daysToMs");
 const getRequirements = require("../../handlers/getRequirements");
 const logGiveaway = require("../../handlers/logGiveaway");
+const parseTime = require("../../handlers/parseTime");
 
 module.exports = {
     name: "giveaway",
@@ -51,11 +52,11 @@ module.exports = {
 
             args.shift()
 
-            const time = ms(args.shift())
+            const time = await parseTime(args.shift())
 
-            if (!time) return message.channel.send(`Could not parse given time.`)
+            if (time.message) return message.channel.send(time.message)
 
-            if (time < 60000 || time > daysToMs(30)) return message.channel.send(`Time cant be smaller than a minute nor bigger than 30 days.`)
+            if (time.ms < 60000 || time.ms > daysToMs(30)) return message.channel.send(`Time cant be smaller than a minute nor bigger than 30 days.`)
 
             const requirements = args.join(" ") || "skip"
 
@@ -68,10 +69,10 @@ module.exports = {
             data.title = giveaway
             data.channelID = channel.id
             data.guildID = message.guild.id
-            data.endsAt = Date.now() + time
-            data.removeCache = Date.now() + time + daysToMs(7)
+            data.endsAt = Date.now() + time.ms 
+            data.removeCache = Date.now() + time.ms + daysToMs(7)
             data.ended = false
-            data.time = time
+            data.time = time.ms 
             data.userID = message.author.id
 
             const read = await getRequirements({ data: data, message: message })

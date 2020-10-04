@@ -3,11 +3,11 @@ const Discord = require("discord.js")
 const Sequelize = require("sequelize")
 
 const db = new Sequelize('database', 'user', 'password', {
-	host: '',
-	dialect: '',
+	host: 'localhost',
+	dialect: 'sqlite',
 	logging: false,
-	storage: ""
-});
+	storage: "database.sqlite"
+})
 
 const guildCreate = require("./bot/events/guildCreate")
 const messageCreate = require("./bot/events/messageCreate")
@@ -28,12 +28,11 @@ const client = new Discord.Client({
 const config = require("./config.json")
 
 client.owners = ["739591551155437654", "590636977100161038"]
-client.version = "2.0.0"
+client.version = "4.0.0"
 client.prefix = config.prefix
 client.prefixes = config.prefixes
 
 client.cooldowns = new Discord.Collection()
-client.server = new Discord.Collection()
 client.commands = new Discord.Collection()
 
 loadCommands(client)
@@ -50,6 +49,6 @@ client.on("messageUpdate", async (omsg, nmsg) => messageUpdate(client, omsg, nms
 
 client.on("userUpdate", (oldUser, newUser) => userUpdate(client, oldUser, newUser))
 
-client.on("guildCreate", guild => guildCreate(client, guild))
+client.on("guildCreate", guild => guildCreate(client, guild, db))
 
 client.login(config.token)

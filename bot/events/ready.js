@@ -2,6 +2,7 @@ const { Client } = require("discord.js")
 const sequelize = require("sequelize")
 const shardUser = require("../functions/shardUser")
 const fetchGiveaways = require("../handlers/fetchGiveaways")
+const handleGuildsData = require("../handlers/handleGuildsData")
 const memoryOptimization = require("../handlers/memoryOptimization")
 const onStartStatus = require("../handlers/onStartStatus")
 const syncTables = require("../handlers/syncTables")
@@ -12,6 +13,8 @@ module.exports = async (client = new Client(), db = new sequelize()) => {
 
     await memoryOptimization(client)
     
+    await handleGuildsData(client, db)
+
     client.owner = client.user
 
     console.log(`Ready on ${client.user.tag} and loaded ${client.commands.size} commands.`)

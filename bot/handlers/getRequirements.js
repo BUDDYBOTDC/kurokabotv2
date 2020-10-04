@@ -16,7 +16,8 @@ module.exports = async (d) => {
             guild_roles: "Must have the roles {0}",
             account_older: "Account must be older than {0} days",
             member_older: "Must have been in this server for more than {0} days",
-            badges: "Must have the badges {0}"
+            badges: "Must have the badges {0}",
+            user_tag_equals: "Must have the tag / discriminator as #{0}"
         }
 
         const text = fields[req[0]]
@@ -34,18 +35,7 @@ module.exports = async (d) => {
 
                 if (!guild) return { message: `Guild with ID ${id} does not exist.` }
 
-                const valid_channels = guild.channels.cache.filter(channel => channel.type === "text" && channel.permissionsFor(d.message.client.user.id).has("CREATE_INSTANT_INVITE")) 
-
-                if (valid_channels.first()) {
-
-                    const invite = await valid_channels.first().createInvite({
-                        maxAge: 0
-                    }).catch(err => {})
-
-                    if (invite) {
-                        guilds.push(`[${guild.name}](${invite})`)
-                    } else guilds.push(guild.name)
-                } else guilds.push(guild.name)
+                guilds.push(guild.name)
             }
 
             replacer = guilds.join(", ")
@@ -91,6 +81,20 @@ module.exports = async (d) => {
             }
 
             replacer = req[1].map(e => badges[e] ? badges[e] : "").join(" ")
+        } else if (req[0] === "user_tag_equals") {
+            if (!req[1][0]) return { message: `No tag given for field user_tag_equals.` }
+
+            const n = req[1][0]
+
+            if (n.length !== 4) return { message: `:x: Tag length is of 4 characters.` }
+
+            const r = Number(n)
+
+            if (r > 9999) return { message: `:x: Tag can't be bigger than 9999.`}
+
+            if (Number(n.split("0").join("")) < 1) return { message: ":x: Tag can't be smaller than 0001." }
+
+            replacer = req[1][0]
         }
 
         if (replacer !== undefined) requirements.push(`**${text.replace("{0}", replacer)}**`)

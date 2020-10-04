@@ -30,12 +30,12 @@ module.exports = {
 
             const msg = await message.channel.send(`Resetting everyone's messages, this may take a while...`)
 
-            const all_data = await client.objects.messages.findAll({ where: { guildID: message.guild.id }})
+            const all_data = await client.objects.guild_members.findAll({ where: { guildID: message.guild.id }})
 
             let total = 0
 
             for (const d of all_data) {
-                await client.objects.messages.update({ messages: 0 }, { where: { guildID: message.guild.id, userID: d.userID }})
+                await client.objects.guild_members.update({ messages: 0 }, { where: { guildID: message.guild.id, userID: d.userID }})
 
                 total++
             }
@@ -49,12 +49,12 @@ module.exports = {
             if (!member || member.user.id === message.author.id) return message.channel.send(`Could not find any member with given input: \`${args.join(" ")}\``)
 
             try {
-                await client.objects.messages.update({ messages: 0 }, { where: { guildID: message.guild.id, userID: member.user.id }})
+                await client.objects.guild_members.update({ messages: 0 }, { where: { guildID: message.guild.id, userID: member.user.id }})
             } catch(e) {
                 
             }
 
-            message.channel.send(`Successfully reset ${member.user.username}'s messages sent this in this guild!`)
+            message.channel.send(`Successfully reset ${member.user.username}'s messages sent in this guild!`)
         }
     }
 }

@@ -18,7 +18,7 @@ module.exports= {
 
         const member = findMember(message, args)
 
-        const d = await client.objects.messages.findOne({ where: { userID: member.user.id, guildID: message.guild.id }})
+        const d = await client.objects.guild_members.findOne({ where: { userID: member.user.id, guildID: message.guild.id }})
 
         let item 
 

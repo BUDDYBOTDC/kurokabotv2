@@ -22,7 +22,7 @@ module.exports = {
 
         const msg = await message.channel.send(`Generating leaderboard...`)
 
-        const all_data = await client.objects.messages.findAll({ where: { guildID: message.guild.id }})
+        const all_data = await client.objects.guild_members.findAll({ where: { guildID: message.guild.id }})
 
         const data = all_data.sort((x, y) => Number(y.messages) - Number(x.messages)).filter(d => Number(d.messages) > 0)
 

@@ -3,6 +3,6 @@ const tableVariables = require("../utils/tableVariables");
 
 module.exports = (sequelize = new Sequelize()) => {
     
-    return sequelize.define("guilds", tableVariables.GUILD)
+    return sequelize.define("guild_members", tableVariables.GUILD_MEMBER)
 
 }
