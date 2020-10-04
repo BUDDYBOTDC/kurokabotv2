@@ -28,11 +28,15 @@ module.exports= {
             item = d.get("messages")  
         }
 
+        let all = await client.objects.guild_members.findAll({ where: { guildID: message.guild.id }})
+
+        let top = all.sort((x, y) => y.messages - x.messages).findIndex(x => x.userID === message.author.id) + 1 + "#" || "Not registered"
+
         const embed = new MessageEmbed()
         .setColor(member.displayHexColor)
         .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
         .setAuthor(`${member.user.username}'s messages sent in this guild`, member.user.displayAvatarURL({dynamic:true}), "https://discord.gg/sarfdEp")
-        .setDescription(`${member.user.id === message.author.id ? `You've` : "They've"} sent a total of ${item} messages in \`${message.guild.name}\`.`)
+        .setDescription(`${member.user.tag}'s Leaderboard Top: ${top}\n${member.user.id === message.author.id ? `You've` : "They've"} sent a total of ${item.toLocaleString()} messages in \`${message.guild.name}\`.`)
         .setFooter(`This is been counting messages since the bot was added.\n😎 https://www.kurokabots.com`)
         .setTimestamp()
 

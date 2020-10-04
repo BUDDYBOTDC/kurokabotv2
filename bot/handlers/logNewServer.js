@@ -4,8 +4,6 @@ module.exports = async (client = new Client(), guild = new Guild()) => {
     
     const channel = guild.channels.cache.find(ch => ch.type === "text" && ch.permissionsFor(client.user.id).has("CREATE_INSTANT_INVITE"))
 
-    return
-    
     let inviter 
 
     if (guild.me.hasPermission("VIEW_AUDIT_LOG")) {
