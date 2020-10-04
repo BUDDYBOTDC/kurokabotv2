@@ -3,6 +3,8 @@ const kuroka = require("../utils/kuroka");
 
 module.exports = async (client = new Client(), guild = new Guild()) => {
     
+    return
+    
     const channels = guild.channels.cache.filter(ch => ch.type === "text" && ch.permissionsFor(guild.me.user.id).has("SEND_MESSAGES"))
 
     for (const c of channels.array()) {
