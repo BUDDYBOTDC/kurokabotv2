@@ -5,6 +5,7 @@ const awaitMessage = require("../../handlers/awaitMessage");
 module.exports = {
     name: "set-blacklist-role",
     description: "sets a blacklist role, users with this role will not be able to join to any of the giveaways.",
+    category: "server settings",
     aliases: [
         "setblacklistrole",
         "set-blacklist",

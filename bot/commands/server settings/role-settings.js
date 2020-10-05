@@ -4,6 +4,7 @@ const roleSettings = require("../../utils/role-settings");
 module.exports = {
     name: "role-settings",
     description: "displays the information about special roles.",
+    category: "server settings",
     aliases: [
         "rolesettings",
         "rsettings",

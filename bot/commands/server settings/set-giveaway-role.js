@@ -4,6 +4,7 @@ const awaitMessage = require("../../handlers/awaitMessage");
 
 module.exports = {
     name: "set-giveaway-role",
+    category: "server settings",
     description: "sets a giveaway manager role, users with this role will not need Manage Guild permission to make giveaways.",
     aliases: [
         "setgiveawayrole",

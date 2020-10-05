@@ -4,6 +4,7 @@ const awaitMessage = require("../../handlers/awaitMessage");
 
 module.exports = {
     name: "set-bypass-role",
+    category: "server settings",
     description: "sets a giveaway bypass role, users with this role will not need to meet any of the requirements to join giveaways.",
     aliases: [
         "setbypassrole",

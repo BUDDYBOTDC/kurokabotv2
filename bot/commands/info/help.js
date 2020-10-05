@@ -20,10 +20,15 @@ module.exports = {
 
             if (!args.length) {
 
+                const categories = {}
+
                 client.commands.map(command => {
+                    
                     if (command.category === "owner" && !client.owners.includes(message.author.id)) return
 
-                    commands.push(`\`${client.prefix}${command.name}\`: ${command.description}`)
+                    if (!categories[command.category]) categories[command.category] = []
+
+                    categories[command.category].push(`\`${client.prefix}${command.name}\``)
                 })
 
                 const embed = new MessageEmbed()
@@ -34,6 +39,10 @@ module.exports = {
 Found a bug? Report it on our [Support Server](https://discord.gg/sarfdEp)! (or use \`k!support\` if you can't click hyperlinks)`)
                 .setFooter(`Need more information on a specific command? use ${client.prefix}help [commandName] for more infomartion on a command!`)
 
+                for (const category of Object.entries(categories)) {
+                    embed.addField(`**__${category[0].toUpperCase()}__**`, category[1].join(", "))
+                }
+                
                 message.channel.send(embed)
             } else {
 
