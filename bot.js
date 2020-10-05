@@ -3,9 +3,9 @@ const Discord = require("discord.js")
 const Sequelize = require("sequelize")
 
 const db = new Sequelize('kuroka', 'kuroka', 'SMQw2ZrQR7Qb9mHR', {
-	host: '199.127.60.203',
-	dialect: 'mysql',
-	logging: false
+    dialect: "mysql",
+    host: "199.127.60.203",
+    logging: false
 })
 
 const guildCreate = require("./bot/events/guildCreate")
