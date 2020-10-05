@@ -2,8 +2,8 @@ const { Client, Message } = require("discord.js");
 const findMember = require("../../functions/findMember")
 
 module.exports = {
-    name: "set-messages",
-    description: "sets someones messages in this guild.",
+    name: "add-messages",
+    description: "add someones messages in this guild.",
     permissions: [
         "MANAGE_GUILD"
     ],
@@ -23,16 +23,17 @@ module.exports = {
 
         if (isNaN(amount)) return message.channel.send(`${args[0]} is not a valid amount.`)
 
-        if (amount < 1) return message.channel.send(`Are you setting or removing?`)
+        if (amount < 1) return message.channel.send(`Are you adding or substracting?`)
 
         const member = findMember(message, args.slice(1))
 
         const d = await client.objects.guild_members.findOne({ where: { guildID: message.guild.id, userID: message.author.id }})
 
-        if (!d) return message.channel.send(`Can't set messages to ${member.user.username}.`)
+        if (!d) return message.channel.send(`Can't add messages to ${member.user.username}.`)
 
-        client.objects.guild_members.update({ messages: amount }, { where: { guildID: message.guild.id, userID: member.user.id }})
+        await client.objects.guild_members.update({ messages: d.get("messages") + amount }, { where: { guildID: message.guild.id, userID: member.user.id }})
+
     
-        message.channel.send(`Successfully set ${member.user.username} messages to ${amount}.`)
+        message.channel.send(`Successfully added ${amount} messages to ${member.user.username}.`)
     }
 }
