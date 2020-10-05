@@ -6,7 +6,7 @@ const findChannel = require("../../functions/findChannel");
 const daysToMs = require("../../utils/daysToMs");
 const getRequirements = require("../../handlers/getRequirements");
 const logGiveaway = require("../../handlers/logGiveaway");
-const parseTime = require("../../handlers/parseTime");
+const parse = require("ms-parser")
 
 module.exports = {
     name: "giveaway",
@@ -52,9 +52,11 @@ module.exports = {
 
             args.shift()
 
-            const time = await parseTime(args.shift())
-
-            if (time.message) return message.channel.send(time.message)
+            try {
+                var time = parse(args.shift())
+            } catch(err) {
+                return message.channel.send(`:x: Failed to parse time.`)
+            }
 
             if (time.ms < 60000 || time.ms > daysToMs(30)) return message.channel.send(`Time cant be smaller than a minute nor bigger than 30 days.`)
 

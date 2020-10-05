@@ -6,8 +6,8 @@ const findChannel = require("../../functions/findChannel");
 const daysToMs = require("../../utils/daysToMs");
 const getRequirements = require("../../handlers/getRequirements");
 const logGiveaway = require("../../handlers/logGiveaway");
-const parseTime = require("../../handlers/parseTime");
 const isMakingOne = new Collection()
+const parse = require("ms-parser")
 
 module.exports = {
     name: "start",
@@ -132,9 +132,11 @@ module.exports = {
 
             if (m.content.toLowerCase() === "cancel") return cancelGiveaway("User canceled the setup.")
 
-            const time = await parseTime(m.content)
-
-            if (time.message) return cancelGiveaway(time.message)
+            try {
+                var time = parse(m.content)
+            } catch (err) {
+                return cancelGiveaway("Could not parse given time: " + m.content)
+            }
 
             if (time.ms < 60000 || time.ms > daysToMs(30)) return cancelGiveaway(`Time cant be smaller than a minute nor bigger than 30 days.`)
 
@@ -146,7 +148,7 @@ module.exports = {
 
             data.time = time.ms
 
-            embed.setDescription(`This giveaway will last ${time.text}, what are the requirements to join this giveaway?
+            embed.setDescription(`This giveaway will last ${time.string}, what are the requirements to join this giveaway?
 
 **Fields:**
 guilds <guildID> <guildID> ... (defaulted to none)
