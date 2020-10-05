@@ -29,7 +29,7 @@ module.exports = {
         .setAuthor(`Giveaway Messages Data`, message.author.displayAvatarURL({dynamic:true}))
         
         for (const data of messages.filter(d => !d.ended).slice(x, y)) {
-            embed.addField(`Giveaway: ${data.title}`, `Message ID: ${data.messageID}\nChannel ID: ${data.channelID}\nGuild ID: ${data.guildID}\nEnded?: ${data.ended}\nRemove Cache Date: ${data.removeCache}\nEnds at?: ${data.endsAt}\nWinners?: ${data.winners}\nHosted by (ID)?: ${data.mention.split("<@")[1].split(">")[0]}`)
+            embed.addField(`Giveaway: ${data.title}`, `Message ID: ${data.messageID}\nChannel ID: ${data.channelID}\nGuild ID: ${data.guildID}\nEnded?: ${data.ended}\nRemove Cache Date: ${data.removeCache}\nEnds at?: ${data.endsAt}\nWinners?: ${data.winners}\nHosted by (ID)?: \`${data.mention}\``)
         }
 
         embed.setFooter(`Displayed ${embed.fields.length} giveaways of ${messages.length}.\nPage ${page} of ${pages}.`)
