@@ -2,11 +2,10 @@ const Discord = require("discord.js")
 
 const Sequelize = require("sequelize")
 
-const db = new Sequelize('database', 'user', 'password', {
-	host: '',
-	dialect: '',
-	logging: false,
-	storage: ""
+const db = new Sequelize('kuroka', 'kuroka', 'SMQw2ZrQR7Qb9mHR', {
+	host: '199.127.60.203',
+	dialect: 'mysql',
+	logging: false
 })
 
 const guildCreate = require("./bot/events/guildCreate")

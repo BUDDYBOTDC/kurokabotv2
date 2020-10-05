@@ -32,18 +32,7 @@ module.exports = async (client = new Client(), guild = new Guild(), db = new seq
         }
 
         if (mustUpdate) {
-            try {
-                await client.objects.guilds.update(better_data, { where: { guildID: guild.id }})
-            } catch(err) {
-                db.getQueryInterface().addColumn("guilds", name, {
-                    type: type,
-                    defaultValue: value
-                })
-
-                console.log(`Row ${name} created.`)
-
-                await client.objects.guilds.update(better_data, { where: { guildID: guild.id }})
-            }
+            await client.objects.guilds.update(better_data, { where: { guildID: guild.id }})
         }
     } else {
         await client.objects.guilds.create(tableVariablesValues.GUILD(guild))
