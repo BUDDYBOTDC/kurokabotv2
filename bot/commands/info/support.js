@@ -12,7 +12,7 @@ module.exports = {
         .setAuthor(`${client.user.username}'s Support Server`, message.author.displayAvatarURL({dynamic:true}))
         .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
         .setDescription(
-            `https://discord.gg/sarfdEp`
+            `https://discord.gg/f7MCvQJ`
         )
 
         message.channel.send(embed)

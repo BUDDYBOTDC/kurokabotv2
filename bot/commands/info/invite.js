@@ -9,7 +9,7 @@ module.exports = {
 
         const embed = new MessageEmbed()
         .setColor("BLUE")
-        .setAuthor(`Invite ${client.user.username}`, message.author.displayAvatarURL({dynamic:true}), "https://discord.gg/sarfdEp")
+        .setAuthor(`Invite ${client.user.username}`, message.author.displayAvatarURL({dynamic:true}), "https://discord.gg/f7MCvQJ")
         .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
         .setDescription(
             `https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8`

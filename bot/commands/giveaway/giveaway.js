@@ -77,7 +77,7 @@ module.exports = {
             data.time = time.ms 
             data.userID = message.author.id
 
-            const read = await getRequirements({ data: data, message: message })
+            const read = await getRequirements({ data: JSON.stringify(data), message: message })
 
             if (read.message) {
                 return message.channel.send(read.message)

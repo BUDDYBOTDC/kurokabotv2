@@ -8,7 +8,7 @@ module.exports = async (d) => {
 
     requirements.push(`**__Requirements__**:`)
 
-    for (const req of Object.entries(d.data.requirements)) {
+    for (const req of Object.entries(JSON.parse(d.data.requirements))) {
 
         const fields = {
             guild_member: "Must be a member of {0}",
@@ -53,7 +53,7 @@ module.exports = async (d) => {
             if (!req[1][0]) return { message: `No number given for field messages.` }
             if (isNaN(Number(req[1][0]))) return { message: `Invalid number ${req[1][0]}` }
 
-            replacer = req[1]
+            replacer = req[1][0]
         } else if (req[0] === "account_older") {
             if (!req[1][0]) return { message: `No number given for field account_older.` }
             if (isNaN(Number(req[1][0]))) return { message: `Invalid number ${req[1][0]}` }
@@ -97,7 +97,9 @@ module.exports = async (d) => {
             replacer = req[1][0]
         }
 
-        if (replacer !== undefined) requirements.push(`**${text.replace("{0}", replacer)}**`)
+        if (replacer !== undefined) {
+            requirements.push(`**${text.replace("{0}", replacer)}**`)
+        }
     }
 
     if (requirements.length === 1) requirements.shift()

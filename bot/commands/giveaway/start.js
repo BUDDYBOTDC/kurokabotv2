@@ -192,7 +192,7 @@ badges <badge> <badge> ...
             
             if (reqs !== "skip") data.requirements = reqs 
 
-            const read = await getRequirements({ data: data, message: m })
+            const read = await getRequirements({ data: JSON.stringify(data), message: m })
 
             if (read.message) {
                 embed.setColor("BLUE")

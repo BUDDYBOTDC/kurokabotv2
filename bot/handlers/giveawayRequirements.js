@@ -81,7 +81,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
     if (!data.requirements) return true
 
-    for (const req of Object.entries(data.requirements)) {
+    for (const req of Object.entries(JSON.parse(data.requirements))) {
 
         let req_name = req[0]
 

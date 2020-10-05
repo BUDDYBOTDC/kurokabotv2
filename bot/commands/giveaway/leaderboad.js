@@ -61,7 +61,7 @@ module.exports = {
         .setThumbnail(client.user.displayAvatarURL())
         .setDescription(content.slice(x, y))
         .setFooter(`Generated in ${Date.now() - execution}ms.\nYou're on top ${top}#.\nPage ${page} of ${pages} (${t} users).`)
-        .setURL(`https://discord.gg/sarfdEp`)
+        .setURL(`https://discord.gg/f7MCvQJ`)
 
         msg.edit("", embed)
     }

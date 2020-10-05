@@ -51,7 +51,7 @@ class giveawayMessage {
             embed.setColor(`BLUE`)
             embed.setTitle(this.data.title)
             embed.setURL("http://www.kurokabots.com")
-            embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/sarfdEp")
+            embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
             embed.setDescription(`
 **Winners**: ${this.data.winners}
 **Hosted by**: ${this.data.mention}
@@ -119,7 +119,7 @@ ${requirements.join("\n")}
 
             embed.setColor("GREEN")
             embed.setURL("http://www.kurokabots.com")
-            embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/sarfdEp")
+            embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
             embed.setTitle(this.data.title)
             embed.setDescription(`
 **__Giveaway Ended__**
@@ -139,7 +139,7 @@ ${requirements.join("\n")}
         embed.setColor("GREEN")
         embed.setTitle(this.data.title)
         embed.setURL("http://www.kurokabots.com")
-        embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/sarfdEp")
+        embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
         embed.setDescription(`
 **__Giveaway Ended__**
 **Winners**: ${IDs.map(e => `<@${e}>`).join(", ")}
