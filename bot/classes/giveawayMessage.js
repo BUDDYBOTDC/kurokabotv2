@@ -129,9 +129,9 @@ ${requirements.join("\n")}
             embed.setFooter(`Giveaway ended.\nEnded at:`)
             embed.setTimestamp(Date.now())
 
-            this.message.edit(embed)
+            this.message.edit(embed).catch(err => {})
 
-            this.message.channel.send(`**Nobody** won the **${this.data.title}**!\nhttps://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID}`)
+            this.message.channel.send(`**Nobody** won the **${this.data.title}**!\nhttps://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID}`).catch(err => {})
             
             return    
         }
@@ -148,9 +148,9 @@ ${requirements.join("\n")}
         embed.setFooter(`Giveaway ended.\nEnded at:`)
         embed.setTimestamp(Date.now())
 
-        this.message.edit(embed)
+        this.message.edit(embed).catch(err => {})
 
-        this.message.channel.send(`Congratulations ${IDs.map(e => `<@${e}>`).join(", ")}! You won **${this.data.title}**!\nhttps://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID}`)
+        this.message.channel.send(`Congratulations ${IDs.map(e => `<@${e}>`).join(", ")}! You won **${this.data.title}**!\nhttps://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID}`).catch(err => {})
     
         return
 
