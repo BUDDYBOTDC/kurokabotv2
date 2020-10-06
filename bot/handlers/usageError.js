@@ -9,7 +9,7 @@ module.exports = async (message = new Message(), command) => {
     .setAuthor(`${message.author.username}, this command needs user input:`, message.author.displayAvatarURL({ dynamic: true }))
     .addField(`Usage(s)`, "```" + command.usages.map(e => `${client.prefix}${command.name} ${e}`).join("\n") + "```")
     .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
-    .addField(`Examples(s)`, "```" + command.examples.map(e => `${client.prefix}${command.name} ${e}`).join("\n") + "```")
+    .addField(`Example(s)`, "```" + command.examples.map(e => `${client.prefix}${command.name} ${e}`).join("\n") + "```")
     .setFooter(`<> - Required arguments\n[] - Optional Arguments`)
     
     return message.channel.send(embed)

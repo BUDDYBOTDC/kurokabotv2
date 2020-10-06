@@ -9,12 +9,6 @@ module.exports = {
     cooldown: 10000,
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
         
-        var cpu = 0
-
-        os.cpuUsage(f => {
-            cpu = f
-        })
-
         const users = await client.shard.fetchClientValues("users.cache.size")
 
         const userTotal = await client.shard.broadcastEval(`
@@ -40,8 +34,8 @@ module.exports = {
         .addField(`Library`, "discord.js v12.3.1")
         .addField(`Version`, client.version)
         .addField(`Memory usage`, (process.memoryUsage().rss / 1024 / 1024).toFixed(2) + "mb")
-        .addField("CPU usage", `${cpu.toFixed(2)}%`)
-        .addField(`Shard count`, users.length)
+        .addField(`Shard count`, client.shard.count)
+        .addField(`Shard ID`, message.guild.shardID)
         .addField(`Guild count`, client.guilds.cache.size)
         .addField(`Cached user count`, client.users.cache.size)
         .addField(`User count`, userTotal.reduce((x,y) => x + y, 0))

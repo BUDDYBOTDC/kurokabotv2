@@ -1,12 +1,8 @@
 const Discord = require("discord.js")
-
+const dbCredentials = require("./bot/utils/dbCredentials")
 const Sequelize = require("sequelize")
 
-const db = new Sequelize('kuroka', 'kuroka', 'SMQw2ZrQR7Qb9mHR', {
-    dialect: "mysql",
-    host: "199.127.60.203",
-    logging: false
-})
+const db = new Sequelize('kuroka', 'kuroka', 'SMQw2ZrQR7Qb9mHR', dbCredentials.real)
 
 const guildCreate = require("./bot/events/guildCreate")
 const messageCreate = require("./bot/events/messageCreate")
@@ -19,15 +15,19 @@ const loadCommands = require("./bot/handlers/loadCommands")
 
 const client = new Discord.Client({
     fetchAllMembers: false,
-    messageCacheMaxSize: 20,
-    messageCacheLifetime: 60000,
+    messageCacheMaxSize: 10,
+    messageCacheLifetime: 30,
+    messageSweepInterval: 30,
     disableMentions: "everyone",
 })
 
 const config = require("./config.json")
+const inviteCreate = require("./bot/events/inviteCreate")
+const guildMemberAdd = require("./bot/events/guildMemberAdd")
+const guildMemberRemove = require("./bot/events/guildMemberRemove")
 
 client.owners = ["739591551155437654", "590636977100161038"]
-client.version = "4.0.0"
+client.version = "5.0.0"
 client.prefix = config.prefix
 client.prefixes = config.prefixes
 
@@ -37,6 +37,12 @@ client.commands = new Discord.Collection()
 loadCommands(client)
 
 client.on("ready", () => ready(client, db))
+
+client.on("inviteCreate", (invite) => inviteCreate(client, invite))
+
+client.on("guildMemberAdd", (member) => guildMemberAdd(client, member))
+
+client.on("guildMemberRemove", (member) => guildMemberRemove(client, member))
 
 client.on("messageReactionAdd", (reaction, user) => messageReactionAdd(reaction, user))
 

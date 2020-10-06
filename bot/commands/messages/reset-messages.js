@@ -10,7 +10,7 @@ module.exports = {
         "rmessages"
     ],
     cooldown: 5000,
-    category: "util",
+    category: "messages",
     permissions: [
         "MANAGE_GUILD"
     ],

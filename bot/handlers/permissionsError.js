@@ -8,7 +8,7 @@ module.exports = async (message = new Message(), command) => {
 
     let grole = "0"
 
-    if (d) {
+    if (d && command.overridePermissions) {
         grole = d.get("giveaway_role")
     }
 

@@ -8,7 +8,8 @@ module.exports = {
         "rguide",
         "req-guide",
         "reqs-guide",
-        "reqsguide"
+        "reqsguide",
+        "rg"
     ],
     description: "information about requirement fields of k!start command",
     category: "giveaway",
@@ -25,7 +26,10 @@ guilds
 roles
 messages
 badges
-user_tag_equals        
+user_tag_equals 
+real_invites
+total_invites
+fake_invites       
 `)
         .addField(`account_older <number>`, `The account that reacted to this giveaway must be older than given <number> of days.`)
         .addField(`member_older <number>`, `The account that reacted to this giveaway must have been in the server for at least given <number> of days.`)
@@ -34,7 +38,11 @@ user_tag_equals
         .addField(`messages <number>`, `The account that reacted to this giveaway must have at least <number> messages sent on this server.`)
         .addField(`badges <badge1> ...`, "The account that reacted to this giveaway must have all the given badges.")
         .addField(`user_tag_equals <tag>`, "The account that reacted to this giveaway will need to have the given tag / discriminator to join the giveaway.")
+        .addField(`real_invites <number>`, "The account that reacted to this giveaway will have to have <number> real invites or more to join this giveaway.")
+        .addField(`total_invites <number>`, "The account that reacted to this giveaway will have to have <number> total invites or more to join this giveaway.")
+        .addField(`fake_invites <number>`, "The account that reacted to this giveaway has to have less than <number> fake invites to join this giveaway.")
         .addField(`Separator`, "To separate guild/role IDs or badges, use a space.")
+        .addField(`Note:`, `Anything related to invites will require the bot to have \`Manage Server\` permission.`)
         .addField(`Valid badges`, "bot-dev, brilliance, balance, bravery")
         .setFooter(`Did we help? hope so.`)
 

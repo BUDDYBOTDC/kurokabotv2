@@ -14,7 +14,10 @@ module.exports = {
         messages: Sequelize.INTEGER,
         userID: Sequelize.STRING,
         guildID: Sequelize.STRING,
-        isBlacklisted: Sequelize.BOOLEAN
+        isBlacklisted: Sequelize.BOOLEAN,
+        invites_real: Sequelize.INTEGER,
+        invites_fake: Sequelize.INTEGER,
+        invited_by: Sequelize.STRING
     },
 
     GIVEAWAYS: {
@@ -35,5 +38,12 @@ module.exports = {
     USER: {
         isBanned: Sequelize.BOOLEAN,
         userID: Sequelize.STRING
+    },
+
+    GUILD_INVITES: {
+        code: Sequelize.STRING,
+        guildID: Sequelize.STRING,
+        userID: Sequelize.STRING,
+        uses: Sequelize.INTEGER
     }
 }

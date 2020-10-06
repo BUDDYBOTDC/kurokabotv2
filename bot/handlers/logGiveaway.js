@@ -2,6 +2,8 @@ const { Client, MessageEmbed, WebhookClient } = require("discord.js");
 const webhook = new WebhookClient("761283664809951253", "hxss-F0IHkrY5Dbrn2xsLYvTbHWvFPaL9A1IjKIhwmTEoWf20IdkN23Rd5ahoJqeHEQQ")
 module.exports = async (client = new Client(), data) => {
 
+    return "due to privacy"
+    
     const embed = new MessageEmbed()
     .setColor("GREEN")
     .setTitle(`Giveaway Created`)

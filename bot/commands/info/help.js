@@ -60,11 +60,13 @@ Found a bug? Report it on our [Support Server](https://discord.gg/f7MCvQJ)! (or 
                 if (command.cooldown) embed.addField(`Cooldown:`, command.cooldown / 1000 + " seconds")
                 if (command.usages && !command.fields) embed.addField(`Usage(s)`, "```" + command.usages.map(e => `${client.prefix}${command.name} ${e}`).join("\n") + "```")
                 if (!command.usages && command.fields) embed.addField(`Usage(s)`, "```" + command.fields.map(e => `${client.prefix}${command.name} ${e}`).join("\n") + "```")
-                if (command.examples) embed.addField(`Examples(s)`, "```" + command.examples.map(e => `${client.prefix}${command.name} ${e}`).join("\n") + "```")
+                if (command.examples) embed.addField(`Example(s)`, "```" + command.examples.map(e => `${client.prefix}${command.name} ${e}`).join("\n") + "```")
                 if (command.clientPermissions) embed.addField(`Client Permissions:`, command.clientPermissions.map(perm => perm.split("_").join(" ").toLowerCase()).join(", "))
                 if (command.permissions) embed.addField(`User Permissions:`, command.permissions.map(perm => perm.split("_").join(" ").toLowerCase()).join(", "))
                 if (command.overridePermissions) {
-                    const grole = await db.fetch(`giveaway-role_${message.guild.id}`) || "0"
+                    const data = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
+
+                    const grole = data.get("giveaway_role")
 
                     const role = message.guild.roles.cache.get(grole)
 

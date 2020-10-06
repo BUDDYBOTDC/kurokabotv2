@@ -81,7 +81,15 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
     if (!data.requirements) return true
 
-    for (const req of Object.entries(JSON.parse(data.requirements))) {
+    var task
+    
+    try {
+        task = JSON.parse(data.requirements)
+    } catch (error) {
+        task = data.requirements
+    }
+
+    for (const req of Object.entries(task)) {
 
         let req_name = req[0]
 
@@ -214,7 +222,6 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                }
             }
         } else if (req_name === "user_tag_equals") {
-            console.log(req_value[0])
             if (req_value[0] !== user.discriminator) {
                 if (returnCheck) return false
 
@@ -224,6 +231,75 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                     if (!r) return
 
                     return giveawayEntryError(`You need to have the tag / discriminator as #${req_value[0]} to join to this giveaway.`)
+ 
+                }
+            }
+        } else if (req_name === "real_invites") {
+            const n = Number(req_value[0])
+
+            const d = await client.objects.guild_members.findOne({ where: { guildID: reaction.message.guild.id, userID: user.id }})
+
+            let item = 0
+            
+            if (d) {
+                item = d.get("invites_real")
+            }
+
+            if (n > item) {
+                if (returnCheck) return false
+
+                if (!data.ended) {
+                    let r = await reaction.users.remove(user.id).catch(err => {})
+
+                    if (!r) return
+
+                    return giveawayEntryError(`You need to have at least ${n} real invites to join this giveaway.\nYou have ${item} real invites.`)
+ 
+                }
+            }
+        } else if (req_name === "fake_invites") {
+            const n = Number(req_value[0])
+
+            const d = await client.objects.guild_members.findOne({ where: { guildID: reaction.message.guild.id, userID: user.id }})
+
+            let item = 0
+            
+            if (d) {
+                item = d.get("invites_fake")
+            }
+
+            if (n < item) {
+                if (returnCheck) return false
+
+                if (!data.ended) {
+                    let r = await reaction.users.remove(user.id).catch(err => {})
+
+                    if (!r) return
+
+                    return giveawayEntryError(`You can't have more than ${n} fake invites to join this giveaway.\nYou have ${item} fake invites.`)
+ 
+                }
+            }
+        } else if (req_name === "total_invites") {
+            const n = Number(req_value[0])
+
+            const d = await client.objects.guild_members.findOne({ where: { guildID: reaction.message.guild.id, userID: user.id }})
+
+            let item = 0
+            
+            if (d) {
+                item = d.get("invites_fake") + d.get("invites_real")
+            }
+
+            if (n > item) {
+                if (returnCheck) return false
+
+                if (!data.ended) {
+                    let r = await reaction.users.remove(user.id).catch(err => {})
+
+                    if (!r) return
+
+                    return giveawayEntryError(`You need to have at least ${n} total invites to join this giveaway.\nYou have ${item} total invites.`)
  
                 }
             }

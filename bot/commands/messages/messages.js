@@ -4,7 +4,7 @@ const findMember = require("../../functions/findMember");
 module.exports= {
     name: "messages",
     description: "returns the amount of messages an user has sent in this guild. (since the bot joined)",
-    category: "util",
+    category: "messages",
     cooldown: 5000,
     fields: [
         "<user>"

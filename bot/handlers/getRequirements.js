@@ -8,7 +8,15 @@ module.exports = async (d) => {
 
     requirements.push(`**__Requirements__**:`)
 
-    for (const req of Object.entries(JSON.parse(d.data.requirements))) {
+    var task 
+
+    try {
+        task = JSON.parse(d.data.requirements)
+    } catch (error) {
+        task = d.data.requirements
+    }
+    
+    for (const req of Object.entries(task)) {
 
         const fields = {
             guild_member: "Must be a member of {0}",
@@ -17,7 +25,10 @@ module.exports = async (d) => {
             account_older: "Account must be older than {0} days",
             member_older: "Must have been in this server for more than {0} days",
             badges: "Must have the badges {0}",
-            user_tag_equals: "Must have the tag / discriminator as #{0}"
+            user_tag_equals: "Must have the tag / discriminator as #{0}",
+            real_invites: "Must have at least {0} real invites.",
+            fake_invites: "Must not have more than {0} fake invites.",
+            total_invites: "Must have a total of {0} invites or more."
         }
 
         const text = fields[req[0]]
@@ -93,6 +104,36 @@ module.exports = async (d) => {
             if (r > 9999) return { message: `:x: Tag can't be bigger than 9999.`}
 
             if (Number(n.split("0").join("")) < 1) return { message: ":x: Tag can't be smaller than 0001." }
+
+            replacer = req[1][0]
+        } else if (req[0] === "real_invites") {
+            if (!req[1][0]) return { message: `No number given for field ${req[0]}.` }
+
+            const n = req[1][0]
+
+            const d = Number(n)
+
+            if (isNaN(d) || d < 1) return { message: `:x: Invalid number given at field ${req[0]}.` }
+
+            replacer = req[1][0]
+        } else if (req[0] === "fake_invites") {
+            if (!req[1][0]) return { message: `No number given for field ${req[0]}.` }
+
+            const n = req[1][0]
+
+            const d = Number(n)
+
+            if (isNaN(d) || d < 1) return { message: `:x: Invalid number given at field ${req[0]}.` }
+
+            replacer = req[1][0]
+        } else if (req[0] === "total_invites") {
+            if (!req[1][0]) return { message: `No number given for field ${req[0]}.` }
+
+            const n = req[1][0]
+
+            const d = Number(n)
+
+            if (isNaN(d) || d < 1) return { message: `:x: Invalid number given at field ${req[0]}.` }
 
             replacer = req[1][0]
         }

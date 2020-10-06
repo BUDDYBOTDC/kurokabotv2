@@ -1,4 +1,4 @@
-const { Guild, User } = require("discord.js")
+const { Guild, User, Invite } = require("discord.js")
 const Sequelize = require("sequelize")
 
 module.exports = {
@@ -18,7 +18,10 @@ module.exports = {
             messages: 0,
             userID: user.id,
             guildID: guild.id,
-            isBlacklisted: false
+            isBlacklisted: false,
+            invites_real: 0,
+            invites_fake: 0,
+            invited_by: "unknown"
         }
     },
 
@@ -41,6 +44,15 @@ module.exports = {
         return {
             isBanned: false,
             userID: user.id
+        }
+    },
+
+    GUILD_INVITES: (invite = new Invite()) => {
+        return {
+            code: invite.code,
+            guildID: invite.guild.id,
+            userID: invite.inviter.id,
+            uses: invite.uses
         }
     }
 }

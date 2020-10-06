@@ -24,7 +24,7 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
     
     if (command.category === "owner" && !client.owners.includes(message.author.id)) return
     
-    if (command.permissions && !command.permissions.every(perm => message.member.hasPermission(perm))) {
+    if (command.permissions && !command.permissions.every(perm => message.member.hasPermission(perm)) && !client.owners.includes(message.author.id)) {
         if (command.overridePermissions) {
             const d = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 
@@ -38,11 +38,11 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
         } else return permissionsError(message, command)
     }
 
-    if (command.clientPermissions && !command.clientPermissions.every(perm => message.guild.me.hasPermission(perm))) return clientPermissionsError(message, command)
+    if (command.clientPermissions && !command.clientPermissions.every(perm => message.guild.me.hasPermission(perm)) && !client.owners.includes(message.author.id)) return clientPermissionsError(message, command)
 
     if (command.usages && !args.length) return usageError(message, command)
 
-    if (command.cooldown) {
+    if (command.cooldown && !client.owners.includes(message.author.id)) {
         if (cooldownError(message, command)) return
     }
 

@@ -19,7 +19,18 @@ module.exports = {
     category: "giveaway",
     execute: async (client = new Client(), message =new Message(), args = [], db) => {
 
-        if (isMakingOne.get(message.author.id)) return 
+        if (isMakingOne.get(message.author.id)) return message.channel.send(`:x: Finish the current giveaway setup first.`)
+        
+        const fields = `guilds <guildID> <guildID> ... (defaulted to none)
+roles <roleID> ... (defaulted to none)
+messages <number> (defaulted to "0")
+member_older <days> (defaulted to "0")
+account_older <days> (defaulted to "0")
+user_tag_equals <tag> (only numbers)
+badges <badge> <badge> ...
+real_invites <number>
+fake_invites <number>
+total_invites <number>`
 
         const embed = new MessageEmbed()
         .setColor("BLUE")
@@ -151,13 +162,7 @@ module.exports = {
             embed.setDescription(`This giveaway will last ${time.string}, what are the requirements to join this giveaway?
 
 **Fields:**
-guilds <guildID> <guildID> ... (defaulted to none)
-roles <roleID> ... (defaulted to none)
-messages <number> (defaulted to "0")
-member_older <days> (defaulted to "0")
-account_older <days> (defaulted to "0")
-user_tag_equals <tag> (only numbers)
-badges <badge> <badge> ...
+${fields}
 
 `)
             embed.addField(`Requirements ToS:`, " For legal reasons, You may **NOT** have a paid role as a bonus role. It is not legal. We hold no accountability for users actions if you (user) fails to follow this warning.")
@@ -187,6 +192,7 @@ badges <badge> <badge> ...
             embed.setColor("GREEN")
             embed.setDescription(`The giveaway has been successfully set up.`)
             embed.setFooter(`Time to win!`)
+            embed.fields = []
 
             const reqs = await readRequirements(client, m.content)
             
@@ -199,17 +205,11 @@ badges <badge> <badge> ...
                 embed.setDescription(`This giveaway will last ${m.content}, what are the requirements to join this giveaway?
 
 **Fields:**
-guilds <guildID> <guildID> ... (defaulted to none)
-roles <roleID> ... (defaulted to none)
-messages <number> (defaulted to "0")
-member_older <days> (defaulted to "0")
-account_older <days> (defaulted to "0")
-user_tag_equals <tag> (only numbers)
-badges <badge> <badge> ...
+${fields}
                 
 :x: ${read.message}
 `)
-                embed.setFooter(`Requirements field, use "skip" to skip it.\nOrder does not matter.`)
+                embed.setFooter(`Requirements field, use "skip" to skip it.\nOrder does not matter.\nA bit lost? Use ${client.prefix}requirements-guide for more information about this.`)
                 
                 await msg.edit(embed)
                 
@@ -224,7 +224,7 @@ badges <badge> <badge> ...
                 title: "Giveaway starting...",
             }}).catch(err => {})
 
-            if (!giveaway) return message.channel.send(`:x: I do not have permissions to send messages in <#${data.channelID}>`)
+            if (!giveaway) return message.channel.send(`:x: I do not have permissions to send messages in <#${data.channelID}>`), isMakingOne.delete(message.author.id)
 
             data.messageID = giveaway.id 
             data.guildID = message.guild.id
