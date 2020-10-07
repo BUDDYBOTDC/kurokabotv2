@@ -25,7 +25,7 @@ module.exports = {
 
         const embed = new MessageEmbed()
         .setColor("GREEN")
-        .setAuthor(guild.name, guild.iconURL({dynamic:true}))
+        .setAuthor(guild.name)
         .setTitle(`Guild Info - Database`)
         .setThumbnail(client.user.displayAvatarURL())
         .setDescription(Object.entries(d).map(e => `${e[0]}: ${e[1]}`))

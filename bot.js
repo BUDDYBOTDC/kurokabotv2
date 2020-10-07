@@ -15,8 +15,9 @@ const loadCommands = require("./bot/handlers/loadCommands")
 
 const client = new Discord.Client({
     fetchAllMembers: false,
-    messageCacheMaxSize: 10,
-    messageCacheLifetime: 30,
+    messageCacheMaxSize: 0,
+    messageSweepInterval: 0,
+    messageCacheLifetime: 0,
     disableMentions: "everyone",
 })
 
