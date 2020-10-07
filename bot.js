@@ -28,7 +28,7 @@ const guildMemberRemove = require("./bot/events/guildMemberRemove")
 const guildMemberUpdate = require("./bot/events/guildMemberUpdate")
 
 client.owners = ["739591551155437654", "590636977100161038"]
-client.version = "5.0.0"
+client.version = "6.0.0"
 client.prefix = config.prefix
 client.prefixes = config.prefixes
 

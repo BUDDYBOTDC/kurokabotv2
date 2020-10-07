@@ -4,6 +4,7 @@ const daysToMs = require("../utils/daysToMs")
 const ms = require("ms")
 const Discord = require("discord.js")
 const badgesFlags = require("../utils/badgesFlags")
+const isUserInGuild = require("../functions/isUserInGuild")
 const cooldown = new Discord.Collection()
 module.exports = async (reaction = new MessageReaction(), user = new User(), returnCheck = false) => {
 
@@ -101,25 +102,20 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
         if (req_name === "guild_member") {
             for (const id of req_value) {
-                const guild = await client.guilds.fetch(id)
+                const member = await isUserInGuild(client, reaction.message.guild.id, user.id)
 
-                if (guild) {
-                    
-                    const member = await guild.members.fetch(user.id).catch(err => {})
-    
-                    if (!member) {
+                if (!member) {
 
-                        if (returnCheck) return false
+                    if (returnCheck) return false
 
-                        if (!data.ended) {
+                    if (!data.ended) {
 
-                            let r = await reaction.users.remove(user.id).catch(err => {})
+                        let r = await reaction.users.remove(user.id).catch(err => {})
 
-                            if (!r) return
-    
-                            return giveawayEntryError(`You have to be in the guild ${guild.name} in order to join this giveaway!`)
+                        if (!r) return
 
-                        }
+                        return giveawayEntryError(`You have to be in the guild ${guild.name} in order to join this giveaway!`)
+
                     }
                 }
             }

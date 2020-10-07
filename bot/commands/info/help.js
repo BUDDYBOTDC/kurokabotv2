@@ -29,7 +29,7 @@ module.exports = {
                     if (command.category === "owner" && !client.owners.includes(message.author.id)) return
 
                     if (command.category === "staff" && !client.owners.includes(message.author.id)) {
-                        const staff = isStaff(client, message.author.id)
+                        const staff = await isStaff(client, message.author.id)
 
                         if (!staff) return
                     }

@@ -24,6 +24,18 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
 
     if (!client.objects) return message.channel.send(`:x: Command timed out.`)
     
+    const guildData = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
+
+    if (guildData && !client.owners.includes(message.author.id)) {
+        if (guildData.get("isBlacklisted") === true) return
+    }
+
+    const userData = await client.objects.users.findOne({ where: { userID: message.author.id }})
+
+    if (userData && !client.owners.includes(message.author.id)) {
+        if (userData.get("isBanned") === true) return
+    }
+
     if (command.category === "owner" && !client.owners.includes(message.author.id)) return
     
     if (command.category === "staff" && !client.owners.includes(message.author.id)) {

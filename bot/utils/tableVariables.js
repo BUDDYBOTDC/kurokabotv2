@@ -7,7 +7,9 @@ module.exports = {
         premiumSince: Sequelize.DATE,
         giveaway_role: Sequelize.STRING,
         guildID: Sequelize.STRING,
-        black_role: Sequelize.STRING
+        black_role: Sequelize.STRING,
+        isBlacklisted: Sequelize.BOOLEAN,
+        blacklistReason: Sequelize.STRING
     },
 
     GUILD_MEMBER: {
@@ -37,7 +39,8 @@ module.exports = {
 
     USER: {
         isBanned: Sequelize.BOOLEAN,
-        userID: Sequelize.STRING
+        userID: Sequelize.STRING,
+        banReason: Sequelize.STRING
     },
 
     GUILD_INVITES: {

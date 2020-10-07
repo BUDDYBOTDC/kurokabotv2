@@ -9,7 +9,9 @@ module.exports = {
             premiumSince: 0,
             giveaway_role: "0",
             guildID: guild.id,
-            black_role: "0"
+            black_role: "0",
+            isBlacklisted: false,
+            blacklistReason: "none"
         }
     },
 
@@ -43,6 +45,7 @@ module.exports = {
     USER: (user = new User()) => {
         return {
             isBanned: false,
+            banReason: "none",
             userID: user.id
         }
     },
