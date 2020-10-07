@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const isStaff = require("../../functions/isStaff");
 const shardGuild = require("../../functions/shardGuild");
 
 module.exports = {
@@ -28,18 +29,9 @@ module.exports = {
                     if (command.category === "owner" && !client.owners.includes(message.author.id)) return
 
                     if (command.category === "staff" && !client.owners.includes(message.author.id)) {
-                        const guild = await shardGuild(client, "550516279652515880")
-                
-                        if (!guild) return
-                
-                        const member = await guild.members.fetch({
-                            user: message.author.id,
-                            cache: false
-                        }).catch(err => {})
-                
-                        if (!member) return
-                        
-                        if (member.roles.cache.has("550529991964753956 ")) return
+                        const staff = isStaff(client, message.author.id)
+
+                        if (!staff) return
                     }
 
                     if (!categories[command.category]) categories[command.category] = []
