@@ -4,6 +4,7 @@ const fetchAllReactions = require("../handlers/fetchAllReactions");
 const getRequirements = require("../handlers/getRequirements");
 const { type } = require("os");
 const Sequelize = require("sequelize");
+const parse = require("ms-parser")
 
 class giveawayMessage {
     constructor(msg = new Message(), data = {}) {
@@ -55,10 +56,10 @@ class giveawayMessage {
             embed.setDescription(`
 <:DE_IconFriends:763372565716533249> **Winners**: ${this.data.winners}
 <:DE_IconPin:763372926283284520> **Hosted by**: ${this.data.mention}
-<:DE_IconSlowmode:763372481444577281> **Time Remaining**: ${Object.entries(ms(this.data.endsAt - date)).map((x, y) => {
-                if (x[1] > 0 && y < 4) return `${x[1]} ${x[0]}`
+<:DE_IconSlowmode:763372481444577281> **Time Remaining**: ${parse(Object.entries(ms(this.data.endsAt - date)).map((x, y) => {
+                if (x[1] > 0 && y < 4) return `${x[1]}${x[0][0]}`
                 else return ``
-            }).filter(e => e).join(" ")}
+            }).filter(e => e).join("")).array.slice(0, 2).join(" and ")}
 ${requirements.join("\n")}
             `)
             embed.setFooter(`React with 🎉 to enter the giveaway\nEnds at:`)

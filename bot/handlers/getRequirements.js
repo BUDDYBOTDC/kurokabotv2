@@ -139,7 +139,7 @@ module.exports = async (d) => {
         }
 
         if (replacer !== undefined) {
-            requirements.push(`<:DE_ArrowJoin:763377170655477780> **${text.replace("{0}", replacer)}**`)
+            requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("{0}", replacer)}`)
         }
     }
 
