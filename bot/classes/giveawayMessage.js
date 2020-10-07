@@ -49,7 +49,7 @@ class giveawayMessage {
                 if (requirements[0] === undefined) requirements = []
             }
 
-            const guildData = await d.message.client.objects.guilds.findOne({ where: { guildID: d.message.guild.id }})
+            const guildData = await this.message.client.objects.guilds.findOne({ where: { guildID: this.message.guild.id }})
 
             const roles = []
 
@@ -57,13 +57,13 @@ class giveawayMessage {
     
                 roles.push("\n")
     
-                const bypass_role = d.message.guild.roles.cache.get(guildData.get("bypass_role"))
+                const bypass_role = this.message.guild.roles.cache.get(guildData.get("bypass_role"))
     
-                const black_role = d.message.guild.roles.cache.get(guildData.get("black_role"))
+                const black_role = this.message.guild.roles.cache.get(guildData.get("black_role"))
     
-                if (bypass_role) roles.push(`<:checkgreen:649310375694827522> Members with the role ${bypass_role} don't need to meet any of the requirements.`)
+                if (bypass_role) roles.push(`<:checkgreen:763434065818157058> Members with the role ${bypass_role} don't need to meet any of the requirements.`)
     
-                if (black_role) roles.push(`<:checkred:649310375510016011> Members with the role ${black_role} can't join.`)
+                if (black_role) roles.push(`<:checkred:763434105190613082> Members with the role ${black_role} can't join.`)
             }
 
             embed.setColor(`BLUE`)
@@ -77,8 +77,7 @@ class giveawayMessage {
                 if (x[1] > 0 && y < 4) return `${x[1]}${x[0][0]}`
                 else return ``
             }).filter(e => e).join("")).array.map(e => e.replace("and", "")).slice(0, 2).join(" and ")}
-${requirements.join("\n")}
-${roles.join("\n")}
+${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
 `)
             embed.setFooter(`React with 🎉 to enter the giveaway\nEnds at:`)
             embed.setTimestamp(this.data.endsAt)

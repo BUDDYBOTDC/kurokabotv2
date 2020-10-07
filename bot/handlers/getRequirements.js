@@ -41,23 +41,28 @@ module.exports = async (d) => {
             let guilds = []
 
             for (const id of req[1]) {
-             
-                const guild = await d.message.client.guilds.fetch(id).catch(err => {})
 
-                if (!guild) return { message: `Guild with ID ${id} does not exist.` }
+                if (id !== "") {
+                                 
+                    const guild = await d.message.client.guilds.fetch(id).catch(err => {})
 
-                guilds.push(guild.name)
+                    if (!guild) return { message: `Guild with ID ${id} does not exist.` }
+
+                    guilds.push(guild.name)
+                }
             }
 
             replacer = guilds.join(", ")
         } else if (req[0] === "guild_roles") {
             if (!req[1][0]) return { message: `No role IDs given for field roles.` }
             for (const id of req[1]) {
-                const role = d.message.guild.roles.cache.get(id)
+                if (id !== "") {
+                    const role = d.message.guild.roles.cache.get(id)
 
-                if (!role) return { message: `Role with ID ${id} does not exist.` }
-                
-                if (role.managed) return { message: `This role (${id}) seems to be managed by discord, remember you can't use nitro booster role ID.`}
+                    if (!role) return { message: `Role with ID ${id} does not exist.` }
+                    
+                    if (role.managed) return { message: `This role (${id}) seems to be managed by discord, remember you can't use nitro booster role ID.`}
+                }
             }
             replacer = req[1].filter(id => d.message.guild.roles.cache.get(id)).map(id => `<@&${id}>`).join(", ")
         } else if (req[0] === "guild_messages") {
@@ -86,12 +91,14 @@ module.exports = async (d) => {
         } else if (req[0] === "badges") {
             if (!req[1][0]) return { message: `No badge given for field badges.` }
             for (const badge of req[1]) {
-                let b = badges[badge]
+                if (badge !== "") {
+                    let b = badges[badge]
 
-                if (!b) return { message: `Badge with name ${badge} does not exist.` }
+                    if (!b) return { message: `Badge with name ${badge} does not exist.` }
+                }
             }
 
-            replacer = req[1].map(e => badges[e] ? badges[e] : "").join(" ")
+            replacer = req[1].filter(e => e).map(e => badges[e] ? badges[e] : "").join(" ")
         } else if (req[0] === "user_tag_equals") {
             if (!req[1][0]) return { message: `No tag given for field user_tag_equals.` }
 
