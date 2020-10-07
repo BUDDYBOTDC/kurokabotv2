@@ -49,7 +49,9 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
         const role = reaction.message.guild.roles.cache.get(bypass_role_id)
 
         if (role) {
-            const member = await reaction.message.guild.members.fetch(user.id)
+            const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
+
+            if (!member) return false
 
             if (member.roles.cache.has(bypass_role_id)) return true
         }
@@ -60,7 +62,9 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
         if (brole) {
 
-            const member = await reaction.message.guild.members.fetch(user.id)
+            const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
+
+            if (!member) return false
 
             if (member.roles.cache.has(black_role_id)) {
 
@@ -124,7 +128,9 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                 const role = reaction.message.guild.roles.cache.get(id)
 
                 if (role) {
-                    const member = await reaction.message.guild.members.fetch(user.id)
+                    const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
+
+                    if (!member) return false
 
                     if (!member.roles.cache.has(role.id)) {
                         if (returnCheck) return false
@@ -205,7 +211,9 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
             const value = Number(req_value[0])
 
             if (!isNaN(value) && value > 0) {
-                const member = await reaction.message.guild.members.fetch(user.id)
+                const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
+
+                if (!member) return false
 
                 if (Date.now() - member.joinedTimestamp - daysToMs(value) < 1) {
 
