@@ -36,8 +36,9 @@ module.exports = async (d) => {
         let replacer 
 
         if (req[0] === "guild_member") { 
+
             if (!req[1][0]) return { message: `No guild IDs given for field guilds.` }
-            
+
             let guilds = []
 
             for (const id of req[1]) {
@@ -69,6 +70,7 @@ module.exports = async (d) => {
             if (!req[1][0]) return { message: `No number given for field messages.` }
             if (isNaN(Number(req[1][0]))) return { message: `Invalid number ${req[1][0]}` }
 
+            if (Number(req[1][0]) > 1000000 || Number(req[1][0]) < 1) return { message: `Number cant be less than 1 nor greater than 1000000 in ${req[0]} field.` }
             replacer = req[1][0]
         } else if (req[0] === "account_older") {
             if (!req[1][0]) return { message: `No number given for field account_older.` }
@@ -77,6 +79,9 @@ module.exports = async (d) => {
             const n = Number(req[1][0])
 
             if (!isNaN(n) && n > 0) {
+
+                if (Number(req[1][0]) > 3000 || Number(req[1][0]) < 1) return { message: `Number cant be less than 1 nor greater than 3000 in ${req[0]} field.` }
+
                 replacer = req[1][0]
             }
         } else if (req[0] === "member_older") {
@@ -86,6 +91,9 @@ module.exports = async (d) => {
             const n = Number(req[1][0])
 
             if (!isNaN(n) && n > 0) {
+                
+                if (Number(req[1][0]) > 3000 || Number(req[1][0]) < 1) return { message: `Number cant be less than 1 nor greater than 3000 in ${req[0]} field.` }
+
                 replacer = req[1][0]
             }
         } else if (req[0] === "badges") {
@@ -121,6 +129,8 @@ module.exports = async (d) => {
             const d = Number(n)
 
             if (isNaN(d) || d < 1) return { message: `:x: Invalid number given at field ${req[0]}.` }
+            
+            if (Number(req[1][0]) > 10000 || Number(req[1][0]) < 1) return { message: `Number cant be less than 1 nor greater than 10000 in ${req[0]} field.` }
 
             replacer = req[1][0]
         } else if (req[0] === "fake_invites") {
@@ -131,6 +141,8 @@ module.exports = async (d) => {
             const d = Number(n)
 
             if (isNaN(d) || d < 1) return { message: `:x: Invalid number given at field ${req[0]}.` }
+                        
+            if (Number(req[1][0]) > 10000 || Number(req[1][0]) < 1) return { message: `Number cant be less than 1 nor greater than 10000 in ${req[0]} field.` }
 
             replacer = req[1][0]
         } else if (req[0] === "total_invites") {
@@ -141,6 +153,8 @@ module.exports = async (d) => {
             const d = Number(n)
 
             if (isNaN(d) || d < 1) return { message: `:x: Invalid number given at field ${req[0]}.` }
+                        
+            if (Number(req[1][0]) > 30000 || Number(req[1][0]) < 1) return { message: `Number cant be less than 1 nor greater than 30000 in ${req[0]} field.` }
 
             replacer = req[1][0]
         }

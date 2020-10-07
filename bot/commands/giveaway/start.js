@@ -60,6 +60,8 @@ total_invites <number>`
 
             if (m.content.toLowerCase() === "cancel") return cancelGiveaway("User canceled the setup.")
 
+            if (m.content.length >= 100) return cancelGiveaway("The title for the giveaway is too long.")
+
             data.title = m.content
 
             embed.setDescription(`So you're giving away a ${m.content}, ok, which channel should be this giveaway in?`)
@@ -198,7 +200,9 @@ ${fields}
             
             if (reqs !== "skip") data.requirements = reqs 
 
-            const read = await getRequirements({ data: JSON.stringify(data), message: m })
+            const read = await getRequirements({ data: {
+                requirements: readRequirements(client, m.content)
+            }, message: m })
 
             if (read.message) {
                 embed.setColor("BLUE")

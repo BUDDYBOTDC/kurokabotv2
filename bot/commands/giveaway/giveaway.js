@@ -6,7 +6,7 @@ const findChannel = require("../../functions/findChannel");
 const daysToMs = require("../../utils/daysToMs");
 const getRequirements = require("../../handlers/getRequirements");
 const logGiveaway = require("../../handlers/logGiveaway");
-const parse = require("ms-parser")
+const parse = require("ms-parser");
 
 module.exports = {
     name: "giveaway",
@@ -36,6 +36,8 @@ module.exports = {
 
             const giveaway = args.join(" ").split('"')[1].split('"')[0]
     
+            if (giveaway.length >= 100) return message.channel.send(`The title for the giveaway is too long.`)
+            
             args = args.slice(giveaway.split(" ").length)
 
             let channel = findChannel(message, [args[0]], false)
@@ -64,7 +66,7 @@ module.exports = {
 
             const requirements = args.join(" ") || "skip"
 
-            const reqs = await readRequirements(client, requirements)
+            const reqs = readRequirements(client, requirements)
             
             if (reqs !== "skip") data.requirements = reqs 
 
@@ -79,7 +81,11 @@ module.exports = {
             data.time = time.ms 
             data.userID = message.author.id
 
-            const read = await getRequirements({ data: JSON.stringify(data), message: message })
+            if (reqs !== "skip") data.requirements = reqs 
+
+            const read = await getRequirements({ data: {
+                requirements: readRequirements(client, requirements)
+            }, message: message })
 
             if (read.message) {
                 return message.channel.send(read.message)

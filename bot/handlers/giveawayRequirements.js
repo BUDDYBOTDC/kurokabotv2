@@ -18,11 +18,26 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
     
     const data = await messages.toJSON()
 
-    if (!data) return true
+    if (!data) {
+        if (!returnCheck) giveawayEntryAccept()
+
+        return true
+    }
 
     const client = reaction.message.client
 
     const d = await client.objects.guilds.findOne({ where: { guildID: reaction.message.guild.id }})
+
+    function giveawayEntryAccept() {
+        const embed = new MessageEmbed()
+        .setColor("GREEN")
+        .setThumbnail(client.user.displayAvatarURL())
+        .setTitle(`Giveaway Entry Accepted!`)
+        .setDescription(`Your entry for the giveaway \`${data.title}\` has been accepted!\nGuild: ${reaction.message.guild.name}`)
+        .setTimestamp()
+        
+        return user.send(embed).catch(err => {})
+    }
 
     function giveawayEntryError(error) {
 
@@ -54,7 +69,11 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
             if (!member) return false
 
-            if (member.roles.cache.has(bypass_role_id)) return true
+            if (member.roles.cache.has(bypass_role_id)) {
+                if (!returnCheck) giveawayEntryAccept()
+
+                return true
+            }
         }
 
         const black_role_id = d.get("black_role")
@@ -84,7 +103,11 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
         }
     }
 
-    if (!data.requirements) return true
+    if (!data.requirements) {
+        if (!returnCheck) giveawayEntryAccept()
+
+        return true
+    }
 
     var task
     
@@ -310,5 +333,10 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
         }
     }
 
+    if (!returnCheck) {
+        if (!data.ended) {
+            giveawayEntryAccept()
+        }
+    }
     return true
 }

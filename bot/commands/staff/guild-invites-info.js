@@ -24,7 +24,7 @@ module.exports = {
         try {   
             const invites = await client.objects.guild_invites.findAll({ where: { guildID: message.guild.id }})
 
-            const pages = Math.trunc(invites.length / 15 + 1)
+            const pages = Math.trunc(invites.length / 10 + 1)
 
             let page = Number(args[0])
 
@@ -32,7 +32,7 @@ module.exports = {
             else if (page < 1) page = 1
             else if (isNaN(page)) page = 1
 
-            const x = Number(page) * 15 / 15 - 1 || 0, y = Number(page) * 15 || 15
+            const x = Number(page) * 10 - 10 || 0, y = Number(page) * 10 || 10
 
             const embed = new MessageEmbed()
             .setColor("GREEN")
