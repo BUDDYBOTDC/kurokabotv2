@@ -4,6 +4,8 @@ module.exports = async (client = new Client(), member = new GuildMember()) => {
 
     const { guild, user } = member
 
+    if (!guild.me) return
+    
     if (!guild.me.hasPermission("MANAGE_GUILD")) return
 
     const invites = await guild.fetchInvites()

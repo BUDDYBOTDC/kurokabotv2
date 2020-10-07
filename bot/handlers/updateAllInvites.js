@@ -3,6 +3,8 @@ const tableVariablesValues = require("../utils/tableVariablesValues");
 
 module.exports = async (client = new Client(), guild = new Guild()) => {
 
+    if (!guild.me) return
+    
     if (!guild.me.hasPermission("MANAGE_GUILD")) return
 
     const invites = await guild.fetchInvites()

@@ -25,6 +25,7 @@ const config = require("./config.json")
 const inviteCreate = require("./bot/events/inviteCreate")
 const guildMemberAdd = require("./bot/events/guildMemberAdd")
 const guildMemberRemove = require("./bot/events/guildMemberRemove")
+const guildMemberUpdate = require("./bot/events/guildMemberUpdate")
 
 client.owners = ["739591551155437654", "590636977100161038"]
 client.version = "5.0.0"
@@ -37,6 +38,8 @@ client.commands = new Discord.Collection()
 loadCommands(client)
 
 client.on("ready", () => ready(client, db))
+
+client.on("guildMemberUpdate", (oldMember, newMember) => guildMemberUpdate(client, oldMember, newMember))
 
 client.on("inviteCreate", (invite) => inviteCreate(client, invite))
 
