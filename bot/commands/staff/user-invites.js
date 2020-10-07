@@ -27,7 +27,7 @@ module.exports = {
 
         if (!m) return message.channel.send(`This user is not registered in the database.`)
 
-        const all = await client.objects.findAll({
+        const all = await client.objects.guild_members.findAll({
             where: {
                 guildID: message.guild.id,
                 invited_by: member.user.id

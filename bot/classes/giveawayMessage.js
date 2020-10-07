@@ -49,6 +49,23 @@ class giveawayMessage {
                 if (requirements[0] === undefined) requirements = []
             }
 
+            const guildData = await d.message.client.objects.guilds.findOne({ where: { guildID: d.message.guild.id }})
+
+            const roles = []
+
+            if (guildData) {
+    
+                roles.push("\n")
+    
+                const bypass_role = d.message.guild.roles.cache.get(guildData.get("bypass_role"))
+    
+                const black_role = d.message.guild.roles.cache.get(guildData.get("black_role"))
+    
+                if (bypass_role) roles.push(`<:checkgreen:649310375694827522> Members with the role ${bypass_role} don't need to meet any of the requirements.`)
+    
+                if (black_role) roles.push(`<:checkred:649310375510016011> Members with the role ${black_role} can't join.`)
+            }
+
             embed.setColor(`BLUE`)
             embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
             embed.setURL("http://www.kurokabots.com")
@@ -61,7 +78,8 @@ class giveawayMessage {
                 else return ``
             }).filter(e => e).join("")).array.map(e => e.replace("and", "")).slice(0, 2).join(" and ")}
 ${requirements.join("\n")}
-            `)
+${roles.join("\n")}
+`)
             embed.setFooter(`React with 🎉 to enter the giveaway\nEnds at:`)
             embed.setTimestamp(this.data.endsAt)
 
