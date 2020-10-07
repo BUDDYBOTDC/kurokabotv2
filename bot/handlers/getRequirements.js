@@ -145,5 +145,22 @@ module.exports = async (d) => {
 
     if (requirements.length === 1) requirements.shift()
 
+    if (requirements.length !== 0) {
+        const guildData = await d.message.client.objects.guilds.findOne({ where: { guildID: d.message.guild.id }})
+
+        if (guildData) {
+
+            requirements.push("\n")
+
+            const bypass_role = d.message.guild.roles.cache.get(guildData.get("bypass_role"))
+
+            const black_role = d.message.guild.roles.cache.get(guildData.get("black_role"))
+
+            if (bypass_role) requirements.push(`<:checkgreen:649310375694827522> Members with the role ${bypass_role} don't need to meet any of the requirements.`)
+
+            if (black_role) requirements.push(`<:checkred:649310375510016011> Members with the role ${black_role} can't join.`)
+        }
+    }
+    
     return requirements
 }

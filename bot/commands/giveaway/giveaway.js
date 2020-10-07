@@ -53,10 +53,12 @@ module.exports = {
             args.shift()
 
             try {
-                var time = parse(args.shift())
+                var time = parse(args[0])
             } catch(err) {
-                return message.channel.send(`:x: Failed to parse time.`)
+                return message.channel.send(`:x: Failed to parse ${args[0]}, please send a valid time to parse like "4d1m".`)
             }
+
+            args.shift()
 
             if (time.ms < 60000 || time.ms > daysToMs(30)) return message.channel.send(`Time cant be smaller than a minute nor bigger than 30 days.`)
 

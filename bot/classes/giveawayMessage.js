@@ -59,7 +59,7 @@ class giveawayMessage {
 <:DE_IconSlowmode:763372481444577281> **Time Remaining**: ${parse(Object.entries(ms(this.data.endsAt - date)).map((x, y) => {
                 if (x[1] > 0 && y < 4) return `${x[1]}${x[0][0]}`
                 else return ``
-            }).filter(e => e).join("")).array.slice(0, 2).join(" and ")}
+            }).filter(e => e).join("")).array.map(e => e.replace("and", "")).slice(0, 2).join(" and ")}
 ${requirements.join("\n")}
             `)
             embed.setFooter(`React with 🎉 to enter the giveaway\nEnds at:`)
