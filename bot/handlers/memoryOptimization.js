@@ -12,9 +12,12 @@ module.exports = async (client = new Client()) => {
 
             for (const member of guild.members.cache.array()) {
                 if (guild.members.cache.size > 1000) {
-                    guild.members.cache.delete(member.user.id)
 
-                    client.users.cache.delete(member.user.id)
+                    if (client.user.id !== member.user.id) {
+                        guild.members.cache.delete(member.user.id)
+
+                        client.users.cache.delete(member.user.id)
+                    }
 
                     totalUsersUncached++
                 }
