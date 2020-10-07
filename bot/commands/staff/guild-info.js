@@ -15,7 +15,7 @@ module.exports = {
 
         const id = args[0] || message.guild.id
 
-        const guild = await shardGuild(client, args[0])
+        const guild = await shardGuild(client, id)
 
         if (!guild) return message.channel.send(`:x: Could not find this guild.`)
 
