@@ -51,7 +51,7 @@ module.exports = {
         return {
             code: invite.code,
             guildID: invite.guild.id,
-            userID: inviter.inviter ? invite.inviter.id : "0",
+            userID: invite.inviter ? invite.inviter.id : "0",
             uses: invite.uses
         }
     }

@@ -17,7 +17,6 @@ const client = new Discord.Client({
     fetchAllMembers: false,
     messageCacheMaxSize: 10,
     messageCacheLifetime: 30,
-    messageSweepInterval: 30,
     disableMentions: "everyone",
 })
 
