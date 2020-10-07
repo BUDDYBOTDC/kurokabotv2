@@ -6,7 +6,7 @@ module.exports = async (d) => {
 
     if (!d.data.requirements) return requirements
 
-    requirements.push(`**__Requirements__**:`)
+    requirements.push(`<:DE_IconNews:763372098147319828> **__Requirements__**:`)
 
     var task 
 
@@ -139,7 +139,7 @@ module.exports = async (d) => {
         }
 
         if (replacer !== undefined) {
-            requirements.push(`**${text.replace("{0}", replacer)}**`)
+            requirements.push(`<:DE_ArrowJoin:763377170655477780> **${text.replace("{0}", replacer)}**`)
         }
     }
 

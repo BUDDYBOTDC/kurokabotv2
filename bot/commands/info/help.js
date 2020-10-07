@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const shardGuild = require("../../functions/shardGuild");
 
 module.exports = {
     name: "help",

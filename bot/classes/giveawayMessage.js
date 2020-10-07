@@ -49,13 +49,13 @@ class giveawayMessage {
             }
 
             embed.setColor(`BLUE`)
-            embed.setTitle(this.data.title)
+            embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
             embed.setURL("http://www.kurokabots.com")
             embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
             embed.setDescription(`
-**Winners**: ${this.data.winners}
-**Hosted by**: ${this.data.mention}
-**Time Remaining**: ${Object.entries(ms(this.data.endsAt - date)).map((x, y) => {
+<:DE_IconFriends:763372565716533249> **Winners**: ${this.data.winners}
+<:DE_IconPin:763372926283284520> **Hosted by**: ${this.data.mention}
+<:DE_IconSlowmode:763372481444577281> **Time Remaining**: ${Object.entries(ms(this.data.endsAt - date)).map((x, y) => {
                 if (x[1] > 0 && y < 4) return `${x[1]} ${x[0]}`
                 else return ``
             }).filter(e => e).join(" ")}
@@ -119,11 +119,11 @@ ${requirements.join("\n")}
             embed.setColor("GREEN")
             embed.setURL("http://www.kurokabots.com")
             embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
-            embed.setTitle(this.data.title)
+            embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
             embed.setDescription(`
 **__Giveaway Ended__**
-**Winners**: nobody
-**Hosted by**: ${this.data.mention}
+<:DE_IconFriends:763372565716533249> **Winners**: nobody
+<:DE_IconPin:763372926283284520> **Hosted by**: ${this.data.mention}
             `)
             embed.setFooter(`Giveaway ended.\nEnded at:`)
             embed.setTimestamp(Date.now())
@@ -136,13 +136,13 @@ ${requirements.join("\n")}
         }
 
         embed.setColor("GREEN")
-        embed.setTitle(this.data.title)
+        embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
         embed.setURL("http://www.kurokabots.com")
         embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
         embed.setDescription(`
 **__Giveaway Ended__**
-**Winners**: ${IDs.map(e => `<@${e}>`).join(", ")}
-**Hosted by**: ${this.data.mention}
+<:DE_IconFriends:763372565716533249> **Winners**: ${IDs.map(e => `<@${e}>`).join(", ")}
+<:DE_IconPin:763372926283284520> **Hosted by**: ${this.data.mention}
         `)
         embed.setFooter(`Giveaway ended.\nEnded at:`)
         embed.setTimestamp(Date.now())
