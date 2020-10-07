@@ -22,14 +22,31 @@ module.exports = {
 
                 const categories = {}
 
-                client.commands.map(command => {
+                client.commands.map(async command => {
                     
                     if (command.category === "owner" && !client.owners.includes(message.author.id)) return
+
+                    if (command.category === "staff" && !client.owners.includes(message.author.id)) {
+                        const guild = await shardGuild(client, "550516279652515880")
+                
+                        if (!guild) return
+                
+                        const member = await guild.members.fetch({
+                            user: message.author.id,
+                            cache: false
+                        }).catch(err => {})
+                
+                        if (!member) return
+                        
+                        if (member.roles.cache.has("550529991964753956 ")) return
+                    }
 
                     if (!categories[command.category]) categories[command.category] = []
 
                     categories[command.category].push(`\`${client.prefix}${command.name}\``)
                 })
+
+                await new Promise(e => setTimeout(e, 300))
 
                 const embed = new MessageEmbed()
                 .setColor("BLUE")

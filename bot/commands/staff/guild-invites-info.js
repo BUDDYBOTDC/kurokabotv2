@@ -3,7 +3,7 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 module.exports = {
     name: "guild-invites-info",
     description: "lists all the invites of this guild.",
-    category: "owner",
+    category: "staff",
     fields: [
         "<page>"
     ],

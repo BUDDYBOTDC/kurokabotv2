@@ -1,6 +1,7 @@
 const { Message, Client, MessageEmbed } = require("discord.js");
 const parse = require("ms-parser");
 const giveawayMessage = require("../../classes/giveawayMessage");
+const shardChannel = require("../../functions/shardChannel");
 const daysToMs = require("../../utils/daysToMs");
 
 module.exports = {
@@ -24,7 +25,7 @@ module.exports = {
 
         try {
 
-            const channel = await client.channels.fetch(args.shift()).catch(err => {})
+            const channel = await shardChannel(client, args[0])
 
             if (!channel) return message.channel.send(`:x: Channel Not Found...`)
 

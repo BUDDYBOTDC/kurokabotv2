@@ -65,7 +65,6 @@ ${requirements.join("\n")}
             embed.setTimestamp(this.data.endsAt)
 
             await this.message.edit(embed).catch(err => {
-                console.log(`Could not edit giveaway with ID ${this.message.id}`)
             })
 
             const time = Math.floor(Math.random() * 300000) + 60000

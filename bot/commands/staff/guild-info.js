@@ -1,9 +1,10 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const shardGuild = require("../../functions/shardGuild");
 
 module.exports = {
     name: "guild-info",
     description: "returns the guild info from the database",
-    category: "owner",
+    category: "staff",
     fields: [
         "<guildID>"
     ],
@@ -14,7 +15,7 @@ module.exports = {
 
         const id = args[0] || message.guild.id
 
-        const guild = await client.guilds.fetch(id).catch(err => {})
+        const guild = await shardGuild(client, args[0])
 
         if (!guild) return message.channel.send(`:x: Could not find this guild.`)
 

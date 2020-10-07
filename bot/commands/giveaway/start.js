@@ -15,7 +15,7 @@ module.exports = {
     description: "starts a giveaway in given channel (or in the current one)",
     permissions: ["MANAGE_GUILD"],
     clientPermissions: ["MANAGE_MESSAGES"],
-    cooldown: 3000,
+    cooldown: 10000,
     category: "giveaway",
     execute: async (client = new Client(), message =new Message(), args = [], db) => {
 
@@ -246,7 +246,7 @@ ${fields}
             .setTitle(`Giveaway setup canceled`)
             .setDescription(error)
 
-            msg.edit(embed)
+            msg.edit(embed).catch(err => {})
 
             isMakingOne.delete(message.author.id)
         }

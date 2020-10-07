@@ -13,6 +13,8 @@ module.exports = {
     ],
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
 
+        return message.channel.send("Not working")
+        
         const channel = await client.channels.fetch(args[0]).catch(err => {})
 
         if (!channel) return message.channel.send(`Channel with ID ${args[0]} not found.`)

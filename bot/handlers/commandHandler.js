@@ -1,4 +1,5 @@
 const { Client, Message, ReactionUserManager } = require("discord.js");
+const shardGuild = require("../functions/shardGuild");
 const clientPermissionsError = require("./clientPermissionsError");
 const cooldownError = require("./cooldownError");
 const permissionsError = require("./permissionsError");
@@ -24,6 +25,21 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
     
     if (command.category === "owner" && !client.owners.includes(message.author.id)) return
     
+    if (command.category === "staff" && !client.owners.includes(message.author.id)) {
+        const guild = await shardGuild(client, "550516279652515880")
+
+        if (!guild) return
+
+        const member = await guild.members.fetch({
+            user: message.author.id,
+            cache: false
+        }).catch(err => {})
+
+        if (!member) return
+        
+        if (member.roles.cache.has("550529991964753956 ")) return
+    }
+
     if (command.permissions && !command.permissions.every(perm => message.member.hasPermission(perm)) && !client.owners.includes(message.author.id)) {
         if (command.overridePermissions) {
             const d = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})

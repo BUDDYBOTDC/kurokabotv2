@@ -22,6 +22,12 @@ module.exports = {
         })()
         `)
         
+        const guildTotal = await client.shard.broadcastEval(`
+        (async () => {
+            return this.guilds.cache.size
+        })()
+        `)
+
         for (const id of client.owners) {
             await client.users.fetch(id)
         }
@@ -36,7 +42,7 @@ module.exports = {
         .addField(`Memory usage`, (process.memoryUsage().rss / 1024 / 1024).toFixed(2) + "mb")
         .addField(`Shard count`, client.shard.count)
         .addField(`Shard ID`, message.guild.shardID)
-        .addField(`Guild count`, client.guilds.cache.size)
+        .addField(`Guild count`, guildTotal.reduce((x,y) => x + y, 0 ))
         .addField(`Cached user count`, client.users.cache.size)
         .addField(`User count`, userTotal.reduce((x,y) => x + y, 0))
         .addField(`Uptime`, Object.entries(ms(client.uptime)).map((x, y) => {
