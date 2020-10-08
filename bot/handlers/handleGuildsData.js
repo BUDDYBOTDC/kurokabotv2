@@ -1,5 +1,6 @@
 const { Client } = require("discord.js");
 const addGuildData = require("./addGuildData");
+const premiumTimeout = require("./premiumTimeout");
 const updateAllInvites = require("./updateAllInvites");
 
 module.exports = (client = new Client(), db) => {
@@ -7,5 +8,7 @@ module.exports = (client = new Client(), db) => {
         addGuildData(client, guild, db)
 
         updateAllInvites(client, guild)
+
+        premiumTimeout(client, guild)
     }
 }
