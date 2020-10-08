@@ -1,4 +1,5 @@
 const { Client } = require("discord.js");
+const premiumTimeout = require("../handlers/premiumTimeout");
 
 module.exports = async (client = new Client(), guildID = new String(), codeData = {}) => {
 
@@ -24,6 +25,8 @@ module.exports = async (client = new Client(), guildID = new String(), codeData 
         })
 
         option = "extended"
+
+        premiumTimeout(client, { id: guildID, name: "code redeemed." })
     } else {
         await client.objects.guilds.update({
             premium: true,
