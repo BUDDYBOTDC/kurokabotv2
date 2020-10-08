@@ -20,7 +20,7 @@ module.exports = {
         "578329847583922848 4839203858492929 \"Nitro Classic\" 1 5d"
     ],
     cooldown: 1000,
-    category: "owner",
+    category: "admin",
     execute: async (client = new Client(), message = new Message(), args = new Array()) => {
 
         try {

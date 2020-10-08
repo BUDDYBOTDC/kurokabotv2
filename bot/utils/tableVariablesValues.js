@@ -11,7 +11,8 @@ module.exports = {
             guildID: guild.id,
             black_role: "0",
             isBlacklisted: false,
-            blacklistReason: "none"
+            blacklistReason: "none",
+            premiumEndsAt: 0
         }
     },
 
@@ -56,6 +57,14 @@ module.exports = {
             guildID: invite.guild.id,
             userID: invite.inviter ? invite.inviter.id : "0",
             uses: invite.uses
+        }
+    },
+
+    PREMIUM_CODES: (codeData = {}) => {
+        return {
+            time: codeData.time,
+            code: codeData.code,
+            redeemed: codeData.redeemed    
         }
     }
 }

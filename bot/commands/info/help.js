@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const isAdmin = require("../../functions/isAdmin");
 const isStaff = require("../../functions/isStaff");
 const shardGuild = require("../../functions/shardGuild");
 
@@ -32,6 +33,12 @@ module.exports = {
                         const staff = await isStaff(client, message.author.id)
 
                         if (!staff) return
+                    }
+
+                    if (command.category === "admin" && !client.owners.includes(message.author.id)) {
+                        const admin = await isAdmin(client, message.author.id)
+                
+                        if (!admin) return
                     }
 
                     if (!categories[command.category]) categories[command.category] = []

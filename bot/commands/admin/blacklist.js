@@ -2,16 +2,16 @@ const { Client, Message } = require("discord.js");
 const tableVariablesValues = require("../../utils/tableVariablesValues");
 
 module.exports = {
-    name: "unblacklist",
-    description: "unblacklists an user or server.",
-    category: "owner",
-    aliases: ["ubl"],
+    name: "blacklist",
+    description: "blacklists an user or server from using the bot.",
+    category: "admin",
+    aliases: ["bl"],
     usages: [
-        "<blacklistType> <ID>"
+        "<blacklistType> <ID> [reason]"
     ],
     examples: [
         "user 684300385839220942",
-        "server 85839294853929343"
+        "server 85839294853929343 aboosing"
     ],
     execute: async (client = new Client(), message = new Message(), args = []) => {
 
@@ -19,7 +19,9 @@ module.exports = {
             const type = ["user", "server"].find(e => e === args[0].toLowerCase())
 
             if (!type) return message.channel.send(`${args[0]} is not a valid type.`)
-  
+    
+            const reason = args.slice(2).join(" ") || "not provided."
+    
             if (type === "user") {
     
                 const user = await client.users.fetch(args[1], false).catch(err=> {})
@@ -31,9 +33,9 @@ module.exports = {
                 if (!d) {
                     await client.objects.users.create(tableVariablesValues.USER(user))
     
-                    await client.objects.users.update({ isBanned: false, banReason: "none" }, { where: { userID: user.id }})
+                    await client.objects.users.update({ isBanned: true, banReason: reason }, { where: { userID: user.id }})
                 } else {
-                    await client.objects.users.update({ isBanned: false, banReason: "none" }, { where: { userID: user.id }})
+                    await client.objects.users.update({ isBanned: true, banReason: reason }, { where: { userID: user.id }})
                 }
     
             } else {
@@ -47,13 +49,13 @@ module.exports = {
                 if (!d) {
                     await client.objects.guilds.create(tableVariablesValues.GUILD(guild))
     
-                    await client.objects.guilds.update({ isBlacklisted: false, blacklistReason: "none" }, { where: { guildID: guild.id }})
+                    await client.objects.guilds.update({ isBlacklisted: true, blacklistReason: reason }, { where: { guildID: guild.id }})
                 } else {
-                    await client.objects.guilds.update({ isBlacklisted: false, blacklistReason: "none" }, { where: { guildID: guild.id }})
+                    await client.objects.guilds.update({ isBlacklisted: true, blacklistReason: reason }, { where: { guildID: guild.id }})
                 }
             }
     
-            message.channel.send(`Successfully unblacklisted ${type} with ID ${args[1]}`)
+            message.channel.send(`Successfully blacklisted ${type} with ID ${args[1]} with reason: ${reason}`)
         } catch (err) {
             return message.channel.send(`Error! ${err.message}`)
         }

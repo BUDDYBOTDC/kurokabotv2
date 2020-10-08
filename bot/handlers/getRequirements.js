@@ -1,3 +1,4 @@
+const getIDFromArgument = require("../functions/getIDFromArgument")
 const badges = require("../utils/badges")
 
 module.exports = async (d) => {
@@ -33,6 +34,8 @@ module.exports = async (d) => {
 
         const text = fields[req[0]]
 
+        let oneRoleOnly = false
+
         let replacer 
 
         if (req[0] === "guild_member") { 
@@ -57,15 +60,24 @@ module.exports = async (d) => {
         } else if (req[0] === "guild_roles") {
             if (!req[1][0]) return { message: `No role IDs given for field roles.` }
             for (const id of req[1]) {
+                
+                const filter = req[1][req[1].length - 1]
+
+                if (filter === "--single") {
+                    req[1].pop()
+
+                    oneRoleOnly = true
+                }
+
                 if (id !== "") {
-                    const role = d.message.guild.roles.cache.get(id)
+                    const role = d.message.guild.roles.cache.get(getIDFromArgument(id))
 
                     if (!role) return { message: `Role with ID ${id} does not exist.` }
                     
                     if (role.managed) return { message: `This role (${id}) seems to be managed by discord, remember you can't use nitro booster role ID.`}
                 }
             }
-            replacer = req[1].filter(id => d.message.guild.roles.cache.get(id)).map(id => `<@&${id}>`).join(", ")
+            replacer = req[1].filter(id => d.message.guild.roles.cache.get(getIDFromArgument(id))).map(id => `<@&${getIDFromArgument(id)}>`).join(", ")
         } else if (req[0] === "guild_messages") {
             if (!req[1][0]) return { message: `No number given for field messages.` }
             if (isNaN(Number(req[1][0]))) return { message: `Invalid number ${req[1][0]}` }
@@ -160,7 +172,11 @@ module.exports = async (d) => {
         }
 
         if (replacer !== undefined) {
-            requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("{0}", replacer)}`)
+            if (oneRoleOnly) {
+                requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("the roles", "one of the roles: ").replace("{0}", replacer)}`)
+            } else {
+                requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("{0}", replacer)}`)
+            }
         }
     }
 

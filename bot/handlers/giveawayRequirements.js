@@ -5,7 +5,10 @@ const ms = require("ms")
 const Discord = require("discord.js")
 const badgesFlags = require("../utils/badgesFlags")
 const isUserInGuild = require("../functions/isUserInGuild")
+const getIDFromArgument = require("../functions/getIDFromArgument")
 const cooldown = new Discord.Collection()
+const entryCooldown = new Discord.Collection()
+
 module.exports = async (reaction = new MessageReaction(), user = new User(), returnCheck = false) => {
 
     if (user.id === reaction.message.client.user.id) return
@@ -29,6 +32,9 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
     const d = await client.objects.guilds.findOne({ where: { guildID: reaction.message.guild.id }})
 
     function giveawayEntryAccept() {
+
+        if (entryCooldown.get(user.id)) return
+
         const embed = new MessageEmbed()
         .setColor("GREEN")
         .setThumbnail(client.user.displayAvatarURL())
@@ -36,6 +42,12 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
         .setDescription(`Your entry for the giveaway \`${data.title}\` has been accepted!\nGuild: ${reaction.message.guild.name}`)
         .setTimestamp()
         
+        entryCooldown.set(user.id, true)
+
+        setTimeout(() => {
+            entryCooldown.delete(user.id)
+        }, 25000)
+
         return user.send(embed).catch(err => {})
     }
 
@@ -54,7 +66,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
         setTimeout(() => {
             cooldown.delete(user.id)
-        }, 45000)
+        }, 25000)
 
         return user.send(embed).catch(Err => {})
     }
@@ -143,8 +155,28 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                 }
             }
         } else if (req_name === "guild_roles") {
+
+            let oneRoleOnly = false
+
+            const filter = req_value[req_value.length - 1]
+
+            if (filter === "--single") {
+                oneRoleOnly = true
+
+                req_value.pop()
+
+                const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
+
+                if (member.roles.cache.some(r => req_value.includes(r.id))) {
+                    if (!returnCheck) giveawayEntryAccept()
+
+                    return true
+                }
+            }
+
             for (const id of req_value) {
-                const role = reaction.message.guild.roles.cache.get(id)
+
+                const role = reaction.message.guild.roles.cache.get(getIDFromArgument(id))
 
                 if (role) {
                     const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
@@ -174,7 +206,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                 const d = await reaction.message.client.objects.guild_members.findOne({ where: { guildID: reaction.message.guild.id, userID: user.id }})
 
                 if (d) {
-                    item = d.get("messages")
+                    item = d.get("messages") || 0
                 } else item = 0
 
                 if (value > item) {
@@ -269,7 +301,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
             let item = 0
             
             if (d) {
-                item = d.get("invites_real")
+                item = d.get("invites_real") || 0
             }
 
             if (n > item) {
@@ -292,7 +324,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
             let item = 0
             
             if (d) {
-                item = d.get("invites_fake")
+                item = d.get("invites_fake") || 0
             }
 
             if (n < item) {
@@ -315,7 +347,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
             let item = 0
             
             if (d) {
-                item = d.get("invites_fake") + d.get("invites_real")
+                item = d.get("invites_fake") + d.get("invites_real") || 0
             }
 
             if (n > item) {

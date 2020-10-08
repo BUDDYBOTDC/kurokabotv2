@@ -1,4 +1,5 @@
 const { Client, Message, ReactionUserManager } = require("discord.js");
+const isAdmin = require("../functions/isAdmin");
 const isStaff = require("../functions/isStaff");
 const shardGuild = require("../functions/shardGuild");
 const clientPermissionsError = require("./clientPermissionsError");
@@ -24,6 +25,20 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
 
     if (!client.objects) return message.channel.send(`:x: Command timed out.`)
     
+    if (command.category === "admin" && !client.owners.includes(message.author.id)) {
+        const admin = await isAdmin(client, message.author.id)
+
+        if (!admin) return
+    }
+
+    if (command.category === "owner" && !client.owners.includes(message.author.id)) return
+    
+    if (command.category === "staff" && !client.owners.includes(message.author.id)) {
+        const staff = await isStaff(client, message.author.id)
+
+        if (!staff) return
+    }
+
     const guildData = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 
     if (guildData && !client.owners.includes(message.author.id)) {
@@ -34,14 +49,6 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
 
     if (userData && !client.owners.includes(message.author.id)) {
         if (userData.get("isBanned") === true) return
-    }
-
-    if (command.category === "owner" && !client.owners.includes(message.author.id)) return
-    
-    if (command.category === "staff" && !client.owners.includes(message.author.id)) {
-        const staff = await isStaff(client, message.author.id)
-
-        if (!staff) return
     }
 
     if (command.permissions && !command.permissions.every(perm => message.member.hasPermission(perm)) && !client.owners.includes(message.author.id)) {

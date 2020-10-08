@@ -9,7 +9,8 @@ module.exports = {
         guildID: Sequelize.STRING,
         black_role: Sequelize.STRING,
         isBlacklisted: Sequelize.BOOLEAN,
-        blacklistReason: Sequelize.STRING
+        blacklistReason: Sequelize.STRING,
+        premiumEndsAt: Sequelize.BIGINT
     },
 
     GUILD_MEMBER: {
@@ -48,5 +49,11 @@ module.exports = {
         guildID: Sequelize.STRING,
         userID: Sequelize.STRING,
         uses: Sequelize.INTEGER
+    },
+
+    PREMIUM_CODES: {
+        time: Sequelize.BIGINT,
+        code: Sequelize.STRING,
+        redeemed: Sequelize.BOOLEAN   
     }
 }

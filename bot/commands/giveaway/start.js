@@ -22,7 +22,7 @@ module.exports = {
         if (isMakingOne.get(message.author.id)) return message.channel.send(`:x: Finish the current giveaway setup first.`)
         
         const fields = `guilds <guildID> <guildID> ... (defaulted to none)
-roles <roleID> ... (defaulted to none)
+roles <roleID | @role> ... [filter: --single] (defaulted to none)
 messages <number> (defaulted to "0")
 member_older <days> (defaulted to "0")
 account_older <days> (defaulted to "0")
