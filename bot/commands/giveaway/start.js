@@ -92,6 +92,8 @@ total_invites <number>`
 
             if (!channel) return cancelGiveaway("Invalid channel has been given.")
 
+            if (channel.type === "news") return cancelGiveaway("News channels can't be used for giveaways as per discord editing rate limits in said channels.")
+            
             data.channelID = channel.id
 
             embed.setDescription(`Channel set to ${channel}, how many winners for this giveaway?`)

@@ -46,6 +46,8 @@ module.exports = {
 
             if (!channel) return message.channel.send(`Invalid channel has been given.`)
 
+            if (channel.type === "news") return cancelGiveaway("News channels can't be used for giveaways as per discord editing rate limits in said channels.")
+            
             args.shift()
 
             const winners = Number(args[0])
