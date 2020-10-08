@@ -26,7 +26,6 @@ module.exports = async (client = new Client(), guildID = new String(), codeData 
 
         option = "extended"
 
-        premiumTimeout(client, { id: guildID, name: "code redeemed." })
     } else {
         await client.objects.guilds.update({
             premium: true,
@@ -39,6 +38,8 @@ module.exports = async (client = new Client(), guildID = new String(), codeData 
         })
 
         option = "added"
+
+        premiumTimeout(client, { id: guildID, name: "code redeemed." })
     }
 
     await client.objects.premium_codes.update({
