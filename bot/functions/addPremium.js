@@ -1,5 +1,6 @@
 const { Client } = require("discord.js");
 const premiumTimeout = require("../handlers/premiumTimeout");
+const daysToMs = require("../utils/daysToMs");
 
 module.exports = async (client = new Client(), guildID = new String(), codeData = {}) => {
 
@@ -39,7 +40,9 @@ module.exports = async (client = new Client(), guildID = new String(), codeData 
 
         option = "added"
 
-        premiumTimeout(client, { id: guildID, name: "code redeemed." })
+        if (codeData.time <= daysToMs(7)) {
+            premiumTimeout(client, { id: guildID, name: "code redeemed." })
+        }
     }
 
     await client.objects.premium_codes.update({
