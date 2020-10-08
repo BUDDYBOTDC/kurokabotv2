@@ -3,8 +3,6 @@ const tableVariablesValues = require("../utils/tableVariablesValues");
 
 module.exports = async (client = new Client(), guild = new Guild()) => {
 
-    if (!guild.me) return
-    
     if (!guild.me.hasPermission("MANAGE_GUILD")) return
 
     const invites = await guild.fetchInvites()
@@ -16,11 +14,9 @@ module.exports = async (client = new Client(), guild = new Guild()) => {
         const inv = db_invites.find(i => i.code === invite.code)
 
         if (!inv) {
-            client.objects.guild_invites.create(tableVariablesValues.GUILD_INVITES(invite))
+            await client.objects.guild_invites.create(tableVariablesValues.GUILD_INVITES(invite))
         } else {
-            if (inv.uses !== invite.uses) {
-                client.objects.guild_invites.update({ uses: invite.uses }, { where: { guildID: guild.id, code: invite.code }})
-            }
+            await client.objects.guild_invites.update({ uses: invite.uses }, { where: { guildID: guild.id, code: invite.code }})
         }
     }
 }

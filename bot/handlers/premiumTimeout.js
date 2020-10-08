@@ -15,7 +15,7 @@ module.exports = async (client = new Client(), guild = new Guild()) => {
                     guildID: guild.id
                 }
             })
-        }, Date.now() - guildData.get("premiumEndsAt"));
+        }, guildData.get("premiumEndsAt") - Date.now());
 
         console.log("Premium timeout added to guild " + guild.name)
     }
