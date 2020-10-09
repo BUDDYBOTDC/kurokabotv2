@@ -14,7 +14,8 @@ module.exports = {
             isBlacklisted: false,
             blacklistReason: "none",
             premiumEndsAt: 0,
-            customEmbeds: JSON.stringify(categoryColors)
+            customEmbeds: JSON.stringify(categoryColors),
+            ignoreChannels: "[]"
         }
     },
 

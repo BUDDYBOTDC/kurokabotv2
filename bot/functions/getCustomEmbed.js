@@ -13,8 +13,6 @@ module.exports = async (client = new Client(), guildID = new String(), category 
     if (guildData.get("premium")) {
 
         let embeds = JSON.parse(guildData.get("customEmbeds"))
-
-        console.log(embeds)
         
         if (embeds[category]) {
             return embeds[category]

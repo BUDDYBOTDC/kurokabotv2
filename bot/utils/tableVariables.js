@@ -11,7 +11,8 @@ module.exports = {
         isBlacklisted: Sequelize.BOOLEAN,
         blacklistReason: Sequelize.STRING,
         premiumEndsAt: Sequelize.BIGINT,
-        customEmbeds: Sequelize.STRING
+        customEmbeds: Sequelize.STRING,
+        ignoreChannels: Sequelize.STRING
     },
 
     GUILD_MEMBER: {

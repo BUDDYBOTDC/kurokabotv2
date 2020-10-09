@@ -6,6 +6,7 @@ const handleGuildsData = require("../handlers/handleGuildsData")
 const memoryOptimization = require("../handlers/memoryOptimization")
 const onStartStatus = require("../handlers/onStartStatus")
 const syncTables = require("../handlers/syncTables")
+const categoryColors = require("../utils/categoryColors")
 
 module.exports = async (client = new Client(), db = new sequelize()) => {
 
