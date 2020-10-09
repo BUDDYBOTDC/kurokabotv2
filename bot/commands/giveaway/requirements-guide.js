@@ -34,7 +34,7 @@ fake_invites
         .addField(`account_older <number>`, `The account that reacted to this giveaway must be older than given <number> of days.`)
         .addField(`member_older <number>`, `The account that reacted to this giveaway must have been in the server for at least given <number> of days.`)
         .addField(`guilds <guildID> ...`, `The account that reacted to this giveaway must be in the servers with given IDs`)
-        .addField(`roles <roleID | @role> ... [filter: --single]`, "The account that reacted to this giveaway must have all the given role IDs / mentioned roles.\nIf --single is added as a filter, the user will only need to have one of the provided roles.")
+        .addField(`roles <roleID | @role> ... [filter: --single] OR roles select from <number> to <number>`, "The account that reacted to this giveaway must have all the given role IDs / mentioned roles.\nIf --single is added as a filter, the user will only need to have one of the provided roles.\nIf select from X to Y is used, the user will need to have the roles within the next positions X and Y.")
         .addField(`messages <number>`, `The account that reacted to this giveaway must have at least <number> messages sent on this server.`)
         .addField(`badges <badge1> ...`, "The account that reacted to this giveaway must have all the given badges.")
         .addField(`user_tag_equals <tag>`, "The account that reacted to this giveaway will need to have the given tag / discriminator to join the giveaway.")

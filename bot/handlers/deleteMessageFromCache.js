@@ -6,5 +6,5 @@ module.exports = async (message = new Message()) => {
 
     setTimeout(() => {
         message.channel.messages.cache.delete(message.id)
-    }, 2500)
+    }, 1000)
 }

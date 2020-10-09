@@ -12,8 +12,10 @@ module.exports = {
     ],
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
 
-        const messages = await client.objects.giveaways.findAll()
+        let messages = await client.objects.giveaways.findAll()
 
+        messages = messages.filter(d => !d.ended)
+        
         let page = Number(args[0]) || 1
 
         const pages = Math.trunc(messages.length / 10 + 1)
@@ -28,7 +30,7 @@ module.exports = {
         .setColor("GREEN")
         .setAuthor(`Giveaway Messages Data`, message.author.displayAvatarURL({dynamic:true}))
         
-        for (const data of messages.filter(d => !d.ended).slice(x, y)) {
+        for (const data of messages.slice(x, y)) {
             embed.addField(`Giveaway: ${data.title}`, `Message ID: ${data.messageID}\nChannel ID: ${data.channelID}\nGuild ID: ${data.guildID}\nEnded?: ${data.ended}\nRemove Cache Date: ${data.removeCache}\nEnds at?: ${data.endsAt}\nWinners?: ${data.winners}\nHosted by (ID)?: \`${data.mention}\``)
         }
 

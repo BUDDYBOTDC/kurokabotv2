@@ -10,7 +10,8 @@ module.exports = {
         black_role: Sequelize.STRING,
         isBlacklisted: Sequelize.BOOLEAN,
         blacklistReason: Sequelize.STRING,
-        premiumEndsAt: Sequelize.BIGINT
+        premiumEndsAt: Sequelize.BIGINT,
+        customEmbeds: Sequelize.JSON
     },
 
     GUILD_MEMBER: {

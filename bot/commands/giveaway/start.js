@@ -44,7 +44,7 @@ total_invites <number>`
 
         const data = {}
 
-        const filter = m => m.author.id === message.author.id
+        const filter = m => m.author.id === message.author.id && !m.content.startsWith(client.prefix)
 
         async function first() {
 
@@ -182,7 +182,7 @@ ${fields}
         async function fifth() {
 
             const collected = await message.channel.awaitMessages(filter, {
-                time: 60000,
+                time: 120000,
                 errors: ["time"],
                 max: 1
             }).catch(err => {})
@@ -235,7 +235,7 @@ ${fields}
             data.messageID = giveaway.id 
             data.guildID = message.guild.id
             data.userID = message.author.id
-            
+
             await client.objects.giveaways.create(data)
 
             new giveawayMessage(giveaway, data)

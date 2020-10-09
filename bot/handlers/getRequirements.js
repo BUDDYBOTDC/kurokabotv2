@@ -1,3 +1,4 @@
+const { stat } = require("fs")
 const getIDFromArgument = require("../functions/getIDFromArgument")
 const badges = require("../utils/badges")
 
@@ -44,13 +45,17 @@ module.exports = async (d) => {
 
             let guilds = []
 
+            if (req[1].length > 10) return { message: "Can't select more than 10 guilds at field guilds."}
+
             for (const id of req[1]) {
 
                 if (id !== "") {
-                                 
+
                     const guild = await d.message.client.guilds.fetch(id).catch(err => {})
 
                     if (!guild) return { message: `Guild with ID ${id} does not exist.` }
+            
+                    if (guilds.includes(guild.name)) return { message: `Guild with ID ${id} has already been given!` }
 
                     guilds.push(guild.name)
                 }
@@ -59,8 +64,29 @@ module.exports = async (d) => {
             replacer = guilds.join(", ")
         } else if (req[0] === "guild_roles") {
             if (!req[1][0]) return { message: `No role IDs given for field roles.` }
+            
+            const roles = []
+
+            if (req[1].join(" ").startsWith("select from")) {
+                const start = Number(req[1][2])
+
+                if (req[1][3] !== "to") return { message: "Invalid word in between values, please follow this example: `select from 3 to 7`"}
+
+                const end = Number(req[1][4])
+
+                if (isNaN(start) || start < 1 || start >= end || start >= d.message.guild.roles.cache.size) return { message: `Invalid number ${req[1][2]} at field roles.`} 
+
+                if (isNaN(end) || end < 1 || end >= d.message.guild.roles.cache.size) return { message: `Invalid number ${req[1][4]} at field roles.` }
+
+                const roles = () => d.message.guild.roles.cache.array().filter(r => !r.managed).sort((r1, r2) => r1.position - r2.position).slice(start, end + 1).map(r => r.id)
+
+                req[1] = roles()
+            }
+
+            if (req[1].length > 10) return { message: "Can't select more than 10 roles at field roles."}
+
             for (const id of req[1]) {
-                
+
                 const filter = req[1][req[1].length - 1]
 
                 if (filter === "--single") {
@@ -70,14 +96,20 @@ module.exports = async (d) => {
                 }
 
                 if (id !== "") {
+
                     const role = d.message.guild.roles.cache.get(getIDFromArgument(id))
 
                     if (!role) return { message: `Role with ID ${id} does not exist.` }
                     
+                    if (roles.includes(role.id)) return { message: `Role with ID ${role.id} has already been given!` }
+
                     if (role.managed) return { message: `This role (${id}) seems to be managed by discord, remember you can't use nitro booster role ID.`}
+                
+                    roles.push(role.id)
                 }
             }
-            replacer = req[1].filter(id => d.message.guild.roles.cache.get(getIDFromArgument(id))).map(id => `<@&${getIDFromArgument(id)}>`).join(", ")
+
+            replacer = roles.map(id => `<@&${id}>`).join(", ")
         } else if (req[0] === "guild_messages") {
             if (!req[1][0]) return { message: `No number given for field messages.` }
             if (isNaN(Number(req[1][0]))) return { message: `Invalid number ${req[1][0]}` }

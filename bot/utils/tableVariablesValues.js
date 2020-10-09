@@ -12,7 +12,8 @@ module.exports = {
             black_role: "0",
             isBlacklisted: false,
             blacklistReason: "none",
-            premiumEndsAt: 0
+            premiumEndsAt: 0,
+            customEmbeds: {}
         }
     },
 

@@ -156,6 +156,16 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
             }
         } else if (req_name === "guild_roles") {
 
+            if (req_value.join(" ").startsWith("select from")) {
+                const start = Number(req_value[2])
+
+                const end = Number(req_value[4])
+
+                const roles = () => reaction.message.guild.roles.cache.array().filter(r => !r.managed).sort((r1, r2) => r1.position - r2.position).slice(start, end + 1).map(r => r.id)
+
+                req_value = roles()
+            }
+
             let oneRoleOnly = false
 
             const filter = req_value[req_value.length - 1]
