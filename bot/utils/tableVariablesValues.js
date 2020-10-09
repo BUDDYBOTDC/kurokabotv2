@@ -1,5 +1,6 @@
 const { Guild, User, Invite } = require("discord.js")
 const Sequelize = require("sequelize")
+const categoryColors = require("./categoryColors")
 
 module.exports = {
     GUILD: (guild = new Guild()) => {
@@ -13,7 +14,7 @@ module.exports = {
             isBlacklisted: false,
             blacklistReason: "none",
             premiumEndsAt: 0,
-            customEmbeds: {}
+            customEmbeds: JSON.stringify(categoryColors)
         }
     },
 

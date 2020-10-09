@@ -1,5 +1,5 @@
 const { Client } = require("discord.js");
-const { JSON } = require("sequelize");
+const { type } = require("os");
 const categoryColors = require("../utils/categoryColors");
 
 module.exports = async (client = new Client(), guildID = new String(), category = new String()) => {
@@ -12,12 +12,10 @@ module.exports = async (client = new Client(), guildID = new String(), category 
 
     if (guildData.get("premium")) {
 
-        let embeds = guildData.get("customEmbeds")
+        let embeds = JSON.parse(guildData.get("customEmbeds"))
 
-        if (typeof embeds !== "object") {
-            embeds = JSON.parse(embeds)
-        }
-
+        console.log(embeds)
+        
         if (embeds[category]) {
             return embeds[category]
         } else {

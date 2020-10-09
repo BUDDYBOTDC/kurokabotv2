@@ -8,15 +8,11 @@ module.exports = async (client = new Client(), guildID = new String(), category 
         }
     })
 
-    let customEmbeds = guildData.get("customEmbeds")
-
-    if (typeof customEmbeds !== "object") {
-        customEmbeds = JSON.parse(customEmbeds)
-    }
+    let customEmbeds = JSON.parse(guildData.get("customEmbeds"))
 
     customEmbeds[category] = color
 
-    await client.objects.guilds.update({ customEmbeds }, {
+    await client.objects.guilds.update({ customEmbeds: JSON.stringify(customEmbeds) }, {
         where: {
             guildID: guildID
         }
