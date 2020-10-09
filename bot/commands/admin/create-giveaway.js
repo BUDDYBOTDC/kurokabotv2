@@ -2,6 +2,7 @@ const { Message, Client, MessageEmbed } = require("discord.js");
 const parse = require("ms-parser");
 const giveawayMessage = require("../../classes/giveawayMessage");
 const shardChannel = require("../../functions/shardChannel");
+const shardGuildChannel = require("../../functions/shardGuildChannel");
 const shardMessage = require("../../functions/shardMessage");
 const daysToMs = require("../../utils/daysToMs");
 
@@ -34,11 +35,15 @@ module.exports = {
 
             if (!msg) return message.channel.send(`:x: Message Not Found.`)
 
-            const arg = args.join(" ").split('"')[1].split('"')
+            args.shift()
 
-            const title = arg[0]
+            args.shift()
 
-            args = args.slice(arg.length)
+            const title = args.join(" ").split('"')[1].split('"')[0]
+    
+            if (title.length >= 100) return message.channel.send(`The title for the giveaway is too long.`)
+            
+            args = args.slice(title.split(" ").length)
 
             const winners = Number(args.shift()) || 1
 
@@ -52,6 +57,8 @@ module.exports = {
             .setThumbnail(client.user.displayAvatarURL())
             .setDescription(`Title: ${title}\nWinners: ${winners}\nTime ${time.string}`)
 
+            const guild = await shardGuildChannel(client, channel.id)
+            
             const data = {
                 time: time.ms,
                 removeCache: Date.now() + time.ms + daysToMs(7),
@@ -59,7 +66,7 @@ module.exports = {
                 title: title,
                 winners: winners,
                 requirements: undefined,
-                guildID: channel.guild.id,
+                guildID: guild.id,
                 channelID: channel.id,
                 messageID: msg.id,
                 ended: false,

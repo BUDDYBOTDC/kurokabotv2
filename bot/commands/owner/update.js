@@ -43,6 +43,8 @@ module.exports = {
             
             msg.edit("", embed)
         } catch (error) {
+            console.log(error)
+            
             return msg.edit(error.message)
         }
     }
