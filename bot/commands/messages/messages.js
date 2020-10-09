@@ -31,7 +31,7 @@ module.exports= {
 
         let all = await client.objects.guild_members.findAll({ where: { guildID: message.guild.id }})
 
-        let top = all.sort((x, y) => y.messages - x.messages).findIndex(x => x.userID === message.author.id) + 1 + "#" || "Not registered"
+        let top = all.sort((x, y) => y.messages - x.messages).findIndex(x => x.userID === member.user.id) + 1 + "#" || "Not registered"
 
         const color = await getCustomEmbed(client, message.guild.id, "messages")
 

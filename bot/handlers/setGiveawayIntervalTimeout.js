@@ -4,6 +4,10 @@ const sendShardMessage = require("../functions/sendShardMessage");
 
 const setGiveawayTimeout = (client = new Client(), data) => {
     setTimeout(async () => {
+        const newData = await client.objects.giveaways.findOne({ where: { code: data.code }})
+
+        if (newData.get("removed")) return
+
         const channel = client.channels.cache.get(data.channelID)
 
         if (!channel) return
@@ -19,17 +23,22 @@ const setGiveawayTimeout = (client = new Client(), data) => {
         let dataGiveaway =  {...data}
 
         dataGiveaway.messageID = msg.id 
-        dataGiveaway.endsAt = Date.now() + data.time 
+        dataGiveaway.endsAt = Date.now() + data.time
         
         delete dataGiveaway.scheduled
         delete dataGiveaway.interval
         delete dataGiveaway.removed
         delete dataGiveaway.nextAt
         delete dataGiveaway.code
+        delete dataGiveaway.updatedAt
+        delete dataGiveaway.createdAt
+        delete dataGiveaway.id
 
         try {
             await client.objects.giveaways.create(dataGiveaway)
         } catch (error) {
+            console.log(error.message)
+
             return msg.delete()
         }
 

@@ -11,11 +11,9 @@ module.exports = async (client = new Client(), db = new Sequelize()) => {
 
         const data = await d.toJSON()
 
-        if (data.interval > 0) {
+        if (data.interval !== null) {
             if (data.removed === false) {
-
                 setGiveawayTimeout(client, data)
-
             }
         } else {
             const guild = client.guilds.cache.get(data.guildID)

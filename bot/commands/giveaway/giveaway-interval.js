@@ -148,7 +148,7 @@ module.exports = {
     
                 setGiveawayTimeout(client, data)
 
-                message.channel.send(`Giveaway will start in ${interval.string}.`)
+                message.channel.send(`Giveaway will start in ${interval.string} and will be repeated every ${interval.string}.\nIf you'd like to stop this scheduled giveaway, use \`${client.prefix}remove-interval ${data.code}\`.`)
                 
                 try {
                     await client.objects.giveaways.create(data)

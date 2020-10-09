@@ -7,6 +7,11 @@ module.exports ={
     usages: [
         "<option: add | delete> <channel>"
     ],
+    aliases: [
+        "ignorechannel",
+        "ig",
+        "ignorech"
+    ],
     examples: [
         "add 678493937573829268",
         "delete #channel",
@@ -46,7 +51,7 @@ module.exports ={
             channels = channels.filter(id => id !== channel.id)
 
             message.channel.send(`Successfully whitelisted ${channel}, new messages sent there will be counted.`)
-        }
+        } else return message.channel.send(`Invalid option given.`)
 
         await client.objects.guilds.update({
             ignoreChannels: JSON.stringify(channels)
