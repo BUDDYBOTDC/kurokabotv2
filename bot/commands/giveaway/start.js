@@ -234,7 +234,8 @@ ${fields}
 
             data.messageID = giveaway.id 
             data.guildID = message.guild.id
-
+            data.userID = message.author.id
+            
             await client.objects.giveaways.create(data)
 
             new giveawayMessage(giveaway, data)

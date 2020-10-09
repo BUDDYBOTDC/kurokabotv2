@@ -31,7 +31,7 @@ module.exports = {
 
         if (!m) return message.channel.send(`Could not find the giveaway, make sure its in this guild and the message ID is correct.`)
 
-        if (m.get("userID") !== message.author.id) return message.channel.send(`You are not hosting this giveaway, therefore you cannot edit it.`)
+        if (m.get("userID") !== message.author.id && !client.owners.includes(message.author.id)) return message.channel.send(`You are not hosting this giveaway, therefore you cannot edit it.`)
 
         if (m.get("ended") === true) return message.channel.send(`This giveaway has already been added.`)
 
