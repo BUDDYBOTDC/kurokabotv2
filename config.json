@@ -1,7 +1,7 @@
 {
-    "sus_token": "NzU0MDI0NDYzMTM3MjQzMjA2.X1uuAQ.SE_xv2DW1_fjLBKunMP8oXYu2sI",
-    "token": "NzU2ODU0OTUyODU2Mzg3Njk0.X2X6Gg.XVfjSdV9fmIMiez8-Wj6glZUuNA",
-    "prefixes": ["k?", "?k"],
-    "prefix": "k?",
+    "token": "NzU0MDI0NDYzMTM3MjQzMjA2.X1uuAQ.SE_xv2DW1_fjLBKunMP8oXYu2sI",
+    "sus_token": "NzU2ODU0OTUyODU2Mzg3Njk0.X2X6Gg.XVfjSdV9fmIMiez8-Wj6glZUuNA",
+    "prefixes": ["k!", "!k"],
+    "prefix": "k!",
     "yt_apis": ["AIzaSyDuHn3s6irEOBUpz_X-ZqoFT_AqKfY2tBY"]
 }
