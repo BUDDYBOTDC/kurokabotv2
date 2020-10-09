@@ -1,4 +1,5 @@
 const { Client } = require("discord.js");
+const { DATE } = require("sequelize");
 const giveawayMessage = require("../classes/giveawayMessage");
 const sendShardMessage = require("../functions/sendShardMessage");
 
@@ -23,7 +24,7 @@ const setGiveawayTimeout = (client = new Client(), data) => {
         let dataGiveaway =  {...data}
 
         dataGiveaway.messageID = msg.id 
-        dataGiveaway.endsAt = Date.now() + data.time
+        dataGiveaway.endsAt = Date.now() + new Date(data.time).getTime()
         
         delete dataGiveaway.scheduled
         delete dataGiveaway.interval
@@ -44,7 +45,7 @@ const setGiveawayTimeout = (client = new Client(), data) => {
 
         new giveawayMessage(msg, dataGiveaway)
 
-        data.nextAt = Date.now() + data.interval
+        data.nextAt = Date.now() + new Date(data.interval).getTime()
 
         await client.objects.giveaways.update(data, {
             where: {
@@ -53,7 +54,7 @@ const setGiveawayTimeout = (client = new Client(), data) => {
         })
 
         setGiveawayTimeout(client, data)
-    }, data.nextAt - Date.now())
+    }, new Date(data.nextAt).getTime() - Date.now())
 }
 
 module.exports = setGiveawayTimeout 
