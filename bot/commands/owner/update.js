@@ -1,5 +1,6 @@
 const { Client, Message, MessageManager, MessageEmbed } = require("discord.js");
 const { readdirSync } = require("fs");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports = {
     name: "update",
@@ -32,8 +33,10 @@ module.exports = {
                 }
             }
     
+            const color = await getCustomEmbed(client, message.guild.id, "owner")
+
             const embed = new MessageEmbed()
-            .setColor("GREEN")
+            .setColor(color)
             .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
             .setAuthor(`Successfully updated ${client.user.username} commands:`)
             .setDescription(

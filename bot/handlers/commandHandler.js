@@ -51,6 +51,12 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
         if (userData.get("isBanned") === true) return
     }
 
+    if (command.premium) {
+        if (!guildData.get("premium")) {
+            return message.channel.send(`This guild is not premium, therefore can't use this command.`)
+        }
+    }
+
     if (command.permissions && !command.permissions.every(perm => message.member.hasPermission(perm)) && !client.owners.includes(message.author.id)) {
         if (command.overridePermissions) {
             const d = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})

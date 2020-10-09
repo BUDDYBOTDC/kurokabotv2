@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 const isAdmin = require("../../functions/isAdmin");
 const isStaff = require("../../functions/isStaff");
 const shardGuild = require("../../functions/shardGuild");
@@ -46,10 +47,12 @@ module.exports = {
                     categories[command.category].push(`\`${client.prefix}${command.name}\``)
                 })
 
+                const embedColor = await getCustomEmbed(client, message.guild.id, "info")
+                
                 await new Promise(e => setTimeout(e, 300))
 
                 const embed = new MessageEmbed()
-                .setColor("BLUE")
+                .setColor(embedColor)
                 .setAuthor(`${client.user.username} Command List:`, message.author.displayAvatarURL({dynamic:true}))
                 .setThumbnail(client.user.displayAvatarURL())
                 .setDescription(commands.join("\n\n") + `\n\nInvite ${client.user.username} [here](https://discord.com/oauth2/authorize?client_id=754024463137243206&scope=bot&permissions=8) (or use \`k!invite\` if you can't click hyperlinks)

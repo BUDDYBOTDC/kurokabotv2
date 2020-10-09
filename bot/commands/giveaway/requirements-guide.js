@@ -1,4 +1,5 @@
 const { Message, MessageEmbed, Client } = require("discord.js");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports = {
     name: "requirements-guide",
@@ -15,8 +16,10 @@ module.exports = {
     category: "giveaway",
     execute: async (client = new Client(), message = new Message(), args = []) => {
 
+        const color = await getCustomEmbed(client, message.guild.id, "giveaway")
+
         const embed =new MessageEmbed()
-        .setColor("BLUE")
+        .setColor(color)
         .setTitle(`Requirements Guide - Giveaway Command`)
         .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
         .addField(`Valid Fields:`, `

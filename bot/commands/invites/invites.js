@@ -1,5 +1,6 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const findMember = require("../../functions/findMember");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 const tableVariablesValues = require("../../utils/tableVariablesValues");
 
 module.exports = {
@@ -30,9 +31,11 @@ module.exports = {
 
             const user = await client.users.fetch(data.invited_by, false).catch(err => {})
 
+            const color = await getCustomEmbed(client, message.guild.id, "invites")
+
             let invitedBy = !user ? "" : `**Invited By**: ${user.tag}\n`
             const embed = new MessageEmbed()
-            .setColor("BLUE")
+            .setColor(color)
             .setAuthor(`${member.user.username}'s Invites:`, member.user.displayAvatarURL({dynamic:true}))
             .setThumbnail(client.user.displayAvatarURL())
             .setDescription(`${invitedBy}**Total Invites**: ${data.invites_real + data.invites_fake || 0}

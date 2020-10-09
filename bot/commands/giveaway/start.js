@@ -7,7 +7,8 @@ const daysToMs = require("../../utils/daysToMs");
 const getRequirements = require("../../handlers/getRequirements");
 const logGiveaway = require("../../handlers/logGiveaway");
 const isMakingOne = new Collection()
-const parse = require("ms-parser")
+const parse = require("ms-parser");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports = {
     name: "start",
@@ -32,8 +33,10 @@ real_invites <number>
 fake_invites <number>
 total_invites <number>`
 
+        const color = await getCustomEmbed(client, message.guild.id, "giveaway")
+
         const embed = new MessageEmbed()
-        .setColor("BLUE")
+        .setColor(color)
         .setTitle(`Giveaway setup`)
         .setDescription(`Alright, let's start, what are you giving away?`)
         .setFooter(`As for example, a shirt\nType "cancel" to cancel the setup.`)

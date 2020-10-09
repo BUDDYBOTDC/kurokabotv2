@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports = {
     name: "invites-leaderboard",
@@ -36,8 +37,11 @@ module.exports = {
         let ms = Date.now()
 
         try {
+
+            const color = await getCustomEmbed(client, message.guild.id, "invites")
+
             const embed = new MessageEmbed()
-            .setColor("GREEN")
+            .setColor(color)
             .setThumbnail(client.user.displayAvatarURL())
             .setTitle(`Invites Leaderboard For ${message.guild.name}`)
             .setURL("https://discord.gg/f7MCvQJ")

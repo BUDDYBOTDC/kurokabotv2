@@ -1,4 +1,5 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports = {
     name: "leaderboard",
@@ -55,8 +56,10 @@ module.exports = {
 
         let x = page * 10 - 10, y = page * 10
 
+        const color = await getCustomEmbed(client, message.guild.id, "giveaway")
+
         const embed = new MessageEmbed()
-        .setColor("BLUE")
+        .setColor(color)
         .setTitle(`Message Leaderboard for ${message.guild.name}:`)
         .setThumbnail(client.user.displayAvatarURL())
         .setDescription(content.slice(x, y))

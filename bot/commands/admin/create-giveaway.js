@@ -1,6 +1,7 @@
 const { Message, Client, MessageEmbed } = require("discord.js");
 const parse = require("ms-parser");
 const giveawayMessage = require("../../classes/giveawayMessage");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 const shardChannel = require("../../functions/shardChannel");
 const shardGuildChannel = require("../../functions/shardGuildChannel");
 const shardMessage = require("../../functions/shardMessage");
@@ -51,8 +52,10 @@ module.exports = {
 
             if (!time) return message.channel.send(`Failed to parse time.`)
 
+            const color = await getCustomEmbed(client, message.guild.id, "admin")
+
             const embed = new MessageEmbed()
-            .setColor("GREEN")
+            .setColor(color)
             .setTitle(`Giveaway assigned`)
             .setThumbnail(client.user.displayAvatarURL())
             .setDescription(`Title: ${title}\nWinners: ${winners}\nTime ${time.string}`)

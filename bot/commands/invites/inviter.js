@@ -1,5 +1,6 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
-const findMember = require("../../functions/findMember")
+const findMember = require("../../functions/findMember");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports = {
     name: "inviter",
@@ -27,8 +28,10 @@ module.exports = {
 
         const inviter = await client.users.fetch(m.get("invited_by"), false).catch(err=> {})
 
+        const color = await getCustomEmbed(client, message.guild.id, "invites")
+
         const embed = new MessageEmbed()
-        .setColor("GREEN")
+        .setColor(color)
         .setAuthor(`${member.user.username} was invited by:`, member.user.displayAvatarURL({dynamic:true}))
         .setDescription(inviter ? inviter.tag : "Unknown")
 

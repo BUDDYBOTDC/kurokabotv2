@@ -1,7 +1,8 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const ms = require("ms");
 const addPremium = require("../../functions/addPremium");
-const parse = require("ms-parser")
+const parse = require("ms-parser");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports ={
     name: "redeem",
@@ -30,16 +31,18 @@ module.exports ={
 
         const option = await addPremium(client, message.guild.id, d)
 
+        const color = await getCustomEmbed(client, message.guild.id, "giveaway")
+
         if (option === "extended") {
             const embed = new MessageEmbed()
-            .setColor("GREEN")
+            .setColor(color)
             .setAuthor(`${message.author.username} redeemed a premium code!`, message.author.displayAvatarURL({dynamic:true}))
             .setDescription(`Successfully used code with key ${args[0]}, premium has been extended for ${parse(ms(d.time)).string}.`)
             
             message.channel.send(embed)
         } else {
             const embed = new MessageEmbed()
-            .setColor("GREEN")
+            .setColor(color)
             .setAuthor(`${message.author.username} redeemed a premium code!`, message.author.displayAvatarURL({dynamic:true}))
             .setDescription(`Successfully used code with key ${args[0]}.\nThis guild is now premium and will last for ${parse(ms(d.time)).string}.`)
             

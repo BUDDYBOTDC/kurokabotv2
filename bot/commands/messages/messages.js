@@ -1,5 +1,6 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const findMember = require("../../functions/findMember");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports= {
     name: "messages",
@@ -32,8 +33,10 @@ module.exports= {
 
         let top = all.sort((x, y) => y.messages - x.messages).findIndex(x => x.userID === message.author.id) + 1 + "#" || "Not registered"
 
+        const color = await getCustomEmbed(client, message.guild.id, "messages")
+
         const embed = new MessageEmbed()
-        .setColor(member.displayHexColor)
+        .setColor(color)
         .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
         .setAuthor(`${member.user.username}'s messages sent in this guild`, member.user.displayAvatarURL({dynamic:true}), "https://discord.gg/sarfdEp")
         .setDescription(`${member.user.tag}'s Leaderboard Top: ${top}\n${member.user.id === message.author.id ? `You've` : "They've"} sent a total of ${item.toLocaleString()} messages in \`${message.guild.name}\`.`)

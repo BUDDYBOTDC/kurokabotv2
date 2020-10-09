@@ -1,6 +1,7 @@
 const { Client, Message, MessageEmbed } = require("discord.js");
 const ms = require("parse-ms")
 const os = require("os-utils");
+const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports = {
     name: "stats",
@@ -32,9 +33,11 @@ module.exports = {
             await client.users.fetch(id)
         }
 
+        const color = await getCustomEmbed(client, message.guild.id, "info")
+        
         const embed = new MessageEmbed()
         .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
-        .setColor("GREEN")
+        .setColor(color)
         .setTitle(`${client.user.username}'s Statistics:`)
         .addField(`Developer`, client.owners.map(id => client.users.cache.get(id).tag))
         .addField(`Library`, "discord.js v12.3.1")
