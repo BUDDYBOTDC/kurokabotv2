@@ -43,7 +43,7 @@ module.exports = {
         title: "",
         time: 0,
         requirements: 0,
-        removeCache: 0
+        removeCache: 0,
     },
 
     USER: (user = new User()) => {

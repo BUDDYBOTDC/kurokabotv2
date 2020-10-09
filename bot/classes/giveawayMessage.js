@@ -11,9 +11,9 @@ class giveawayMessage {
 
         this.message = msg
 
-        if (typeof this.message.react !== "function") return
-        
-        this.message.react("🎉")
+        if (typeof this.message.react === "function") {
+            this.message.react("🎉")
+        }
 
         this.data = data
 

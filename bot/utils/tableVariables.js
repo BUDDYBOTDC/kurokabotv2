@@ -37,7 +37,12 @@ module.exports = {
         title: Sequelize.STRING,
         time: Sequelize.DATE,
         requirements: Sequelize.JSON,
-        removeCache: Sequelize.DATE
+        removeCache: Sequelize.DATE,
+        scheduled: Sequelize.BOOLEAN,
+        interval: Sequelize.BIGINT,
+        nextAt: Sequelize.BIGINT,
+        removed: Sequelize.BOOLEAN,
+        code: Sequelize.STRING
     },
 
     USER: {
@@ -59,3 +64,5 @@ module.exports = {
         redeemed: Sequelize.BOOLEAN   
     }
 }
+
+

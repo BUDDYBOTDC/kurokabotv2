@@ -111,10 +111,9 @@ module.exports = {
 
             new giveawayMessage(giveaway_m, data)
 
-            logGiveaway(client, data)
-
         } catch(err) {
             return message.channel.send("There was an error while trying to make the giveaway.\nMake sure you used quotes in the first field and those quotes are \" \" and not \' \'")
         }
     }
 }
+

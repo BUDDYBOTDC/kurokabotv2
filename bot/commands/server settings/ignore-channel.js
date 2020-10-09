@@ -34,7 +34,7 @@ module.exports ={
 
             channels.push(channel.id)
 
-            message.channel.send(`Successfully blacklisted ${channel}, new messages sent here won't be counted.`)
+            message.channel.send(`Successfully blacklisted ${channel}, new messages sent there won't be counted.`)
             
         } else if (option === "delete") {
             const channel = findChannel(message, args, false)
@@ -45,7 +45,7 @@ module.exports ={
 
             channels = channels.filter(id => id !== channel.id)
 
-            message.channel.send(`Successfully whitelisted ${channel}, new messages sent here will be counted.`)
+            message.channel.send(`Successfully whitelisted ${channel}, new messages sent there will be counted.`)
         }
 
         await client.objects.guilds.update({

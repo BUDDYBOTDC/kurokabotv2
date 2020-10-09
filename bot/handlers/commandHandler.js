@@ -52,7 +52,7 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
     }
 
     if (command.premium) {
-        if (!guildData.get("premium")) {
+        if (!guildData.get("premium") && !client.owners.includes(message.author.id)) {
             return message.channel.send(`This guild is not premium, therefore can't use this command.`)
         }
     }
