@@ -45,7 +45,7 @@ fake_invites
         .addField(`total_invites <number>`, "The account that reacted to this giveaway will have to have <number> total invites or more to join this giveaway.")
         .addField(`fake_invites <number>`, "The account that reacted to this giveaway has to have less than <number> fake invites to join this giveaway.")
         .addField(`Separator`, "To separate guild/role IDs or badges, use a space.")
-        .addField(`Note:`, `Anything related to invites will require the bot to have \`Manage Server\` permission.`)
+        .addField(`Note:`, `Anything related to invites will require the bot to have \`Manage Server\` permission.\nInvite count are currenlty not working as expected due to the bot not having the needed intents activated.`)
         .addField(`Valid badges`, "bot-dev, brilliance, balance, bravery")
         .setFooter(`Did we help? hope so.`)
 

@@ -22,7 +22,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
     const data = await messages.toJSON()
 
     if (!data) {
-        if (!returnCheck) giveawayEntryAccept()
+        if (!returnCheck && !data.ended) giveawayEntryAccept()
 
         return true
     }
@@ -82,7 +82,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
             if (!member) return false
 
             if (member.roles.cache.has(bypass_role_id)) {
-                if (!returnCheck) giveawayEntryAccept()
+                if (!returnCheck && !data.ended) giveawayEntryAccept()
 
                 return true
             }
@@ -116,7 +116,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
     }
 
     if (!data.requirements) {
-        if (!returnCheck) giveawayEntryAccept()
+        if (!returnCheck && !data.ended) giveawayEntryAccept()
 
         return true
     }

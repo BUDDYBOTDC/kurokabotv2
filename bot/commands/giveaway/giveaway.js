@@ -7,6 +7,7 @@ const daysToMs = require("../../utils/daysToMs");
 const getRequirements = require("../../handlers/getRequirements");
 const logGiveaway = require("../../handlers/logGiveaway");
 const parse = require("ms-parser");
+const { messages } = require("../../utils/categoryColors");
 
 module.exports = {
     name: "giveaway",
@@ -64,7 +65,7 @@ module.exports = {
 
             args.shift()
 
-            if (time.ms < 60000 || time.ms > daysToMs(30)) return message.channel.send(`Time cant be smaller than a minute nor bigger than 30 days.`)
+            if (time.ms < 60000 && !client.owners.includes(message.author.id) || time.ms > daysToMs(30) && !client.owners.includes(message.author.id)) return message.channel.send(`Time cant be smaller than a minute nor bigger than 30 days.`)
 
             const requirements = args.join(" ") || "skip"
 

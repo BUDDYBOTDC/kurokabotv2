@@ -39,6 +39,6 @@ module.exports = {
             redeemed: false,
         })
 
-        message.channel.send(`Promocode with value of ${time.string} generated.\nKey: \`${key}\``)
+        message.channel.send(`Premium code with value of ${time.string} generated.\nKey: \`${key}\``)
     }
 }

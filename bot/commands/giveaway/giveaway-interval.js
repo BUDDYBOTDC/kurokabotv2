@@ -7,6 +7,7 @@ const daysToMs = require("../../utils/daysToMs");
 const giveawayMessage = require("../../classes/giveawayMessage");
 const randomKey = require("../../functions/randomKey");
 const setGiveawayTimeout = require("../../handlers/setGiveawayIntervalTimeout");
+const { messages } = require("../../utils/categoryColors");
 
 module.exports = {
     name: "giveaway-interval",
@@ -144,6 +145,8 @@ module.exports = {
                 new giveawayMessage(giveaway_m, dataGiveaway) 
                 
                 setGiveawayTimeout(client, data)
+
+                message.channel.send(`This giveaway will be repeated every ${interval.string}.\nIf you'd like to stop this scheduled giveaway, use \`${client.prefix}remove-interval ${data.code}\`.`)
             } else {   
     
                 setGiveawayTimeout(client, data)

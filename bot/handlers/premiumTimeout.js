@@ -5,7 +5,7 @@ module.exports = async (client = new Client(), guild = new Guild()) => {
 
     const guildData = await client.objects.guilds.findOne({ where: { guildID: guild.id }})
 
-    if (guildData.get("premium") && guildData.get("premiumEndsAt") <= daysToMs(7)) {
+    if (guildData.get("premium") && guildData.get("premiumEndsAt") - Date.now() <= daysToMs(7)) {
         setTimeout(() => {
             client.objects.guilds.update({
                 premium: false,

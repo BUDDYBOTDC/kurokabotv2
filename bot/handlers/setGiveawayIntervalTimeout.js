@@ -7,7 +7,11 @@ const setGiveawayTimeout = (client = new Client(), data) => {
     setTimeout(async () => {
         const newData = await client.objects.giveaways.findOne({ where: { code: data.code }})
 
-        if (newData.get("removed")) return
+        const guildData = await client.objects.guilds.findOne({ where: { guildID: data.guildID }})
+
+        if (!guildData.get("premium")) return 
+
+        if (newData.get("removed")) return console.log("1")
 
         const channel = client.channels.cache.get(data.channelID)
 
