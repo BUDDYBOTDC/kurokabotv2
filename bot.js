@@ -19,6 +19,15 @@ const client = new Discord.Client({
     messageSweepInterval: 0,
     messageCacheLifetime: 0,
     disableMentions: "everyone",
+    ws: {
+        intents: [
+            "GUILDS",
+            "GUILD_MEMBERS",
+            "GUILD_INVITES",
+            "GUILD_MESSAGES",
+            "GUILD_MESSAGE_REACTIONS"
+        ]
+    }
 })
 
 const config = require("./config.json")
