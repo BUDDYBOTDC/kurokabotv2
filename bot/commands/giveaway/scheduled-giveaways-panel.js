@@ -10,7 +10,6 @@ module.exports = {
     description: "displays information about the current scheduled giveaways of this guild.",
     cooldown: 5000,
     category: "giveaway",
-    premium: true,
     aliases: [
         "scheduledgiveawayspanel",
         "sgpanel",

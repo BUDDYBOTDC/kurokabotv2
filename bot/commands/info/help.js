@@ -57,7 +57,7 @@ module.exports = {
                 .setThumbnail(client.user.displayAvatarURL())
                 .setDescription(commands.join("\n\n") + `\n\nInvite ${client.user.username} [here](https://discord.com/oauth2/authorize?client_id=754024463137243206&scope=bot&permissions=8) (or use \`k!invite\` if you can't click hyperlinks)
 Found a bug? Report it on our [Support Server](https://discord.gg/f7MCvQJ)! (or use \`k!support\` if you can't click hyperlinks)`)
-                .setFooter(`Need more information on a specific command? use ${client.prefix}help [commandName] for more infomartion on a command!`)
+                .setFooter(`Need more information on a specific command? Use ${client.prefix}help [commandName] for more infomartion on a command!`)
 
                 for (const category of Object.entries(categories)) {
                     embed.addField(`**__${category[0].toUpperCase()}__**`, category[1].join(", "))

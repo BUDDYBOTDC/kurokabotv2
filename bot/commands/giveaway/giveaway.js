@@ -20,6 +20,7 @@ module.exports = {
     permissions: [
         "MANAGE_GUILD"
     ],
+    maxGiveaways: 30,
     cooldown: 5000,
     usages: [
         '"<item>" <channel | here> <winners> <time> [requirements | skip]'

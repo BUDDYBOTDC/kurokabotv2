@@ -3,7 +3,7 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 module.exports = {
     name: "giveaways",
     description: "displays IDs of giveaways",
-    category: "admin",
+    category: "staff",
     fields: [
         "<page>"
     ],

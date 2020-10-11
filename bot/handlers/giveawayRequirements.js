@@ -159,11 +159,19 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
             if (req_value.join(" ").startsWith("select from")) {
                 const start = Number(req_value[2])
 
+                let test = req_value[req_value.length - 1]
+
                 const end = Number(req_value[4])
 
                 const roles = () => reaction.message.guild.roles.cache.array().filter(r => !r.managed).sort((r1, r2) => r1.position - r2.position).slice(start, end + 1).map(r => r.id)
 
-                req_value = roles()
+                if (test === "--single") {
+                    req_value = roles()
+
+                    req_value.push("--single")
+                } else {
+                    req_value = roles()
+                }
             }
 
             let oneRoleOnly = false
@@ -176,6 +184,8 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                 req_value.pop()
 
                 const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
+
+                if (!member) return false
 
                 if (member.roles.cache.some(r => req_value.includes(r.id))) {
                     if (!returnCheck) giveawayEntryAccept()
@@ -233,6 +243,25 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                 }
             }
         } else if (req_name === "badges") {
+
+            let oneBadgeOnly = false
+
+            const filter = req_value[req_value.length - 1]
+
+            if (filter === "--single") {
+                oneBadgeOnly = true
+
+                req_value.pop()
+
+                const badges = Object.values(badgesFlags)
+
+                if (user.flags.toArray().some(e => badges.includes(e))) {
+                    if (!returnCheck) giveawayEntryAccept()
+
+                    return true
+                }
+            }
+
             for (const b of req_value) {
                 const badgeName = badgesFlags[b]
 

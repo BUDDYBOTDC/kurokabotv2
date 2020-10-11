@@ -15,6 +15,7 @@ module.exports = {
     overridePermissions: true,
     description: "starts a giveaway in given channel (or in the current one)",
     permissions: ["MANAGE_GUILD"],
+    maxGiveaways: 30,
     clientPermissions: ["MANAGE_MESSAGES"],
     cooldown: 10000,
     category: "giveaway",

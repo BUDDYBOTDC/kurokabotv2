@@ -35,6 +35,7 @@ module.exports = async (d) => {
 
         const text = fields[req[0]]
 
+        let oneBadgeOnly = false
         let oneRoleOnly = false
 
         let replacer 
@@ -67,6 +68,14 @@ module.exports = async (d) => {
             
             const roles = []
 
+            const filter = req[1][req[1].length - 1]
+
+            if (filter === "--single") {
+                req[1].pop()
+
+                oneRoleOnly = true
+            }
+
             if (req[1].join(" ").startsWith("select from")) {
                 const start = Number(req[1][2])
 
@@ -86,14 +95,6 @@ module.exports = async (d) => {
             if (req[1].length > 10) return { message: "Can't select more than 10 roles at field roles."}
 
             for (const id of req[1]) {
-
-                const filter = req[1][req[1].length - 1]
-
-                if (filter === "--single") {
-                    req[1].pop()
-
-                    oneRoleOnly = true
-                }
 
                 if (id !== "") {
 
@@ -142,6 +143,15 @@ module.exports = async (d) => {
             }
         } else if (req[0] === "badges") {
             if (!req[1][0]) return { message: `No badge given for field badges.` }
+
+            const filter = req[1][req[1].length - 1]
+
+            if (filter === "--single") {
+                req[1].pop()
+
+                oneBadgeOnly = true
+            }
+
             for (const badge of req[1]) {
                 if (badge !== "") {
                     let b = badges[badge]
@@ -206,6 +216,8 @@ module.exports = async (d) => {
         if (replacer !== undefined) {
             if (oneRoleOnly) {
                 requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("the roles", "one of the roles: ").replace("{0}", replacer)}`)
+            } else if (oneBadgeOnly) {
+                requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("the badges", "one of the badges: ").replace("{0}", replacer)}`)
             } else {
                 requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("{0}", replacer)}`)
             }

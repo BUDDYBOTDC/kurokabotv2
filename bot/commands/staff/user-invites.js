@@ -4,7 +4,9 @@ module.exports = {
     name: "user-invites",
     description: "see the IDs of the users an user has invited to this guild.",
     aliases: [
-        "userinvites"
+        "userinvites",
+        "uinvites",
+        "invitesu"
     ],
     cooldown: 5000,
     category: "staff",

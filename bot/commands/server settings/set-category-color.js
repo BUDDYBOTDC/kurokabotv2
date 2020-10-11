@@ -16,7 +16,6 @@ module.exports = {
     cooldown: 3000,
     category: "server settings",
     description: "sets the color of embeds of given category name. (premium only)",
-    premium: true,
     usages: [
         "<color> <category>"
     ],

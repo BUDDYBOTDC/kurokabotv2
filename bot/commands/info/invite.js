@@ -17,7 +17,7 @@ module.exports = {
         .setDescription(
             `https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8`
         )
-        .setFooter(`Permissions are set to admin by default. (recommendable perms)`)
+        .setFooter(`Permissions are set to admin by default. (recommended perms)`)
 
         message.channel.send(embed)
     }

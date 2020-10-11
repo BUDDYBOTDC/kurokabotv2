@@ -3,6 +3,13 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 module.exports = {
     name: "user-info",
     description: "returns the user info from the database",
+    aliases: [
+        "userinfo",
+        "user",
+        "ui",
+        "useri",
+        "uinfo"
+    ],
     category: "staff",
     fields: [
         "<userID>"

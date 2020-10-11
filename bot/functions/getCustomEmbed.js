@@ -10,15 +10,12 @@ module.exports = async (client = new Client(), guildID = new String(), category 
         }
     })
 
-    if (guildData.get("premium")) {
-
-        let embeds = JSON.parse(guildData.get("customEmbeds"))
+    let embeds = JSON.parse(guildData.get("customEmbeds"))
         
-        if (embeds[category]) {
-            return embeds[category]
-        } else {
-            return categoryColors[category]
-        }
+    if (embeds[category]) {
+        return embeds[category]
+    } else {
+        return categoryColors[category]
+    }
 
-    } else return categoryColors[category]
 }

@@ -73,6 +73,22 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
 
     if (command.clientPermissions && !command.clientPermissions.every(perm => message.guild.me.hasPermission(perm)) && !client.owners.includes(message.author.id)) return clientPermissionsError(message, command)
 
+    if (command.maxGiveaways) {
+        const currentGiveaways = await client.objects.giveaways.findAll({ where: { ended: false, guildID: message.guild.id, removed: null }})
+
+        if (currentGiveaways.length >= command.maxGiveaways) {
+            return message.channel.send(`This guild has hit the limit of active giveaways. (${command.maxGiveaways})`)
+        }
+    }
+
+    if (command.maxIntervalGiveaways) {
+        const currentIntervalGiveaways = await client.objects.giveaways.findAll({ where: { removed: false, guildID: message.guild.id }})
+
+        if (currentIntervalGiveaways.length >= command.maxIntervalGiveaways) {
+            return message.channel.send(`This guild has hit the limit of scheduled giveaways. (${command.maxIntervalGiveaways})`)
+        }
+    }
+
     if (command.usages && !args.length) return usageError(message, command)
 
     if (command.cooldown && !client.owners.includes(message.author.id)) {

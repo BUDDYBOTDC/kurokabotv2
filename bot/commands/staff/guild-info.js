@@ -4,6 +4,12 @@ const shardGuild = require("../../functions/shardGuild");
 module.exports = {
     name: "guild-info",
     description: "returns the guild info from the database",
+    aliases: [
+        "gi",
+        "guildinfo",
+        "ginfo",
+        "guildi"
+    ],
     category: "staff",
     fields: [
         "<guildID>"

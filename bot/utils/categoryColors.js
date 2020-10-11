@@ -5,5 +5,6 @@ module.exports = {
     "server settings": "61FF88",
     staff: "E5FF61",
     messages: "FF6198",
-    invites: "FF6164"
+    invites: "FF6164",
+    owner: "ff00ff"
 }

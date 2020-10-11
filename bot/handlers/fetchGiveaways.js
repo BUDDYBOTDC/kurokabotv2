@@ -27,15 +27,12 @@ module.exports = async (client = new Client(), db = new Sequelize()) => {
                     const m = await channel.messages.fetch(data.messageID).catch(err => {})
     
                     if (m) {
-    
-                        if (data.removeCache && Date.now() >= data.removeCache) {
-                            console.log(`Giveaway with ID ${data.messageID} removed, reason: expired`)
-                        } else {
-                            if (data.ended === false) {
-                                const giveaway = new giveawayMessage(m, data)
-    
-                                giveaway.checkReactions()
-                            }
+                        if (data.ended === false) {
+
+                            const giveaway = new giveawayMessage(m, data)
+
+                            giveaway.checkReactions()
+                        
                         }
                     }
                 }

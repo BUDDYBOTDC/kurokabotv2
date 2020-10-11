@@ -12,6 +12,8 @@ module.exports = {
         
         const users = await client.shard.fetchClientValues("users.cache.size")
 
+        const giveaways = await client.objects.giveaways.findAll()
+
         const userTotal = await client.shard.broadcastEval(`
         (async () => {
             let amount = 0
@@ -45,9 +47,10 @@ module.exports = {
         .addField(`Memory usage`, (process.memoryUsage().rss / 1024 / 1024).toFixed(2) + "mb")
         .addField(`Shard count`, client.shard.count)
         .addField(`Shard ID`, message.guild.shardID)
-        .addField(`Guild count`, guildTotal.reduce((x,y) => x + y, 0 ))
-        .addField(`Cached user count`, client.users.cache.size)
-        .addField(`User count`, userTotal.reduce((x,y) => x + y, 0))
+        .addField(`Total Giveaways Created:`, giveaways.length.toLocaleString())
+        .addField(`Guild count`, guildTotal.reduce((x,y) => x + y, 0 ).toLocaleString())
+        .addField(`Cached user count`, client.users.cache.size.toLocaleString())
+        .addField(`User count`, userTotal.reduce((x,y) => x + y, 0).toLocaleString())
         .addField(`Uptime`, Object.entries(ms(client.uptime)).map((x, y) => {
             if (x[1] > 0 && y < 4) return `${x[1]} ${x[0]}`
             else return ""

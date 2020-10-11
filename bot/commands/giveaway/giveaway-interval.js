@@ -22,9 +22,9 @@ module.exports = {
         "MANAGE_MESSAGES",
         "ADD_REACTIONS"
     ],
-    premium: true,
     category: "giveaway",
     cooldown: 10000,
+    maxIntervalGiveaways: 10,
     usages: [
         '"<title>" <channel | here> <winners> <time> <interval> <startNow> <requirements | skip>'
     ],
@@ -160,8 +160,6 @@ module.exports = {
                 }
             }
         } catch (error) {
-            console.log(error)
-
             return message.channel.send(`Error! ${error.message}`)
         }
     }
