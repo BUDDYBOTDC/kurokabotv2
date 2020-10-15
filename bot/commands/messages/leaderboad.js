@@ -16,7 +16,7 @@ module.exports = {
     ],
     description: "displays a leaderboard sorted by amount of messages sent by users",
     cooldown: 15000,
-    category: "giveaway",
+    category: "messages",
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
 
         const execution = Date.now()
@@ -36,15 +36,12 @@ module.exports = {
         for (const d of data) {
             const ID = d.userID
 
-            const member = message.guild.member(ID)
+            t++
 
-            if (member) {
-                t++
+            content.push(`${t}# - **<@${ID}>**: ${Number(d.messages).toLocaleString()} messages`)
 
-                content.push(`${t}# - **${member.user.tag}**: ${Number(d.messages).toLocaleString()} messages`)
-
-                if (ID === message.author.id) top = t
-            }
+            if (ID === message.author.id) top = t
+        
         }
 
         let page = Number(args[0]) || 1

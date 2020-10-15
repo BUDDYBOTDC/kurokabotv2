@@ -4,7 +4,7 @@ module.exports = async (client = new Client(), id = new String()) => {
 
     const admin = await client.shard.broadcastEval(`
     (async () => {
-        const guild = this.guilds.cache.get("${id}")
+        const guild = this.guilds.cache.get("550516279652515880")
 
         if (guild) {
 

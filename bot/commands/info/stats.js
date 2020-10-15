@@ -47,6 +47,7 @@ module.exports = {
         .addField(`Memory usage`, (process.memoryUsage().rss / 1024 / 1024).toFixed(2) + "mb")
         .addField(`Shard count`, client.shard.count)
         .addField(`Shard ID`, message.guild.shardID)
+        .addField(`Events/m:`, `${client.eventsFired.toLocaleString()}`)
         .addField(`Total Giveaways Created:`, giveaways.length.toLocaleString())
         .addField(`Guild count`, guildTotal.reduce((x,y) => x + y, 0 ).toLocaleString())
         .addField(`Cached user count`, client.users.cache.size.toLocaleString())

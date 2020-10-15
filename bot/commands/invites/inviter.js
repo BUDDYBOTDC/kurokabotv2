@@ -20,7 +20,7 @@ module.exports = {
     ],
     execute: async (client = new Client(), message = new Message(), args = []) => {
 
-        const member = findMember(message, args)
+        const member = await findMember(message, args)
 
         const m = await client.objects.guild_members.findOne({ where: { guildID: message.guild.id, userID: member.user.id }})
 

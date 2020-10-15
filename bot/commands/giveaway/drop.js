@@ -12,20 +12,26 @@ module.exports = {
     ],
     overridePermissions: true,
     usages: [
-        "<title> <channel | here>"
+        "<title> <pingRole: yes | no> <channel | here>"
     ],
     clientPermissions: [
         "ADD_REACTIONS"
     ],
     examples: [
-        "Nitro Classic here",
-        "Premium #drops"
+        "Nitro Classic yes here",
+        "Premium no #drops"
     ],
     execute: async (client = new Client(), message = new Message(), args = []) => {
 
         const channel = args[args.length - 1] === "here" ? message.channel : findChannel(message, [args[args.length - 1]], false)
 
         if (!channel) return message.channel.send(`Channel ${args[args.length - 1]} not found.`)
+
+        args.pop()
+
+        const option = args[args.length - 1]
+
+        if (!["yes", "no"].includes(option.toLowerCase())) return message.channel.send(`Invalid output given for pingRole argument.\nValid output: \`yes\` and \`no\``)
 
         args.pop()
 
@@ -44,7 +50,11 @@ module.exports = {
         .setFooter(`Drop will be removed in 60 seconds.`)
         .setURL("https://www.kurokabots.com")
 
-        const m = await channel.send(embed).catch(err => {})
+        const guildData = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
+
+        const prole = message.guild.roles.cache.get(guildData.get("giveaway_ping_role"))
+
+        const m = await channel.send(`${prole && option.toLowerCase() === "yes" ? `${prole}` : ""}`, embed).catch(err => {})
 
         const time = Date.now()
 
@@ -78,7 +88,7 @@ module.exports = {
 
         embed.setColor("GREEN")
         embed.setDescription(`${user} was the first user reacting!`)
-        embed.setFooter(`Reacted in ${Date.now() - time}ms.`)
+        embed.setFooter(`Reacted in ${((Date.now() - time) / 1000).toFixed(1)} seconds.`)
 
         m.edit(embed)
 

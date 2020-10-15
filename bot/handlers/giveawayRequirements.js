@@ -13,23 +13,31 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
     if (user.id === reaction.message.client.user.id) return
     
-    if (reaction.emoji.name !== "🎉") return
+    const { message } = reaction
+    
+    const guildData = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
+
+    const giveaway_emoji_name = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji").split(":")[1]
+
+    const giveaway_emoji_id = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji").split(":")[2]
+
+    const giveaway_emoji = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji")
+
+    if (reaction.emoji.name !== giveaway_emoji_name) return
 
     let messages = await reaction.message.client.objects.giveaways.findOne({ where: { messageID: reaction.message.id }})
 
     if (!messages) return
-    
-    const data = await messages.toJSON()
-
-    if (!data) {
-        if (!returnCheck && !data.ended) giveawayEntryAccept()
-
-        return true
-    }
 
     const client = reaction.message.client
 
-    const d = await client.objects.guilds.findOne({ where: { guildID: reaction.message.guild.id }})
+    const data = await messages.toJSON()
+
+    if (!data) {
+        if (!returnCheck && !data.ended && guildData.get("entry_dm")) giveawayEntryAccept()
+
+        return true
+    }
 
     function giveawayEntryAccept() {
 
@@ -71,34 +79,27 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
         return user.send(embed).catch(Err => {})
     }
 
-    if (d) {
-        const bypass_role_id = d.get("bypass_role")
+    if (guildData) {
 
-        const role = reaction.message.guild.roles.cache.get(bypass_role_id)
+        let blroles = []
+            
+        const blrolesData = JSON.parse(guildData.get("black_role"))
 
-        if (role) {
-            const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
+        if (blrolesData.length) {
+            blroles = blrolesData.map(id => {
+                let r = message.guild.roles.cache.get(id)
 
-            if (!member) return false
-
-            if (member.roles.cache.has(bypass_role_id)) {
-                if (!returnCheck && !data.ended) giveawayEntryAccept()
-
-                return true
-            }
+                if (r) return r.id
+            }).filter(e => e)
         }
 
-        const black_role_id = d.get("black_role")
-
-        const brole = reaction.message.guild.roles.cache.get(black_role_id)
-
-        if (brole) {
+        if (blroles.length) {
 
             const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
 
             if (!member) return false
 
-            if (member.roles.cache.has(black_role_id)) {
+            if (member.roles.cache.some(r => blroles.includes(r.id))) {
 
                 if (returnCheck) return false
 
@@ -108,15 +109,42 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                     if (!r) return
 
-                    return giveawayEntryError(`You have a role that was blacklisted in this guild. (${reaction.message.guild.name})`)
+                    if (guildData.get("deny_dm")) {
+                        giveawayEntryError(`You have a role that was blacklisted in this guild. (${reaction.message.guild.name})`)
+                    }
 
+                    return
                 }
+            }
+        }
+
+        let broles = []
+            
+        const rolesData = JSON.parse(guildData.get("bypass_role"))
+
+        if (rolesData.length) {
+            broles = rolesData.map(id => {
+                let r = message.guild.roles.cache.get(id)
+
+                if (r) return r.id
+            }).filter(e => e)
+        }
+
+        if (broles.length) {
+            const member = await reaction.message.guild.members.fetch(user.id).catch(err => {})
+
+            if (!member) return false
+
+            if (member.roles.cache.some(r => broles.includes(r.id))) {
+                if (!returnCheck && !data.ended && guildData.get("entry_dm")) giveawayEntryAccept()
+
+                return true
             }
         }
     }
 
     if (!data.requirements) {
-        if (!returnCheck && !data.ended) giveawayEntryAccept()
+        if (!returnCheck && !data.ended && guildData.get("entry_dm")) giveawayEntryAccept()
 
         return true
     }
@@ -149,8 +177,11 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                         if (!r) return
 
-                        return giveawayEntryError(`You have to be in the guild ${guild.name} in order to join this giveaway!`)
+                        if (guildData.get("deny_dm")) {
+                            giveawayEntryError(`You have to be in the guild ${guild.name} in order to join this giveaway!`)
+                        }
 
+                        return
                     }
                 }
             }
@@ -188,7 +219,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                 if (!member) return false
 
                 if (member.roles.cache.some(r => req_value.includes(r.id))) {
-                    if (!returnCheck) giveawayEntryAccept()
+                    if (!returnCheck && guildData.get("entry_dm")) giveawayEntryAccept()
 
                     return true
                 }
@@ -211,9 +242,12 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                             if (!r) return
     
-                            return giveawayEntryError(`You need the role ${role.name} to join this giveaway!`)      
-                        }
+                            if (guildData.get("deny_dm")) {
+                                giveawayEntryError(`You need the role ${role.name} to join this giveaway!`)      
+                            }
 
+                            return
+                        }
                     }
                 }
             }
@@ -238,7 +272,11 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                         if (!r) return
                             
-                        return giveawayEntryError(`You need ${value} messages to join this giveaway!\nYou have sent ${item} messages in ${reaction.message.guild.name}.`)
+                        if (guildData.get("deny_dm")) {
+                            giveawayEntryError(`You need ${value} messages to join this giveaway!\nYou have sent ${item} messages in ${reaction.message.guild.name}.`)
+                        }
+
+                        return
                     }
                 }
             }
@@ -256,7 +294,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                 const badges = Object.values(badgesFlags)
 
                 if (user.flags.toArray().some(e => badges.includes(e))) {
-                    if (!returnCheck) giveawayEntryAccept()
+                    if (!returnCheck && guildData.get("entry_dm")) giveawayEntryAccept()
 
                     return true
                 }
@@ -275,7 +313,11 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                             if (!r) return
     
-                            return giveawayEntryError(`You need to have the next badges: ${req_value.map(e => badges[e]).join(" ")}`)
+                            if (guildData.get("deny_dm")) {
+                                giveawayEntryError(`You need to have the next badges: ${req_value.map(e => badges[e]).join(" ")}`)
+                            }
+
+                            return
                         }
                     }     
                 }
@@ -291,9 +333,13 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                     if (!data.ended) {
                         let r = await reaction.users.remove(user.id).catch(err => {})
 
-                         if (!r) return
+                        if (!r) return
 
-                        return giveawayEntryError(`You're account must be older than ${value} days!\nYou're account was created ${ms(Date.now() - user.createdTimestamp).replace("h", " hours").replace("d", " days")} ago.`)
+                        if (guildData.get("deny_dm")) {
+                            giveawayEntryError(`You're account must be older than ${value} days!\nYou're account was created ${ms(Date.now() - user.createdTimestamp).replace("h", " hours").replace("d", " days")} ago.`)
+                        }
+
+                        return
                     }
                 }
             }
@@ -314,10 +360,13 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                         if (!r) return
     
-                        return giveawayEntryError(`You need to be in ${reaction.message.guild.name} for more than ${value} days!\nYou're account joined this server ${ms(Date.now() - member.joinedTimestamp).replace("h", " hours").replace("d", " days")} ago.`)
-     
+                        if (guildData.get("deny_dm")) {
+                            giveawayEntryError(`You need to be in ${reaction.message.guild.name} for more than ${value} days!\nYou're account joined this server ${ms(Date.now() - member.joinedTimestamp).replace("h", " hours").replace("d", " days")} ago.`)
+                        }
+
+                        return
                     }
-               }
+                }
             }
         } else if (req_name === "user_tag_equals") {
             if (req_value[0] !== user.discriminator) {
@@ -328,8 +377,11 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                     if (!r) return
 
-                    return giveawayEntryError(`You need to have the tag / discriminator as #${req_value[0]} to join to this giveaway.`)
- 
+                    if (guildData.get("deny_dm")) {
+                        giveawayEntryError(`You need to have the tag / discriminator as #${req_value[0]} to join to this giveaway.`)
+                    }
+
+                    return
                 }
             }
         } else if (req_name === "real_invites") {
@@ -351,8 +403,11 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                     if (!r) return
 
-                    return giveawayEntryError(`You need to have at least ${n} real invites to join this giveaway.\nYou have ${item} real invites.`)
- 
+                    if (guildData.get("deny_dm")) {
+                        giveawayEntryError(`You need to have at least ${n} real invites to join this giveaway.\nYou have ${item} real invites.`)
+                    }
+
+                    return
                 }
             }
         } else if (req_name === "fake_invites") {
@@ -374,8 +429,11 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                     if (!r) return
 
-                    return giveawayEntryError(`You can't have more than ${n} fake invites to join this giveaway.\nYou have ${item} fake invites.`)
- 
+                    if (guildData.get("deny_dm")) {
+                        giveawayEntryError(`You can't have more than ${n} fake invites to join this giveaway.\nYou have ${item} fake invites.`)
+                    }
+
+                    return
                 }
             }
         } else if (req_name === "total_invites") {
@@ -397,15 +455,42 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
                     if (!r) return
 
-                    return giveawayEntryError(`You need to have at least ${n} total invites to join this giveaway.\nYou have ${item} total invites.`)
- 
+                    if (guildData.get("deny_dm")) {
+                        giveawayEntryError(`You need to have at least ${n} total invites to join this giveaway.\nYou have ${item} total invites.`)
+                    }   
+
+                    return
+                }
+            }
+        } else if (req_name === "voice_duration") {
+            const n = Number(req_value[0])
+
+            const ms = Math.trunc(n * 1000 * 60)
+
+            const d = await client.objects.guild_members.findOne({ where: { guildID: reaction.message.guild.id, userID: user.id }})
+
+            let item = d.get("inVCTotal") || 0
+
+            if (item < ms) {
+                if (returnCheck) return false
+
+                if (!data.ended) {
+                    let r = await reaction.users.remove(user.id).catch(err => {})
+
+                    if (!r) return
+
+                    if (guildData.get("deny_dm")) {
+                        giveawayEntryError(`You need to be in voice channels for at least ${n} minutes!\nYou've been in voice channels for ${Math.trunc(item / 1000 / 60)} minutes.`)
+                    }   
+
+                    return
                 }
             }
         }
     }
 
     if (!returnCheck) {
-        if (!data.ended) {
+        if (!data.ended && guildData.get("entry_dm")) {
             giveawayEntryAccept()
         }
     }

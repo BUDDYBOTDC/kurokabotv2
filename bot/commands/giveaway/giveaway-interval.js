@@ -8,6 +8,7 @@ const giveawayMessage = require("../../classes/giveawayMessage");
 const randomKey = require("../../functions/randomKey");
 const setGiveawayTimeout = require("../../handlers/setGiveawayIntervalTimeout");
 const { messages } = require("../../utils/categoryColors");
+const findQuotes = require("../../functions/findQuotes");
 
 module.exports = {
     name: "giveaway-interval",
@@ -40,10 +41,14 @@ module.exports = {
         try {
             const data = {}
 
-            const title = args.join(" ").split('"')[1].split('"')[0]
+            const quotes = findQuotes(args[0])
+
+            if (!quotes) return message.channel.send(`Invalid quotes were given, make sure the first argument is given in between quotes.\nExample: "Nitro Classic"`)
+
+            const title = args.join(" ").split(quotes)[1].split(quotes)[0]
     
             args = args.slice(title.split(" ").length)
-    
+            
             let channel = findChannel(message, [args[0]], false)
     
             if (args[0] === "here") channel = message.channel
@@ -76,9 +81,9 @@ module.exports = {
                 return message.channel.send(`Failed to parse ${args[0]}, please use a valid time to parse, as for example: 1d3h`)
             }
     
-            if (interval.ms < daysToMs(1) && !client.owners.includes(message.author.id)) return message.channel.send(`Minimum interval is 1 day.`)
+            if (interval.ms < daysToMs(1)) return message.channel.send(`Minimum interval is 1 day.`)
     
-            if (interval.ms >= daysToMs(30) && !client.owners.includes(message.author.id)) return message.channel.send(`Maximum interval is 30 days.`)
+            if (interval.ms >= daysToMs(21) && !client.owners.includes(message.author.id)) return message.channel.send(`Maximum interval is 21 days.`)
     
             args.shift()
     
@@ -119,7 +124,11 @@ module.exports = {
             if (startNow === "yes") {
                 message.react("✅")
     
-                const giveaway_m = await message.guild.channels.cache.get(data.channelID).send({embed: {
+                const guildData = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
+                
+                const pingRole = message.guild.roles.cache.get(guildData.get("giveaway_ping_role"))
+
+                const giveaway_m = await message.guild.channels.cache.get(data.channelID).send(`${pingRole ? `${pingRole}` : "" }`, {embed: {
                     title: "Giveaway starting...",
                 }}).catch(err => {})
         
@@ -146,12 +155,12 @@ module.exports = {
                 
                 setGiveawayTimeout(client, data)
 
-                message.channel.send(`This giveaway will be repeated every ${interval.string}.\nIf you'd like to stop this scheduled giveaway, use \`${client.prefix}remove-interval ${data.code}\`.`)
+                message.channel.send(`This giveaway will be repeated every ${interval.string}.\nIf you'd like to stop this interval giveaway, use \`${client.prefix}remove-interval ${data.code}\`.`)
             } else {   
     
                 setGiveawayTimeout(client, data)
 
-                message.channel.send(`Giveaway will start in ${interval.string} and will be repeated every ${interval.string}.\nIf you'd like to stop this scheduled giveaway, use \`${client.prefix}remove-interval ${data.code}\`.`)
+                message.channel.send(`Giveaway will start in ${interval.string} and will be repeated every ${interval.string}.\nIf you'd like to stop this interval giveaway, use \`${client.prefix}remove-interval ${data.code}\`.`)
                 
                 try {
                     await client.objects.giveaways.create(data)

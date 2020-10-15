@@ -1,5 +1,6 @@
 const { Message, MessageEmbed, Client } = require("discord.js");
 const getCustomEmbed = require("../../functions/getCustomEmbed");
+const badges = require("../../utils/badges");
 
 module.exports = {
     name: "requirements-guide",
@@ -32,7 +33,8 @@ badges
 user_tag_equals 
 real_invites
 total_invites
-fake_invites       
+fake_invites
+voice_duration
 `)
         .addField(`account_older <number>`, `The account that reacted to this giveaway must be older than given <number> of days.`)
         .addField(`member_older <number>`, `The account that reacted to this giveaway must have been in the server for at least given <number> of days.`)
@@ -44,10 +46,11 @@ fake_invites
         .addField(`real_invites <number>`, "The account that reacted to this giveaway will have to have <number> real invites or more to join this giveaway.")
         .addField(`total_invites <number>`, "The account that reacted to this giveaway will have to have <number> total invites or more to join this giveaway.")
         .addField(`fake_invites <number>`, "The account that reacted to this giveaway has to have less than <number> fake invites to join this giveaway.")
+        .addField(`voice_duration <minutes>`, "The account that reacted to this giveaway has to be in voice channels for at least <minutes> minutes.")
+        .addField(`Note:`, `Invites aren't working as expected, so don't blame us but discord :p`)
         .addField(`Separator`, "To separate guild/role IDs or badges, use a space.")
-        .addField(`Note:`, `Anything related to invites will require the bot to have \`Manage Server\` permission.\nInvite count are currently not working as expected due to the bot not having the needed intents activated.`)
-        .addField(`Valid badges`, "bot-dev, brilliance, balance, bravery")
-        .setFooter(`Did we help? hope so.`)
+        .addField(`Valid badges`, `${Object.keys(badges).filter(e => e !== "boost").map(key => `${badges[key]} ${key}`).join("\n")}`)
+        .setFooter(`Did we help? Hope so.`)
 
         message.channel.send(embed)
     }

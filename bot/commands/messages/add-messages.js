@@ -28,7 +28,7 @@ module.exports = {
 
         if (amount < 1) return message.channel.send(`Are you adding or substracting?`)
 
-        const member = findMember(message, args.slice(1))
+        const member = await findMember(message, args.slice(1))
 
         const d = await client.objects.guild_members.findOne({ where: { guildID: message.guild.id, userID: message.author.id }})
 

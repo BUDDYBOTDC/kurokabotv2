@@ -18,7 +18,8 @@ module.exports = (client = new Client(), requirements) => {
         user_tag_equals: "user_tag_equals",
         real_invites: "real_invites",
         fake_invites: "fake_invites",
-        total_invites: "total_invites"
+        total_invites: "total_invites",
+        voice_duration: "voice_duration"
     }
 
     for (const field of requirements.split("\n")) {

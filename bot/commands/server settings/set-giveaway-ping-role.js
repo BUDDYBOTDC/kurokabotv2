@@ -3,15 +3,15 @@ const filterRoles = require("../../functions/filterRoles");
 const awaitMessage = require("../../handlers/awaitMessage");
 
 module.exports = {
-    name: "set-giveaway-role",
+    name: "set-giveaway-ping-role",
     category: "server settings",
-    description: "sets a giveaway manager role, users with this role will not need Manage Guild permission to make giveaways.",
+    description: "sets a giveaway ping role, this role will be pinged everytime a giveaway is created.",
     aliases: [
-        "setgiveawayrole",
-        "set-giveaway",
-        "set-g-role",
-        "setgrole",
-        "grole"
+        "setgiveawaypingrole",
+        "set-giveawayping",
+        "set-g-p-role",
+        "setgprole",
+        "gprole"
     ],
     permissions: [
         "MANAGE_GUILD"
@@ -30,9 +30,9 @@ module.exports = {
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
 
         if (args[0].toLowerCase() === "disable") {
-            await client.objects.guilds.update({ giveaway_role: "0" }, { where: { guildID: message.guild.id }})
+            await client.objects.guilds.update({ giveaway_ping_role: "0" }, { where: { guildID: message.guild.id }})
 
-            message.channel.send(`Giveaway Manager role has been disabled / deleted.`)
+            message.channel.send(`Giveaway ping role has been disabled / deleted.`)
 
             return
         }
@@ -47,11 +47,11 @@ module.exports = {
             
             const embed = new MessageEmbed()
             .setColor("GREEN")
-            .setAuthor(`Giveaway Manager role set:`, message.author.displayAvatarURL({dynamic:true}))
+            .setAuthor(`Giveaway Ping role set:`, message.author.displayAvatarURL({dynamic:true}))
             .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
-            .setDescription(`Successfully set Giveaway Manager role to ${role}.`)
+            .setDescription(`Successfully set Giveaway Ping role to ${role}.`)
 
-            await client.objects.guilds.update({ giveaway_role: role.id }, { where: { guildID: message.guild.id }})
+            await client.objects.guilds.update({ giveaway_ping_role: role.id }, { where: { guildID: message.guild.id }})
 
             message.channel.send(embed)
         } else {
@@ -69,11 +69,11 @@ module.exports = {
 
             const embed = new MessageEmbed()
             .setColor("GREEN")
-            .setAuthor(`Giveaway Manager role set:`, message.author.displayAvatarURL({dynamic:true}))
+            .setAuthor(`Giveaway Ping role set:`, message.author.displayAvatarURL({dynamic:true}))
             .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
-            .setDescription(`Successfully set Giveaway Manager role to ${role}.`)
+            .setDescription(`Successfully set Ping Manager role to ${role}.`)
 
-            await client.objects.guilds.update({ giveaway_role: role.id }, { where: { guildID: message.guild.id }})
+            await client.objects.guilds.update({ giveaway_ping_role: role.id }, { where: { guildID: message.guild.id }})
 
             message.channel.send(embed)
 

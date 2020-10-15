@@ -2,8 +2,7 @@ const { Client, Message } = require("discord.js");
 
 module.exports = {
     name: "remove-interval",
-    description: "delete a scheduled giveaway.",
-    premium: true,
+    description: "delete an interval giveaway.",
     aliases: [
         "ri",
         "removeinterval",
@@ -31,7 +30,7 @@ module.exports = {
             }
         })
 
-        if (!gw) return message.channel.send(`This code (${args[0]}) does not belong to any scheduled giveaway.`)
+        if (!gw) return message.channel.send(`This code (${args[0]}) does not belong to any interval giveaway.`)
 
         await client.objects.giveaways.update({
             removed: true,
@@ -42,6 +41,6 @@ module.exports = {
                 code: args[0]
             }
         })
-        message.channel.send(`Successfully removed this scheduled giveaway.`)
+        message.channel.send(`Successfully removed this interval giveaway.`)
     }
 }

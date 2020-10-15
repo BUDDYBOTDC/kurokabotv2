@@ -26,7 +26,7 @@ module.exports = {
     
                 const user = await client.users.fetch(args[1], false).catch(err=> {})
     
-                if (!user) return message.channel.send(`ID ${args[0]} does not belong to any user.`)
+                if (!user) return message.channel.send(`ID ${args[1]} does not belong to any user.`)
     
                 const d = await client.objects.users.findOne({ where: { userID: user.id }})
     
@@ -42,7 +42,7 @@ module.exports = {
     
                 const guild = await client.guilds.fetch(args[1], false).catch(err => {})
     
-                if (!guild) return message.channel.send(`ID ${args[0]} does not belong to any server.`)
+                if (!guild) return message.channel.send(`ID ${args[1]} does not belong to any server.`)
     
                 const d = await client.objects.guilds.findOne({ where: { guildID: guild.id }})
     

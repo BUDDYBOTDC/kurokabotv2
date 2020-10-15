@@ -2,6 +2,7 @@ const { Client, Message, ReactionUserManager } = require("discord.js");
 const isAdmin = require("../functions/isAdmin");
 const isStaff = require("../functions/isStaff");
 const shardGuild = require("../functions/shardGuild");
+const antiSpamHandler = require("./antiSpamHandler");
 const clientPermissionsError = require("./clientPermissionsError");
 const cooldownError = require("./cooldownError");
 const permissionsError = require("./permissionsError");
@@ -51,6 +52,10 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
         if (userData.get("isBanned") === true) return
     }
 
+    if (JSON.parse(guildData.get("blacklistedChannels")).includes(message.channel.id) && !message.member.hasPermission("ADMINISTRATOR") &&!client.owners.includes(message.author.id)) return
+
+    antiSpamHandler(message)
+
     if (command.premium) {
         if (!guildData.get("premium") && !client.owners.includes(message.author.id)) {
             return message.channel.send(`This guild is not premium, therefore can't use this command.`)
@@ -61,13 +66,19 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
         if (command.overridePermissions) {
             const d = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 
-            let grole = "0"
-        
-            if (d) {
-                grole = d.get("giveaway_role")
-            }        
+            let roles = []
+            
+            const rolesData = JSON.parse(d.get("giveaway_role"))
 
-            if (!message.member.roles.cache.has(grole)) return permissionsError(message, command)
+            if (rolesData.length) {
+                roles = rolesData.map(id => {
+                    let r = message.guild.roles.cache.get(id)
+    
+                    if (r) return r.id
+                }).filter(e => e)
+            }
+
+            if (!message.member.roles.cache.some(r => roles.includes(r.id))) return permissionsError(message, command)
         } else return permissionsError(message, command)
     }
 

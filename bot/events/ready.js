@@ -14,6 +14,10 @@ module.exports = async (client = new Client(), db = new sequelize()) => {
 
     await memoryOptimization(client)
     
+    setTimeout(() => {
+        memoryOptimization(client)
+    }, 1200000);
+    
     await handleGuildsData(client, db)
 
     client.owner = client.user

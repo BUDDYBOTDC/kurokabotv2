@@ -19,15 +19,6 @@ const client = new Discord.Client({
     messageSweepInterval: 0,
     messageCacheLifetime: 0,
     disableMentions: "everyone",
-    ws: {
-        intents: [
-            "GUILDS",
-            "GUILD_MEMBERS",
-            "GUILD_INVITES",
-            "GUILD_MESSAGES",
-            "GUILD_MESSAGE_REACTIONS"
-        ]
-    }
 })
 
 const config = require("./config.json")
@@ -35,18 +26,23 @@ const inviteCreate = require("./bot/events/inviteCreate")
 const guildMemberAdd = require("./bot/events/guildMemberAdd")
 const guildMemberRemove = require("./bot/events/guildMemberRemove")
 const guildMemberUpdate = require("./bot/events/guildMemberUpdate")
+const voiceStateUpdate = require("./bot/events/voiceStateUpdate")
 
+client.eventsFired = 0
 client.owners = ["739591551155437654", "590636977100161038"]
-client.version = "8.0.0"
+client.version = "9.0.0"
 client.prefix = config.prefix
 client.prefixes = config.prefixes
 
+client.spam = new Discord.Collection()
 client.cooldowns = new Discord.Collection()
 client.commands = new Discord.Collection()
 
 loadCommands(client)
 
 client.on("ready", () => ready(client, db))
+
+client.on("voiceStateUpdate", (oldState, newState) => voiceStateUpdate(client, oldState, newState))
 
 client.on("guildMemberUpdate", (oldMember, newMember) => guildMemberUpdate(client, oldMember, newMember))
 

@@ -6,8 +6,12 @@ module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
     const users = new Collection()
 
     if (!message.reactions) return
-    
-    const reaction = message.reactions.cache.get("🎉")
+
+    const guildData = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
+
+    const giveaway_emoji = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji").split(":")[2]
+
+    const reaction = message.reactions.cache.get(giveaway_emoji)
 
     let last = message.client.user.id
 

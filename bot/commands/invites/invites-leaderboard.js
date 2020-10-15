@@ -67,13 +67,10 @@ module.exports = {
                 } else item = data.invites_fake
 
                 if (item > 0) {
-                    const member = message.guild.member(data.userID)
 
-                    if (member) {
-                        content.push(`${y}# - **${member.user.tag}**: ${item} Invites (${args[0].toLowerCase()})`)
+                    content.push(`${y}# - <@${data.userID}> : ${item} Invites (${args[0].toLowerCase()})`)
     
-                        y++
-                    }
+                    y++
                 }
             }
 

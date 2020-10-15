@@ -1,3 +1,4 @@
+
 const Sequelize = require("sequelize")
 
 module.exports = {
@@ -8,11 +9,16 @@ module.exports = {
         giveaway_role: Sequelize.STRING,
         guildID: Sequelize.STRING,
         black_role: Sequelize.STRING,
+        giveaway_ping_role: Sequelize.STRING,
         isBlacklisted: Sequelize.BOOLEAN,
         blacklistReason: Sequelize.STRING,
         premiumEndsAt: Sequelize.BIGINT,
         customEmbeds: Sequelize.STRING,
-        ignoreChannels: Sequelize.STRING
+        ignoreChannels: Sequelize.STRING,
+        entry_dm: Sequelize.BOOLEAN,
+        deny_dm: Sequelize.BOOLEAN,
+        blacklistedChannels: Sequelize.STRING,
+        giveaway_emoji: Sequelize.STRING
     },
 
     GUILD_MEMBER: {
@@ -22,7 +28,10 @@ module.exports = {
         isBlacklisted: Sequelize.BOOLEAN,
         invites_real: Sequelize.INTEGER,
         invites_fake: Sequelize.INTEGER,
-        invited_by: Sequelize.STRING
+        invited_by: Sequelize.STRING,
+        inVC: Sequelize.BOOLEAN,
+        inVCSince: Sequelize.BIGINT,
+        inVCTotal: Sequelize.BIGINT
     },
 
     GIVEAWAYS: {
@@ -42,7 +51,8 @@ module.exports = {
         interval: Sequelize.BIGINT,
         nextAt: Sequelize.BIGINT,
         removed: Sequelize.BOOLEAN,
-        code: Sequelize.STRING
+        code: Sequelize.STRING,
+        dm_hoster: Sequelize.BOOLEAN
     },
 
     USER: {

@@ -5,17 +5,22 @@ const categoryColors = require("./categoryColors")
 module.exports = {
     GUILD: (guild = new Guild()) => {
         return {
-            bypass_role: "0",
+            bypass_role: "[]",
             premium: false,
             premiumSince: 0,
-            giveaway_role: "0",
+            giveaway_role: "[]",
             guildID: guild.id,
-            black_role: "0",
+            black_role: "[]",
+            giveaway_ping_role: "0",
             isBlacklisted: false,
             blacklistReason: "none",
             premiumEndsAt: 0,
             customEmbeds: JSON.stringify(categoryColors),
-            ignoreChannels: "[]"
+            ignoreChannels: "[]",
+            blacklistedChannels: "[]",
+            entry_dm: true,
+            deny_dm: true,
+            giveaway_emoji: "🎉"
         }
     },
 
@@ -27,7 +32,10 @@ module.exports = {
             isBlacklisted: false,
             invites_real: 0,
             invites_fake: 0,
-            invited_by: "unknown"
+            invited_by: "unknown",
+            inVC: false,
+            inVCSince: 0,
+            inVCTotal: 0
         }
     },
 
@@ -44,6 +52,7 @@ module.exports = {
         time: 0,
         requirements: 0,
         removeCache: 0,
+        dm_hoster: false
     },
 
     USER: (user = new User()) => {

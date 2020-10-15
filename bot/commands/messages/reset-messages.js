@@ -44,9 +44,9 @@ module.exports = {
 
         } else {
 
-            const member = findMember(message, args)
+            const member = await findMember(message, args, false)
 
-            if (!member || member.user.id === message.author.id) return message.channel.send(`Could not find any member with given input: \`${args.join(" ")}\``)
+            if (!member) return message.channel.send(`Could not find any member with given input: \`${args.join(" ")}\``)
 
             try {
                 await client.objects.guild_members.update({ messages: 0 }, { where: { guildID: message.guild.id, userID: member.user.id }})

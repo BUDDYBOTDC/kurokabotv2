@@ -1,14 +1,18 @@
 module.exports = [
     {
-        text: "**Blacklist Role**: {0}",
+        text: "**Blacklisted Role(s)**: {0}",
         role: "black_role",
     },
     {
-        text: "**Giveaway Manager Role**: {0}",
+        text: "**Giveaway Manager Role(s)**: {0}",
         role: "giveaway_role"
     },
     {
-        text: "**Bypass Role**: {0}",
+        text: "**Bypass Role(s)**: {0}",
         role: "bypass_role"
+    },
+    {
+        text: "**Giveaway Pings Role**: {0}",
+        role: "giveaway_ping_role"
     }
 ]

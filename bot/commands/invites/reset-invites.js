@@ -59,9 +59,7 @@ module.exports = {
                 return msg.edit(`Error! ${error.message}`)
             }
         } else {
-            const member = findMember(message, args)
-
-            if (member.user.id === message.author.id) return message.channel.send(`No member found, make sure you gave a valid user ID, username or mentioned someone.`)
+            const member = await findMember(message, args, false)
 
             const d = await client.objects.guild_members.findOne({ where: { guildID: message.guild.id, userID: member.user.id }})
 

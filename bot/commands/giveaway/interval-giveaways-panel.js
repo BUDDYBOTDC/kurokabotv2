@@ -6,14 +6,13 @@ const getRequirements = require("../../handlers/getRequirements");
 const { messages } = require("../../utils/categoryColors");
 
 module.exports = {
-    name: "scheduled-giveaways-panel",
-    description: "displays information about the current scheduled giveaways of this guild.",
+    name: "interval-giveaways-panel",
+    description: "displays information about the current interval giveaways of this guild.",
     cooldown: 5000,
     category: "giveaway",
     aliases: [
-        "scheduledgiveawayspanel",
-        "sgpanel",
-        "sgp"
+        "intervalgiveawayspanel",
+        "igp"
     ],
     fields: [
         "<page>"
@@ -53,10 +52,10 @@ module.exports = {
     
             const embed = new MessageEmbed()
             .setColor(color)
-            .setTitle(`${message.guild.name} Scheduled Giveaways`)
+            .setTitle(`${message.guild.name} Interval Giveaways`)
             .setThumbnail(message.guild.iconURL({dynamic:true}))
             .setFooter(`Page ${page} of ${pages}.`)
-            .setDescription(`Delete a scheduled giveaway by using \`${client.prefix}remove-interval <code>\`.`)
+            .setDescription(`Delete an interval giveaway by using \`${client.prefix}remove-interval <code>\`.`)
     
             for (const data of scheduledGiveaways.slice(x, y)) {
                 

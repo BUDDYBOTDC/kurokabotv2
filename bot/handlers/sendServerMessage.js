@@ -12,7 +12,7 @@ module.exports = async (client = new Client(), guild = new Guild()) => {
         .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
         .setDescription(`Hey! thanks for adding me, my prefix is \`${client.prefix}\`, use \`${client.prefix}help\` for a full command list ${kuroka(client)}`)
         .setFooter(`Found any bugs? Join the support server at https://discord.gg/sarfdEp`)
-        .setURL("https://discord.gg/sarfdEp")
+        .setURL("https://discord.gg/f7MCvQJ")
         .setTitle(`${client.user.username}`)
 
         const m = await c.send(embed).catch(err => {}) 

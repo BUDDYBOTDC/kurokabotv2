@@ -57,10 +57,10 @@ module.exports = {
                 .setThumbnail(client.user.displayAvatarURL())
                 .setDescription(commands.join("\n\n") + `\n\nInvite ${client.user.username} [here](https://discord.com/oauth2/authorize?client_id=754024463137243206&scope=bot&permissions=8) (or use \`k!invite\` if you can't click hyperlinks)
 Found a bug? Report it on our [Support Server](https://discord.gg/f7MCvQJ)! (or use \`k!support\` if you can't click hyperlinks)`)
-                .setFooter(`Need more information on a specific command? Use ${client.prefix}help [commandName] for more infomartion on a command!`)
+                .setFooter(`Need more information on a specific command? Use ${client.prefix}help [commandName] for more information on a command!`)
 
                 for (const category of Object.entries(categories)) {
-                    embed.addField(`**__${category[0].toUpperCase()}__**`, category[1].join(", "))
+                    embed.addField(`**__${category[0].toUpperCase()}__**`, category[1].join("\n"))
                 }
 
                 message.channel.send(embed)
@@ -86,12 +86,20 @@ Found a bug? Report it on our [Support Server](https://discord.gg/f7MCvQJ)! (or 
                 if (command.overridePermissions) {
                     const data = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 
-                    const grole = data.get("giveaway_role")
+                    let roles = []
+            
+                    const rolesData = JSON.parse(data.get("giveaway_role"))
+        
+                    if (rolesData.length) {
+                        roles = rolesData.map(id => {
+                            let r = message.guild.roles.cache.get(id)
+            
+                            if (r) return `${r}`
+                        }).filter(e => e)
+                    }
 
-                    const role = message.guild.roles.cache.get(grole)
-
-                    if (role) {
-                        embed.addField(`Override Permissions Role:`, `${role}`)
+                    if (roles.length) {
+                        embed.addField(`Override Permission Roles:`, `${roles.join("\n")}`)
                     }
                 }
 

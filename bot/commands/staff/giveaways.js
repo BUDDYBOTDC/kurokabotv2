@@ -14,7 +14,7 @@ module.exports = {
 
         let messages = await client.objects.giveaways.findAll()
 
-        messages = messages.filter(d => !d.ended)
+        messages = messages.filter(d => !d.ended && d.removed === null && Date.now() < d.endsAt)
         
         let page = Number(args[0]) || 1
 

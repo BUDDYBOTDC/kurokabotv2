@@ -11,10 +11,11 @@ module.exports = {
         "MANAGE_GUILD",
     ],
     fields: [
-        "[messageID]"
+        "[messageID] [winners]"
     ],
     examples: [
-        "684938369392295832"
+        "684938369392295832 1",
+        "674929448291918383"
     ],
     overridePermissions: true,
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
@@ -27,6 +28,18 @@ module.exports = {
             if (!d) return message.channel.send(`:x: There isn't any giveaway with this message ID.`)
 
             else msg = await d.toJSON()
+
+            if (args[1]) {
+                const n = Number(args[1])
+
+                if (isNaN(n)) return message.channel.send(`\`${args[1]}\` is not a valid amount of winners.`)
+
+                if (n < 1 && n > 20) return message.channel.send(`Amount of winners can't be smaller than 1 or greater than 20.`)
+
+                msg.winners = n
+
+                await client.objects.giveaways.update({ winners: n }, { where: { messageID: args[0] }})
+            }
         } else {
             let d = await client.objects.giveaways.findAll({ where: { channelID: message.channel.id }})
 
@@ -35,9 +48,13 @@ module.exports = {
             if (!msg) return message.channel.send(`:x: Could not find any giveaway in this channel.`)
         }
 
-        if (!msg.ended) return message.channel.send(`:x: This giveaway hasn't ended yet`)
+        if (typeof msg.get === "function") {
+            if (!msg.get("ended")) return message.channel.send(`:x: This giveaway hasn't ended yet`)
+        } else {
+            if (!msg.ended) return message.channel.send(`:x: This giveaway hasn't ended yet`)
+        }
 
-        const channel = await client.channels.fetch(msg.channelID)
+        const channel = message.channel
 
         const m = await channel.messages.fetch(msg.messageID)
 

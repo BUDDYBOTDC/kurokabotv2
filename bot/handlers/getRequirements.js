@@ -30,7 +30,8 @@ module.exports = async (d) => {
             user_tag_equals: "Must have the tag / discriminator as #{0}",
             real_invites: "Must have at least {0} real invites.",
             fake_invites: "Must not have more than {0} fake invites.",
-            total_invites: "Must have a total of {0} invites or more."
+            total_invites: "Must have a total of {0} invites or more.",
+            voice_duration: "Must have been in voice channels for at least {0} minutes."
         }
 
         const text = fields[req[0]]
@@ -209,6 +210,18 @@ module.exports = async (d) => {
             if (isNaN(d) || d < 1) return { message: `:x: Invalid number given at field ${req[0]}.` }
                         
             if (Number(req[1][0]) > 30000 || Number(req[1][0]) < 1) return { message: `Number cant be less than 1 nor greater than 30000 in ${req[0]} field.` }
+
+            replacer = req[1][0]
+        } else if (req[0] === "voice_duration") {
+            if (!req[1][0]) return { message: `No number of minutes given for field ${req[0]}.` }
+
+            const n = req[1][0]
+
+            const d = Number(n)
+
+            if (isNaN(d) || d < 1) return { message: `:x: Invalid amount of minutes at field ${req[0]}.` }
+
+            if (Number(req[1][0]) > 75000 || Number(req[1][0]) < 1) return { message: `Amount of minutes cant be less than 1 nor greater than 75000 at ${req[0]} field.` }
 
             replacer = req[1][0]
         }

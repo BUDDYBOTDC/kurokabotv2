@@ -9,6 +9,7 @@ const logGiveaway = require("../../handlers/logGiveaway");
 const isMakingOne = new Collection()
 const parse = require("ms-parser");
 const getCustomEmbed = require("../../functions/getCustomEmbed");
+const { HostNotReachableError } = require("sequelize");
 
 module.exports = {
     name: "start",
@@ -23,16 +24,17 @@ module.exports = {
 
         if (isMakingOne.get(message.author.id)) return message.channel.send(`:x: Finish the current giveaway setup first.`)
         
-        const fields = `guilds <guildID> <guildID> ... (defaulted to none)
-roles <roleID | @role> ... [filter: --single] (defaulted to none)
-messages <number> (defaulted to "0")
-member_older <days> (defaulted to "0")
-account_older <days> (defaulted to "0")
-user_tag_equals <tag> (only numbers)
-badges <badge> <badge> ...
+        const fields = `guilds <guildID> <guildID> ...
+roles <roleID | @role> ... [filter: --single]
+messages <number>
+member_older <days>
+account_older <days>
+user_tag_equals <tag>
+badges <badge> <badge> ... [filter: --single]
 real_invites <number>
 fake_invites <number>
-total_invites <number>`
+total_invites <number>
+voice_duration <minutes>`
 
         const color = await getCustomEmbed(client, message.guild.id, "giveaway")
 
@@ -71,7 +73,11 @@ total_invites <number>`
             embed.setDescription(`So you're giving away a ${m.content}, ok, which channel should be this giveaway in?`)
             embed.setFooter(`Either mention the channel, give ID or name, or "here" for this channel.\nType "cancel" to cancel the setup.`)
 
-            await msg.edit(embed)
+            m.delete().catch(err => {})
+
+            await msg.edit(embed).catch(err => {})
+
+            if (!msg) return cancelGiveaway()
 
             second()
         } 
@@ -103,7 +109,11 @@ total_invites <number>`
             embed.setDescription(`Channel set to ${channel}, how many winners for this giveaway?`)
             embed.setFooter(`Give a valid number of winners\nMinimum is 1, maximum is 20.\nType "cancel" to cancel the setup.`)
 
-            await msg.edit(embed)
+            m.delete().catch(err => {})
+
+            await msg.edit(embed).catch(err => {})
+
+            if (!msg) return cancelGiveaway()
 
             third()
         } 
@@ -131,7 +141,11 @@ total_invites <number>`
             embed.setDescription(`Amount of winners for this giveaway set to ${winners}, How much time should this giveaway last for?`)
             embed.setFooter(`Give a valid time to parse, example: 5h (h stand for hours)\nMinimum time is a minute, maximum time is a month.\nType "cancel" to cancel the setup.`)
 
-            await msg.edit(embed)
+            m.delete().catch(err => {})
+
+            await msg.edit(embed).catch(err => {})
+
+            if (!msg) return cancelGiveaway()
 
             fourth()
 
@@ -177,7 +191,9 @@ ${fields}
             
             embed.setFooter(`Requirements field, use "skip" to skip it.\nOrder does not matter.\nType "cancel" to cancel the setup.`)
 
-            await msg.edit(embed)
+            await msg.edit(embed).catch(err => {})
+
+            if (!msg) return cancelGiveaway()
 
             fifth()
 
@@ -196,11 +212,10 @@ ${fields}
             const m = collected.first()
 
             if (m.content.toLowerCase() === "cancel") return cancelGiveaway("User canceled the setup.")
-            
-            embed.setColor("GREEN")
-            embed.setDescription(`The giveaway has been successfully set up.`)
-            embed.setFooter(`Time to win!`)
-            embed.fields = []
+
+            embed.setColor("BLUE")
+            embed.setDescription(`Requirements have been set, do you want to be dmed once the giveaway ends? (yes / no).`)
+            embed.setFooter(`Type "cancel" to cancel the setup.`)
 
             const reqs = await readRequirements(client, m.content)
             
@@ -220,22 +235,64 @@ ${fields}
 :x: ${read.message}
 `)
                 embed.setFooter(`Requirements field, use "skip" to skip it.\nOrder does not matter.\nA bit lost? Use ${client.prefix}requirements-guide for more information about this.`)
-                
-                await msg.edit(embed)
+
+                m.delete().catch(err => {})
+
+                await msg.edit(embed).catch(err => {})
+
+                if (!msg) return cancelGiveaway()
                 
                 return fifth()
             }
 
+            embed.fields = []
+
             data.mention = `${message.author}`
 
-            await msg.edit(embed)
+            await msg.edit(embed).catch(err => {})
 
-            const giveaway = await message.guild.channels.cache.get(data.channelID).send({embed: {
+            if (!msg) return cancelGiveaway()
+
+            sixth()
+        }
+
+        async function sixth() {
+
+            const collected = await message.channel.awaitMessages(filter, {
+                time: 120000,
+                errors: ["time"],
+                max: 1
+            }).catch(err => {})
+
+            if (!collected) return cancelGiveaway("User did not reply in time.")
+
+            const m = collected.first()
+
+            if (m.content.toLowerCase() === "cancel") return cancelGiveaway("User canceled the setup.")
+
+            const hoster = m.content === "yes"
+
+            embed.setColor("GREEN")
+            embed.setDescription(`The giveaway has been successfully set up.`)
+            embed.setFooter(`Time to win!`)
+
+            await msg.edit(embed).catch(err => {})
+
+            if (!msg) return cancelGiveaway()
+
+            const guildData = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
+            
+            const pingRole = message.guild.roles.cache.get(guildData.get("giveaway_ping_role"))
+
+            m.delete().catch(err => {})
+            
+            const giveaway = await message.guild.channels.cache.get(data.channelID).send(`${pingRole ? `${pingRole}` : "" }`, {embed: {
                 title: "Giveaway starting...",
             }}).catch(err => {})
 
             if (!giveaway) return message.channel.send(`:x: I do not have permissions to send messages in <#${data.channelID}>`), isMakingOne.delete(message.author.id)
 
+            data.dm_hoster = hoster
             data.messageID = giveaway.id 
             data.guildID = message.guild.id
             data.userID = message.author.id
@@ -248,8 +305,7 @@ ${fields}
 
             isMakingOne.delete(message.author.id)
         }
-
-
+        
         function cancelGiveaway(error = String) {
 
             const embed = new MessageEmbed()
@@ -257,12 +313,13 @@ ${fields}
             .setTitle(`Giveaway setup canceled`)
             .setDescription(error)
 
-            msg.edit(embed).catch(err => {})
+            msg.edit(embed).catch(err => {
+                message.channel.send(`Ew, why would you delete the embed.\nGiveaway setup canceled.`)
+            })
 
             isMakingOne.delete(message.author.id)
         }
 
-        
         first()
     }
 }

@@ -1,6 +1,6 @@
-const { Message } = require("discord.js");
+const { Message, MessageMentions } = require("discord.js");
 
-module.exports = (message = new Message(), args = []) => {
+module.exports = async (message = new Message(), args = [], current = true) => {
 
     const query = args.join(" ").toLowerCase()
 
@@ -8,13 +8,20 @@ module.exports = (message = new Message(), args = []) => {
         member.user.tag.toLowerCase() === query ||
         member.user.id === query ||
         member.displayName.toLowerCase() === query 
-    ) || message.guild.member(args[0])
+    )
 
     if (!member) {
-        if (message.mentions.members.size) {
-            member = message.mentions.members.first()
-        } else {
-            member = message.member
+        member = await message.guild.members.fetch({
+            cache: false,
+            user: args[0]
+        }).catch(err => {})
+
+        if (!member) {          
+            if (message.mentions.members.size) {
+                member = message.mentions.members.first()
+            } else {
+                if (current) member = message.member
+            }
         }
     }
 

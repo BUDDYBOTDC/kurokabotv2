@@ -7,13 +7,17 @@ const setGiveawayTimeout = (client = new Client(), data) => {
     setTimeout(async () => {
         const newData = await client.objects.giveaways.findOne({ where: { code: data.code }})
 
+        const guildData = await client.objects.guilds.findOne({ where: { guildID: data.guildID }})
+
         if (newData.get("removed")) return
 
         const channel = client.channels.cache.get(data.channelID)
 
         if (!channel) return
 
-        const msg = await channel.send({
+        const pingRole = client.guilds.cache.get(data.guildID).roles.cache.get(guildData.get("giveaway_ping_role"))
+
+        const msg = await channel.send(`${pingRole ? `${pingRole}` : "" }`, {
             embed: {
                 title: "Giveaway starting..."
             }

@@ -9,7 +9,11 @@ module.exports = {
 
         const msg = await message.channel.send(`Pinging...`)
 
-        msg.edit(`Pong! ${msg.createdTimestamp - message.createdTimestamp}ms`)
+        const start = Date.now()
+        await client.objects.guilds.findOne({where:{ guildID: message.guild.id}})
+        const end = Date.now() - start
+
+        msg.edit(`WS Latency: ${client.ws.ping}ms\nBot Latency: ${msg.createdTimestamp - message.createdTimestamp}ms\nDatabase Latency: ${end}ms`)
 
     }
 }

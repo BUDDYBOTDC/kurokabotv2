@@ -1,4 +1,5 @@
 const { Message } = require("discord.js");
+const findMember = require("../../functions/findMember");
 
 module.exports = {
     name: "set-invites",
@@ -32,7 +33,7 @@ module.exports = {
 
         if (amount < 0) return message.channel.send(`You can't set the invites to something less than 0.`)
 
-        const member = message.mentions.members.first() || message.guild.member(args[2])
+        const member = await findMember(message, args.slice(2), false)
 
         if (!member) return message.channel.send(`Could not find the requested member.`)
 

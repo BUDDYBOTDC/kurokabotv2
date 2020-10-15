@@ -12,7 +12,5 @@ module.exports = async (message = new Message()) => {
         return
     }
 
-    setTimeout(() => {
-        message.channel.messages.cache.delete(message.id)
-    }, 1000)
+    message.channel.messages.cache.delete(message.id)
 }

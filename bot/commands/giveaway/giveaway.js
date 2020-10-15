@@ -8,6 +8,7 @@ const getRequirements = require("../../handlers/getRequirements");
 const logGiveaway = require("../../handlers/logGiveaway");
 const parse = require("ms-parser");
 const { messages } = require("../../utils/categoryColors");
+const findQuotes = require("../../functions/findQuotes");
 
 module.exports = {
     name: "giveaway",
@@ -23,12 +24,12 @@ module.exports = {
     maxGiveaways: 30,
     cooldown: 5000,
     usages: [
-        '"<item>" <channel | here> <winners> <time> [requirements | skip]'
+        '"<title>" <channel | here> <winners> <time> [DM Hoster: yes | no] [requirements | skip]'
     ],
     examples: [
-        '"nitro classic" giveaway-channel 3 10m skip',
-        '"red shirt" giveaways 1 4h',
-        '"bandage" announcements 1 30m booster yes\naccount_older 10'
+        '"nitro classic" giveaway-channel 3 10m yes skip',
+        '"red shirt" giveaways 1 no 4h',
+        '"bandage" announcements 1 30m no account_older 10'
     ],
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
 
@@ -36,7 +37,11 @@ module.exports = {
     
             const data = {}
 
-            const giveaway = args.join(" ").split('"')[1].split('"')[0]
+            const quotes = findQuotes(args[0])
+
+            if (!quotes) return message.channel.send(`Invalid quotes were given, make sure the first argument is given in between quotes.\nExample: "Nitro Classic"`)
+
+            const giveaway = args.join(" ").split(quotes)[1].split(quotes)[0]
     
             if (giveaway.length >= 100) return message.channel.send(`The title for the giveaway is too long.`)
             
@@ -68,6 +73,12 @@ module.exports = {
 
             if (time.ms < 60000 && !client.owners.includes(message.author.id) || time.ms > daysToMs(30) && !client.owners.includes(message.author.id)) return message.channel.send(`Time cant be smaller than a minute nor bigger than 30 days.`)
 
+            const dm = ["yes", "no"].find(e => args[0].toLowerCase() === e)
+
+            if (!dm) return message.channel.send(`${args[0]} is not a valid option at field \`DM Hoster\`.`)
+
+            args.shift()
+
             const requirements = args.join(" ") || "skip"
 
             const reqs = readRequirements(client, requirements)
@@ -77,6 +88,7 @@ module.exports = {
             data.mention = `${message.author}`
             data.winners = winners
             data.title = giveaway
+            data.dm_hoster = dm === "yes"
             data.channelID = channel.id
             data.guildID = message.guild.id
             data.endsAt = Date.now() + time.ms 
@@ -97,7 +109,11 @@ module.exports = {
 
             message.react("✅")
 
-            const giveaway_m = await message.guild.channels.cache.get(data.channelID).send({embed: {
+            const guildData = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
+
+            const pingRole = message.guild.roles.cache.get(guildData.get("giveaway_ping_role"))
+
+            const giveaway_m = await message.guild.channels.cache.get(data.channelID).send(`${pingRole ? `${pingRole}` : "" }`, {embed: {
                 title: "Giveaway starting...",
             }}).catch(err => {})
 
@@ -113,8 +129,8 @@ module.exports = {
 
             new giveawayMessage(giveaway_m, data)
 
-        } catch(err) {
-            return message.channel.send("There was an error while trying to make the giveaway.\nMake sure you used quotes in the first field and those quotes are \" \" and not \' \'")
+        } catch(error) {
+            return message.channel.send(`Error! ${error.message}`)
         }
     }
 }

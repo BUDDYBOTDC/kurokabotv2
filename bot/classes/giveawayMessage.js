@@ -12,7 +12,7 @@ class giveawayMessage {
         this.message = msg
 
         if (typeof this.message.react === "function") {
-            this.message.react("🎉")
+            this.react()
         }
 
         this.data = data
@@ -20,6 +20,14 @@ class giveawayMessage {
         if (Date.now() >= data.endsAt && data.ended === true) return 
 
         this.update()
+    }
+
+    async react() {
+        const guildData = await this.message.client.objects.guilds.findOne({ where: { guildID: this.message.guild.id }})
+
+        const giveaway_emoji = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji").split(":")[2]
+
+        this.message.react(giveaway_emoji)
     }
 
     async update() {
@@ -57,13 +65,33 @@ class giveawayMessage {
     
                 roles.push("\n")
     
-                const bypass_role = this.message.guild.roles.cache.get(guildData.get("bypass_role"))
+                let broles = []
+            
+                const brolesData = JSON.parse(guildData.get("bypass_role"))
+        
+                if (brolesData.length) {
+                    broles = brolesData.map(id => {
+                        let r = this.message.guild.roles.cache.get(id)
+        
+                        if (r) return `${r}`
+                    }).filter(e => e)
+                }
     
-                const black_role = this.message.guild.roles.cache.get(guildData.get("black_role"))
+                let blroles = []
+            
+                const blrolesData = JSON.parse(guildData.get("black_role"))
+        
+                if (blrolesData.length) {
+                    blroles = blrolesData.map(id => {
+                        let r = this.message.guild.roles.cache.get(id)
+        
+                        if (r) return `${r}`
+                    }).filter(e => e)
+                }
     
-                if (bypass_role) roles.push(`<:checkgreen:763434065818157058> Members with the role ${bypass_role} don't need to meet any of the requirements.`)
+                if (broles.length && requirements.length) roles.push(`<:checkgreen:763434065818157058> Members with one of these roles: ${broles.join(", ")}, don't need to meet any of the requirements.`)
     
-                if (black_role) roles.push(`<:checkred:763434105190613082> Members with the role ${black_role} can't join.`)
+                if (blroles.length) roles.push(`<:checkred:763434105190613082> Members with one of these roles: ${blroles.join(", ")}, can't join the giveaway.`)
             }
 
             embed.setColor(`BLUE`)
@@ -148,8 +176,16 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
 
             this.message.edit(embed).catch(err => {})
 
-            this.message.channel.send(`**Nobody** won the **${this.data.title}**!\nhttps://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID}`).catch(err => {})
-            
+            this.message.channel.send({embed: {
+                color: 5570448,
+                title: "🎉 GIVEAWAY ENDED 🎉",
+                url: "http://www.kurokabots.com",
+                thumbnail: {
+                    url: this.message.client.user.displayAvatarURL()
+                },
+                description: `**Nobody** won the **[${this.data.title}](https://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID})**!`
+            }}).catch(err => {})
+
             return    
         }
 
@@ -167,8 +203,32 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
 
         this.message.edit(embed).catch(err => {})
 
-        this.message.channel.send(`Congratulations ${IDs.map(e => `<@${e}>`).join(", ")}! You won **${this.data.title}**!\nhttps://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID}`).catch(err => {})
-    
+        this.message.channel.send(`<a:gifts4days:764941341594746890> ${IDs.map(e => `<@${e}>`).join(", ")}`, {embed: {
+            color: 5570448,
+            title: "🎉 GIVEAWAY ENDED 🎉",
+            url: "http://www.kurokabots.com",
+            thumbnail: {
+                url: this.message.client.user.displayAvatarURL()
+            },
+            description: `Congratulations! You won **[${this.data.title}](https://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID})**!`
+        }}).catch(err => {})
+
+                    
+        if (this.data.dm_hoster) {
+            const user = await this.message.client.users.fetch(this.data.userID, false).catch(err => {})
+
+            if (user) {
+                const embed = new MessageEmbed()
+                .setColor("GREEN")
+                .setTitle(`🎉 GIVEAWAY ENDED 🎉`) 
+                .setDescription(`A giveaway ended in channel <#${this.data.channelID}>!\nGiveaway: **[${this.data.title}](https://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID})**`)
+                .setThumbnail(this.message.client.user.displayAvatarURL())
+                .setFooter(`Give the prize to the winners!`)
+
+                user.send(embed).catch(err => {})
+            }
+        }
+
         return
 
     }
