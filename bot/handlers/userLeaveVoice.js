@@ -2,6 +2,10 @@ const { Client, VoiceState } = require("discord.js");
 
 module.exports = async (client =new Client(), oldState = new VoiceState(), newState = new VoiceState()) => {
 
+    if (oldState.member.partial) {
+        await oldState.member.fetch()
+    }
+    
     if (oldState.channel && !newState.channel) {
         try {
             const d = await client.objects.guild_members.findOne({

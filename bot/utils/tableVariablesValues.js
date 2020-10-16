@@ -20,7 +20,8 @@ module.exports = {
             blacklistedChannels: "[]",
             entry_dm: true,
             deny_dm: true,
-            giveaway_emoji: "🎉"
+            giveaway_emoji: "🎉",
+            invite_logs: "0"
         }
     },
 

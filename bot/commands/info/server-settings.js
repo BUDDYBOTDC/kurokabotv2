@@ -62,6 +62,8 @@ module.exports = {
     if (channel) return `${channel}`
 }).join("\n") || "None" : "None"}
 
+**Invite Logging Channel**: ${message.guild.channels.cache.get(data.invite_logs) || "not set"}
+
 **Giveaway Emoji**: ${d.get("giveaway_emoji") === "🎉" ? "🎉" : "<" + d.get("giveaway_emoji") + ">"}
 
 ${data.entry_dm ? "DMs for approved entries are **enabled**." : "DMs for approved entries are **disabled**." }

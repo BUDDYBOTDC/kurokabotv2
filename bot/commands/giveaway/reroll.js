@@ -23,7 +23,7 @@ module.exports = {
         var msg 
 
         if (args.length) {
-            let d = await client.objects.giveaways.findOne({ where: { messageID: args[0] }})
+            let d = await client.objects.giveaways.findOne({ where: { messageID: args[0], guildID: message.guild.id }})
 
             if (!d) return message.channel.send(`:x: There isn't any giveaway with this message ID.`)
 

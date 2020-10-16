@@ -18,7 +18,8 @@ module.exports = {
         entry_dm: Sequelize.BOOLEAN,
         deny_dm: Sequelize.BOOLEAN,
         blacklistedChannels: Sequelize.STRING,
-        giveaway_emoji: Sequelize.STRING
+        giveaway_emoji: Sequelize.STRING,
+        invite_logs: Sequelize.STRING
     },
 
     GUILD_MEMBER: {

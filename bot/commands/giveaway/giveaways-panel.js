@@ -66,6 +66,7 @@ module.exports = {
                 })
     
                 embed.addField(`${data.title}`, [
+                    `Message ID: ${data.messageID}`,
                     `Channel: <#${data.channelID}> (${data.channelID})`,
                     `Winners: ${data.winners}`,
                     `Hosted by: ${data.mention} (${data.userID})`,

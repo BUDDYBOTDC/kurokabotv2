@@ -11,6 +11,8 @@ module.exports = async (client = new Client(), guild = new Guild(), db) => {
     
     logNewServer(client, guild)
 
+    memoryOptimization(client, false)
+    
     sendServerMessage(client, guild)
 
     addGuildData(client, guild, db)

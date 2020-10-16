@@ -2,12 +2,13 @@ const { Client, GuildMember } = require("discord.js");
 const getInviteUsed = require("../functions/getInviteUsed");
 const { real } = require("../utils/dbCredentials");
 const tableVariablesValues = require("../utils/tableVariablesValues");
+const sendInviteLog = require("./sendInviteLog");
 
 module.exports = async (client =new Client(), member = new GuildMember()) => {
 
     const invite = await getInviteUsed(client, member)
 
-    if (!invite) return
+    if (!invite) return sendInviteLog(client, undefined, undefined, member)
 
     let db_invite = await client.objects.guild_invites.findOne({ where: { code: invite.code, guildID: member.guild.id }})
 
@@ -42,4 +43,5 @@ module.exports = async (client =new Client(), member = new GuildMember()) => {
 
     client.objects.guild_invites.update({ uses: db_invite.uses + 1 }, { where: { guildID: member.guild.id, code: invite.code }})
 
+    sendInviteLog(client, invite, invite.inviter, member)
 }
