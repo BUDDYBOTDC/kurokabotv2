@@ -13,7 +13,7 @@ module.exports = async (message = new Message(), args = [], current = true) => {
     if (!member) {
         member = await message.guild.members.fetch({
             cache: false,
-            user: args[0]
+            user: args[0] || message.author.id
         }).catch(err => {})
 
         if (!member) {          

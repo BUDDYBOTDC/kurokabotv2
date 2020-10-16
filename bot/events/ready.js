@@ -12,11 +12,11 @@ module.exports = async (client = new Client(), db = new sequelize()) => {
 
     await syncTables(client, db)
 
-    await memoryOptimization(client)
+    await memoryOptimization(client, false)
     
     setTimeout(() => {
-        memoryOptimization(client)
-    }, 1200000);
+        memoryOptimization(client, false)
+    }, 600000);
     
     await handleGuildsData(client, db)
 

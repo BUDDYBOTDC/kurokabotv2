@@ -5,6 +5,7 @@ const shardGuild = require("../functions/shardGuild");
 const antiSpamHandler = require("./antiSpamHandler");
 const clientPermissionsError = require("./clientPermissionsError");
 const cooldownError = require("./cooldownError");
+const deleteUserFromCache = require("./deleteUserFromCache");
 const permissionsError = require("./permissionsError");
 const usageError = require("./usageError");
 
@@ -22,7 +23,9 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
 
     const command = client.commands.get(CMD) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(CMD))
 
-    if (!command) return
+    if (!command) return deleteUserFromCache(message)
+
+    deleteUserFromCache(message, true)
 
     if (!client.objects) return message.channel.send(`:x: Command timed out.`)
     

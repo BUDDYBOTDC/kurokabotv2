@@ -11,6 +11,8 @@ module.exports = async (client =new Client(), oldState = new VoiceState(), newSt
                 }
             })
 
+            if (!d) return
+            
             if (!d.get("inVC")) return
 
             const total = d.get("inVCTotal") + (Date.now() - d.get("inVCSince")) || Date.now() - d.get("inVCSince")

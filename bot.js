@@ -13,7 +13,13 @@ const ready = require("./bot/events/ready")
 const userUpdate = require("./bot/events/userUpdate")
 const loadCommands = require("./bot/handlers/loadCommands")
 
+process.setMaxListeners(15)
+
 const client = new Discord.Client({
+    partials: [
+        "REACTION",
+        "USER"
+    ],
     fetchAllMembers: false,
     messageCacheMaxSize: Infinity,
     messageSweepInterval: 0,

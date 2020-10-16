@@ -11,8 +11,10 @@ const entryCooldown = new Discord.Collection()
 
 module.exports = async (reaction = new MessageReaction(), user = new User(), returnCheck = false) => {
 
+    if (reaction.partial) return 
+
     if (user.id === reaction.message.client.user.id) return
-    
+
     const { message } = reaction
     
     const guildData = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
@@ -28,6 +30,10 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
     let messages = await reaction.message.client.objects.giveaways.findOne({ where: { messageID: reaction.message.id }})
 
     if (!messages) return
+
+    if (user.partial) {
+        await user.fetch()
+    }
 
     const client = reaction.message.client
 
