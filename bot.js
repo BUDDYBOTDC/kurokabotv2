@@ -18,10 +18,13 @@ process.setMaxListeners(15)
 const client = new Discord.Client({
     partials: [
         "REACTION",
-        "USER"
+        "USER",
+        "GUILD_MEMBER",
+        "CHANNEL",
+        "MESSAGE"
     ],
     fetchAllMembers: false,
-    messageCacheMaxSize: Infinity,
+    messageCacheMaxSize: 0,
     messageSweepInterval: 0,
     messageCacheLifetime: 0,
     disableMentions: "everyone",
@@ -63,8 +66,6 @@ client.on("messageReactionAdd", (reaction, user) => messageReactionAdd(reaction,
 client.on("presenceUpdate", (oldPresence, newPresence) => presenceUpdate(client, oldPresence, newPresence))
 
 client.on("message", async message => messageCreate(client, message, db))
-
-client.on("messageUpdate", async (omsg, nmsg) => messageUpdate(client, omsg, nmsg))
 
 client.on("userUpdate", (oldUser, newUser) => userUpdate(client, oldUser, newUser))
 

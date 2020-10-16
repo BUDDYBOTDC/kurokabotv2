@@ -20,7 +20,7 @@ module.exports = (message = new Message(), stayCached = false) => {
                message.client.users.cache.delete(message.author.id)
 
                message.guild.members.cache.delete(message.author.id)
-            }, timeout);
+            }, 30000);
         } else {
             message.guild.members.cache.delete(message.author.id)
             

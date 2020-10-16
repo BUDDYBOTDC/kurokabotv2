@@ -6,16 +6,17 @@ const Discord = require("discord.js")
 const badgesFlags = require("../utils/badgesFlags")
 const isUserInGuild = require("../functions/isUserInGuild")
 const getIDFromArgument = require("../functions/getIDFromArgument")
+const deleteMessageFromCache = require("./deleteMessageFromCache")
 const cooldown = new Discord.Collection()
 const entryCooldown = new Discord.Collection()
 
 module.exports = async (reaction = new MessageReaction(), user = new User(), returnCheck = false) => {
 
-    if (reaction.partial) return 
-
     if (user.id === reaction.message.client.user.id) return
 
     const { message } = reaction
+    
+    if (!message.client.objects) return
     
     const guildData = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 
@@ -33,6 +34,12 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
     if (user.partial) {
         await user.fetch()
+    }
+
+    if (reaction.message.partial) {
+        await reaction.message.fetch()
+
+        deleteMessageFromCache(message)
     }
 
     const client = reaction.message.client
