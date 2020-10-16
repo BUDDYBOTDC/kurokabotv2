@@ -12,7 +12,7 @@ module.exports = async (client = new Client(), db = new sequelize()) => {
 
     await syncTables(client, db)
 
-    await memoryOptimization(client, true)
+    await memoryOptimization(client, false)
     
     setTimeout(() => {
         memoryOptimization(client, false)

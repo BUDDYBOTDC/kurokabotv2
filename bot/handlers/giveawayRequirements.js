@@ -7,6 +7,7 @@ const badgesFlags = require("../utils/badgesFlags")
 const isUserInGuild = require("../functions/isUserInGuild")
 const getIDFromArgument = require("../functions/getIDFromArgument")
 const deleteMessageFromCache = require("./deleteMessageFromCache")
+const shardGuild = require("../functions/shardGuild")
 const cooldown = new Discord.Collection()
 const entryCooldown = new Discord.Collection()
 
@@ -17,7 +18,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
     const { message } = reaction
     
     if (!message.client.objects) return
-    
+
     const guildData = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 
     const giveaway_emoji_name = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji").split(":")[1]
@@ -178,7 +179,7 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
         if (req_name === "guild_member") {
             for (const id of req_value) {
-                const member = await isUserInGuild(client, reaction.message.guild.id, user.id)
+                const member = await isUserInGuild(client, id, user.id)
 
                 if (!member) {
 
@@ -191,6 +192,8 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
                         if (!r) return
 
                         if (guildData.get("deny_dm")) {
+                            const guild = await shardGuild(client, id)
+                            
                             giveawayEntryError(`You have to be in the guild ${guild.name} in order to join this giveaway!`)
                         }
 

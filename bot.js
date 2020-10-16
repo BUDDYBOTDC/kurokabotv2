@@ -2,7 +2,7 @@ const Discord = require("discord.js")
 const dbCredentials = require("./bot/utils/dbCredentials")
 const Sequelize = require("sequelize")
 
-const db = new Sequelize('kuroka', 'kuroka', 'SMQw2ZrQR7Qb9mHR', dbCredentials.real)
+const db = new Sequelize('kuroka', 'kuroka', 'SMQw2ZrQR7Qb9mHR', dbCredentials.testing)
 
 const guildCreate = require("./bot/events/guildCreate")
 const messageCreate = require("./bot/events/messageCreate")
