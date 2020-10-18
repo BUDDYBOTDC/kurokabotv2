@@ -1,9 +1,13 @@
 const { Client, User, Invite, MessageEmbed, GuildManager, GuildMember } = require("discord.js");
 
-module.exports = async (client = new Client(), invite = new Invite(), inviter = new User(), target = new GuildMember()) => {
+module.exports = async (client = new Client(), invite, inviter, target) => {
+
+    if (!target) return
 
     if (!target.user) {
         await target.fetch()
+
+        await target.guild.fetch()
     } 
 
     const guildData = await client.objects.guilds.findOne({

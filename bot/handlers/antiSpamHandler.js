@@ -14,7 +14,7 @@ module.exports = async (message = new Message()) => {
 
     n++
 
-    if (n === 3) {
+    if (n === 4) {
         client.objects.users.update({ 
             isBanned: true,
             banReason: `Spamming commands.`

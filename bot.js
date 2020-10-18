@@ -13,7 +13,7 @@ const ready = require("./bot/events/ready")
 const userUpdate = require("./bot/events/userUpdate")
 const loadCommands = require("./bot/handlers/loadCommands")
 
-process.setMaxListeners(15)
+process.setMaxListeners(20)
 
 const client = new Discord.Client({
     partials: [
@@ -39,7 +39,7 @@ const voiceStateUpdate = require("./bot/events/voiceStateUpdate")
 
 client.eventsFired = 0
 client.owners = ["739591551155437654", "590636977100161038"]
-client.version = "9.0.0"
+client.version = "10.0.0"
 client.prefix = config.prefix
 client.prefixes = config.prefixes
 

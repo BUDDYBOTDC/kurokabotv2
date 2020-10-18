@@ -21,6 +21,8 @@ module.exports = async (reaction = new MessageReaction(), user = new User(), ret
 
     const guildData = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 
+    if (!guildData) return
+    
     const giveaway_emoji_name = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji").split(":")[1]
 
     const giveaway_emoji_id = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji").split(":")[2]

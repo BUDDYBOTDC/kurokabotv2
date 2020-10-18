@@ -5,7 +5,11 @@ const setGiveawayTimeout = require("./setGiveawayIntervalTimeout")
 
 module.exports = async (client = new Client(), db = new Sequelize()) => {
 
-    let messages = await client.objects.giveaways.findAll()
+    let messages = await client.objects.giveaways.findAll({
+        where: {
+            ended: false
+        }
+    })
 
     for (const d of messages) {
 
@@ -33,6 +37,18 @@ module.exports = async (client = new Client(), db = new Sequelize()) => {
 
                             giveaway.checkReactions()
                         
+                        }
+                    } else {
+                        if (d.ended === false && Date.now() > d.endsAt) {
+                            client.objects.giveaways.update({
+                                ended: true
+                            }, {
+                                where: {
+                                    messageID: d.messageID
+                                }
+                            })   
+
+                            console.log(`Ended giveaway with Id: ${d.messageID}, because it does not exist anymore.`)
                         }
                     }
                 }

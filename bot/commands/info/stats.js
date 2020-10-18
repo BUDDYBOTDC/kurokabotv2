@@ -42,7 +42,7 @@ module.exports = {
         .setColor(color)
         .setTitle(`${client.user.username}'s Statistics:`)
         .addField(`Bot Developer`, client.users.cache.get(client.owners[0]).tag)
-        .addField(`Website Developer`, client.users.cache.get(client.owners[1]).tag)
+        .addField(`Bot Management`, client.users.cache.get(client.owners[1]).tag)
         .addField(`Library`, "discord.js v12.3.1")
         .addField(`Version`, client.version)
         .addField(`Memory usage`, (process.memoryUsage().rss / 1024 / 1024).toFixed(2) + "mb")

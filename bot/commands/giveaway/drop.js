@@ -84,7 +84,7 @@ module.exports = {
 
         const reaction = collected.first()
 
-        const user = reaction.users.cache.last()
+        const user = (await reaction.users.fetch({ limit: 1 })).first()
 
         embed.setColor("GREEN")
         embed.setDescription(`${user} was the first user reacting!`)

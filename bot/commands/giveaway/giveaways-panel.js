@@ -29,13 +29,13 @@ module.exports = {
     execute: async (client = new Client(), message = new Message(), args=  []) => {
 
         try {
-            const giveaways = await client.objects.giveaways.findAll({
+            const giveaways = (await client.objects.giveaways.findAll({
                 where: {
                     ended: false,
                     removed: null,
                     guildID: message.guild.id
                 }
-            })
+            })).filter(gw => Date.now() < gw.endsAt)
     
             if (!giveaways.length) return message.channel.send(`No active giveaways found.`)
     
@@ -72,7 +72,7 @@ module.exports = {
                     `Hosted by: ${data.mention} (${data.userID})`,
                     `Duration: ${parse(Object.entries(ms(new Date(data.time).getTime())).filter(x => ["days", "hours", "minutes", "seconds"].includes(x[0]) && x[1]).map((x) => x[1] + x[0][0]).join("")).string}`,
                     `Ends in: ${parse(Object.entries(ms(new Date(data.endsAt).getTime() - Date.now())).filter(x => ["days", "hours", "minutes", "seconds"].includes(x[0]) && x[1]).map((x) => x[1] + x[0][0]).join("")).string}`,
-                    `Requirements?: ${requirements.length ? "\n" + requirements.join("\n") : "none" }`,
+                    `Requirements?: ${requirements.length ? requirements.length >= 6 ? "There are many requirements." : "\n" + requirements.join("\n") : "none" }`,
                     `[Jump To Giveaway](https://discord.com/channels/${data.guildID}/${data.channelID}/${data.messageID})`
                 ].join("\n"))
             }
