@@ -2,12 +2,12 @@ const { Message, MessageMentions } = require("discord.js");
 
 module.exports = async (message = new Message(), args = [], current = true) => {
 
-    const query = args.join(" ").toLowerCase()
+    const query = args.join(" ")
 
     let member = message.guild.members.cache.find(member => 
-        member.user.tag.toLowerCase() === query ||
+        member.user.tag === query ||
         member.user.id === query ||
-        member.displayName.toLowerCase() === query 
+        member.displayName === query 
     )
 
     if (!member) {
