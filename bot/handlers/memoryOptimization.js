@@ -8,12 +8,8 @@ module.exports = async (client = new Client(), uncacheEveryone = false, forceCha
 
     let uncachedRoles = 0
 
-    client.emojis.cache = new Collection()
-
     for (const guild of client.guilds.cache.array()) {
 
-        guild.emojis.cache = new Collection()
-                    
         if (forceChannelsAndRolesUncaching) {
             uncachedChannels += guild.channels.cache.size
             uncachedRoles += guild.roles.cache.size

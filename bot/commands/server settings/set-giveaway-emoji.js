@@ -49,6 +49,10 @@ module.exports = {
     
             const id = args[0].split("<")[1].split(">")[0]
 
+            const emoji = message.guild.emojis.cache.get(id.split(":")[2])
+
+            if (!emoji) return message.channel.send(`This emoji does not belong to this guild or it doesn't exist.`)
+            
             await client.objects.guilds.update({
                 giveaway_emoji: id
             }, {
@@ -57,7 +61,7 @@ module.exports = {
                 }
             })
 
-            message.channel.send(`Giveaway emoji set to ${emoji}.\nPlease make sure this emoji is on this guild.`)
+            message.channel.send(`Giveaway emoji set to ${emoji}.`)
         } catch (error) {
             return message.channel.send(`Invalid emoji format given.`)
         }
