@@ -11,7 +11,7 @@ const shardGuild = require("../functions/shardGuild")
 const cooldown = new Discord.Collection()
 const entryCooldown = new Discord.Collection()
 
-module.exports = async (reaction = new MessageReaction(), user = new User(), returnCheck = false) => {
+module.exports = async (reaction = new MessageReaction(), user, returnCheck = false) => {
 
     if (user.id === reaction.message.client.user.id) return
 

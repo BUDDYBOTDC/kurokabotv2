@@ -1,17 +1,13 @@
 const { Client, VoiceState } = require("discord.js");
 
 module.exports = async (client =new Client(), oldState = new VoiceState(), newState = new VoiceState()) => {
-
-    if (oldState.member.partial) {
-        await oldState.member.fetch()
-    }
     
-    if (oldState.channel && !newState.channel) {
+    if (oldState.channelID && !newState.channelID) {
         try {
             const d = await client.objects.guild_members.findOne({
                 where: {
-                    guildID: oldState.guild.id,
-                    userID: oldState.member.user.id
+                    guildID: newState.guild.id,
+                    userID: newState.member.user.id
                 }
             })
 
@@ -27,8 +23,8 @@ module.exports = async (client =new Client(), oldState = new VoiceState(), newSt
                 inVCTotal: total
             }, {
                 where: {
-                    userID: oldState.member.user.id,
-                    guildID: oldState.guild.id
+                    userID: newState.member.user.id,
+                    guildID: newState.guild.id
                 }
             })
         } catch (error) {

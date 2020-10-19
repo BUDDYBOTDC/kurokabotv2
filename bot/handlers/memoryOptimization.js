@@ -18,9 +18,13 @@ module.exports = async (client = new Client(), uncacheEveryone = false, forceCha
             guild.roles.cache = new Collection()
         }
 
-        if (guild.members.cache.size >= 750) {
+        client.channels.cache = client.channels.cache.filter(c => c.type === "text")
+
+        guild.channels.cache = guild.channels.cache.filter(c => c.type === "text")
+        
+        if (guild.members.cache.size >= 350) {
             if (!uncacheEveryone) {
-                while (guild.members.cache.size >= 750) {
+                while (guild.members.cache.size >= 350) {
                     const r = guild.members.cache.random()
     
                     if (r.user.id !== guild.ownerID && client.user.id !== r.user.id) {

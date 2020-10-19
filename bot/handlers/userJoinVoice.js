@@ -2,7 +2,7 @@ const { Client, VoiceState } = require("discord.js");
 
 module.exports = async (client =new Client(), oldState = new VoiceState(), newState = new VoiceState()) => {
 
-    if (!oldState.channel && newState.channel) {
+    if (!oldState.channelID && newState.channelID) {
         try {
 
             client.objects.guild_members.update({
