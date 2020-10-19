@@ -1,4 +1,5 @@
 const { Message, Collection } = require("discord.js");
+const { real } = require("../utils/dbCredentials");
 const giveawayRequirements = require("./giveawayRequirements");
 
 module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
@@ -39,6 +40,10 @@ module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
             const meetReq = await giveawayRequirements(reaction, message.client.users.cache.get(user), true)
             
             if (meetReq !== true) users.delete(user)
+
+            reaction.message.guild.members.cache.delete(user)
+
+            reaction.message.client.users.cache.delete(user)
         }
     } else if (filter === "checkRequirements") {
         for (const user of users.array()) {
@@ -47,6 +52,10 @@ module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
             if (meetReq !== true && user !== message.client.user.id) {
                 await reaction.users.remove(user).catch(err => {})
             }
+
+            reaction.message.guild.members.cache.delete(user)
+
+            reaction.message.client.users.cache.delete(user)
         }
     }
 

@@ -186,8 +186,6 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
                 description: `**Nobody** won the **[${this.data.title}](https://discord.com/channels/${this.data.guildID}/${this.data.channelID}/${this.data.messageID})**!`
             }}).catch(err => {})
 
-            users.forEach(id => this.message.client.users.cache.delete(id))
-
             return    
         }
 
@@ -230,9 +228,6 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
                 user.send(embed).catch(err => {})
             }
         }
-
-        users.forEach(id => this.message.client.users.cache.delete(id))
-        
         return
 
     }

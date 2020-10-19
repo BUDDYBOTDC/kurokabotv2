@@ -8,10 +8,13 @@ const isUserInGuild = require("../functions/isUserInGuild")
 const getIDFromArgument = require("../functions/getIDFromArgument")
 const deleteMessageFromCache = require("./deleteMessageFromCache")
 const shardGuild = require("../functions/shardGuild")
+const deleteUserFromCache = require("./deleteUserFromCache")
 const cooldown = new Discord.Collection()
 const entryCooldown = new Discord.Collection()
 
 module.exports = async (reaction = new MessageReaction(), user, returnCheck = false) => {
+
+    if (!user) return 
 
     if (user.id === reaction.message.client.user.id) return
 
@@ -37,12 +40,14 @@ module.exports = async (reaction = new MessageReaction(), user, returnCheck = fa
 
     if (user.partial) {
         await user.fetch()
+
+        deleteUserFromCache(message, user.id)
     }
 
     if (reaction.message.partial) {
         await reaction.message.fetch()
 
-        deleteMessageFromCache(message)
+        deleteUserFromCache(message, user.id)
     }
 
     const client = reaction.message.client

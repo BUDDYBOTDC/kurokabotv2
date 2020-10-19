@@ -8,7 +8,12 @@ module.exports = async (client = new Client(), uncacheEveryone = false, forceCha
 
     let uncachedRoles = 0
 
+    client.emojis.cache = new Collection()
+
     for (const guild of client.guilds.cache.array()) {
+
+        guild.emojis.cache = new Collection()
+                    
         if (forceChannelsAndRolesUncaching) {
             uncachedChannels += guild.channels.cache.size
             uncachedRoles += guild.roles.cache.size
@@ -18,12 +23,10 @@ module.exports = async (client = new Client(), uncacheEveryone = false, forceCha
             guild.roles.cache = new Collection()
         }
         
-        if (guild.members.cache.size >= 10) {
+        if (guild.members.cache.size >= 0) {
 
-            while (guild.members.cache.size >= 10) {
-                const r = guild.members.cache.random()
-
-                if (r.user.id !== guild.ownerID && client.user.id !== r.user.id) {
+            for (const r of guild.members.cache.array()) {
+                if (client.user.id !== r.user.id) {
                     client.users.cache.delete(r.user.id)
 
                     guild.members.cache.delete(r.user.id)

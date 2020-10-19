@@ -11,11 +11,11 @@ const usageError = require("./usageError");
 
 module.exports = async (client = new Client(), message = new Message(), db) => {
 
-    if (message.author.bot || message.channel.type === "dm") return 
+    if (message.author.bot || message.channel.type === "dm") return deleteUserFromCache(message, message.author.id)
 
     const prefix = client.prefixes.find(p => message.content.toLowerCase().startsWith(p.toLowerCase()))
 
-    if (!prefix) return
+    if (!prefix) return deleteUserFromCache(message, message.author.id)
 
     const args = message.content.slice(prefix.length).trim().split(/ +/g)
 
@@ -23,45 +23,43 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
 
     const command = client.commands.get(CMD) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(CMD))
 
-    if (!command) return deleteUserFromCache(message)
+    if (!command) return deleteUserFromCache(message, message.author.id)
 
-    deleteUserFromCache(message, true)
-
-    if (!client.objects) return message.channel.send(`:x: Command timed out.`)
+    if (!client.objects) return message.channel.send(`:x: Command timed out.`), deleteUserFromCache(message, message.author.id)
     
     if (command.category === "admin" && !client.owners.includes(message.author.id)) {
         const admin = await isAdmin(client, message.author.id)
 
-        if (!admin) return
+        if (!admin) return deleteUserFromCache(message, message.author.id)
     }
 
-    if (command.category === "owner" && !client.owners.includes(message.author.id)) return
+    if (command.category === "owner" && !client.owners.includes(message.author.id)) return deleteUserFromCache(message, message.author.id)
     
     if (command.category === "staff" && !client.owners.includes(message.author.id)) {
         const staff = await isStaff(client, message.author.id)
 
-        if (!staff) return
+        if (!staff) return deleteUserFromCache(message, message.author.id)
     }
 
     const guildData = await client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 
     if (guildData && !client.owners.includes(message.author.id)) {
-        if (guildData.get("isBlacklisted") === true) return
+        if (guildData.get("isBlacklisted") === true) return deleteUserFromCache(message, message.author.id)
     }
 
     const userData = await client.objects.users.findOne({ where: { userID: message.author.id }})
 
     if (userData && !client.owners.includes(message.author.id)) {
-        if (userData.get("isBanned") === true) return
+        if (userData.get("isBanned") === true) return deleteUserFromCache(message, message.author.id)
     }
 
-    if (JSON.parse(guildData.get("blacklistedChannels")).includes(message.channel.id) && !message.member.hasPermission("ADMINISTRATOR") &&!client.owners.includes(message.author.id)) return
+    if (JSON.parse(guildData.get("blacklistedChannels")).includes(message.channel.id) && !message.member.hasPermission("ADMINISTRATOR") &&!client.owners.includes(message.author.id)) return deleteUserFromCache(message, message.author.id)
 
     antiSpamHandler(message)
 
     if (command.premium) {
         if (!guildData.get("premium") && !client.owners.includes(message.author.id)) {
-            return message.channel.send(`This guild is not premium, therefore can't use this command.`)
+            return message.channel.send(`This guild is not premium, therefore can't use this command.`), deleteUserFromCache(message, message.author.id)
         }
     }
 
@@ -81,17 +79,17 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
                 }).filter(e => e)
             }
 
-            if (!message.member.roles.cache.some(r => roles.includes(r.id))) return permissionsError(message, command)
-        } else return permissionsError(message, command)
+            if (!message.member.roles.cache.some(r => roles.includes(r.id))) return permissionsError(message, command), deleteUserFromCache(message, message.author.id)
+        } else return permissionsError(message, command), deleteUserFromCache(message, message.author.id)
     }
 
-    if (command.clientPermissions && !command.clientPermissions.every(perm => message.guild.me.hasPermission(perm)) && !client.owners.includes(message.author.id)) return clientPermissionsError(message, command)
+    if (command.clientPermissions && !command.clientPermissions.every(perm => message.guild.me.hasPermission(perm)) && !client.owners.includes(message.author.id)) return clientPermissionsError(message, command), deleteUserFromCache(message, message.author.id)
 
     if (command.maxGiveaways) {
         const currentGiveaways = (await client.objects.giveaways.findAll({ where: { ended: false, guildID: message.guild.id, removed: null }})).sort(gw => Date.now() < gw.endsAt)
 
         if (currentGiveaways.length >= command.maxGiveaways) {
-            return message.channel.send(`This guild has hit the limit of active giveaways. (${command.maxGiveaways})`)
+            return message.channel.send(`This guild has hit the limit of active giveaways. (${command.maxGiveaways})`), deleteUserFromCache(message, message.author.id)
         }
     }
 
@@ -99,14 +97,14 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
         const currentIntervalGiveaways = await client.objects.giveaways.findAll({ where: { removed: false, guildID: message.guild.id }})
 
         if (currentIntervalGiveaways.length >= command.maxIntervalGiveaways) {
-            return message.channel.send(`This guild has hit the limit of scheduled giveaways. (${command.maxIntervalGiveaways})`)
+            return message.channel.send(`This guild has hit the limit of scheduled giveaways. (${command.maxIntervalGiveaways})`), deleteUserFromCache(message, message.author.id)
         }
     }
 
-    if (command.usages && !args.length) return usageError(message, command)
+    if (command.usages && !args.length) return usageError(message, command), deleteUserFromCache(message, message.author.id)
 
     if (command.cooldown && !client.owners.includes(message.author.id)) {
-        if (cooldownError(message, command)) return
+        if (cooldownError(message, command)) return deleteUserFromCache(message, message.author.id)
     }
 
     let data = {}
