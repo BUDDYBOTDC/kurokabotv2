@@ -18,33 +18,23 @@ module.exports = async (client = new Client(), uncacheEveryone = false, forceCha
             guild.roles.cache = new Collection()
         }
         
-        if (guild.members.cache.size >= 350) {
-            if (!uncacheEveryone) {
-                while (guild.members.cache.size >= 350) {
-                    const r = guild.members.cache.random()
-    
-                    if (r.user.id !== guild.ownerID && client.user.id !== r.user.id) {
-                        client.users.cache.delete(r.user.id)
-    
-                        guild.members.cache.delete(r.user.id)
-    
-                        uncachedTotal++
-                    }
+        if (guild.members.cache.size >= 200) {
+
+            while (guild.members.cache.size >= 200) {
+                const r = guild.members.cache.random()
+
+                if (r.user.id !== guild.ownerID && client.user.id !== r.user.id) {
+                    client.users.cache.delete(r.user.id)
+
+                    guild.members.cache.delete(r.user.id)
+
+                    uncachedTotal++
                 }
-            } else {
-                uncachedTotal += guild.members.cache.size
+            }
+            if (uncacheEveryone) {
+                client.channels.cache = client.channels.cache.filter(c => c.type === "text")
 
-                for (const m of guild.members.cache.array()) {
-                    if (m.user.id !== client.user.id) {
-                        client.users.cache.delete(m.user.id)
-
-                        guild.members.cache.delete(m.user.id)
-
-                        client.channels.cache = client.channels.cache.filter(c => c.type === "text")
-
-                        guild.channels.cache = guild.channels.cache.filter(c => c.type === "text")
-                    }
-                }
+                guild.channels.cache = guild.channels.cache.filter(c => c.type === "text")
             }
         }
     }
