@@ -17,10 +17,6 @@ module.exports = async (client = new Client(), uncacheEveryone = false, forceCha
             client.channels.cache = new Collection()
             guild.roles.cache = new Collection()
         }
-
-        client.channels.cache = client.channels.cache.filter(c => c.type === "text")
-
-        guild.channels.cache = guild.channels.cache.filter(c => c.type === "text")
         
         if (guild.members.cache.size >= 350) {
             if (!uncacheEveryone) {
@@ -43,6 +39,10 @@ module.exports = async (client = new Client(), uncacheEveryone = false, forceCha
                         client.users.cache.delete(m.user.id)
 
                         guild.members.cache.delete(m.user.id)
+
+                        client.channels.cache = client.channels.cache.filter(c => c.type === "text")
+
+                        guild.channels.cache = guild.channels.cache.filter(c => c.type === "text")
                     }
                 }
             }
