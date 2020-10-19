@@ -64,7 +64,7 @@ module.exports = {
         }
     },
 
-    GUILD_INVITES: (invite = new Invite()) => {
+    GUILD_INVITES: (invite) => {
         return {
             code: invite.code,
             guildID: invite.guild.id,
