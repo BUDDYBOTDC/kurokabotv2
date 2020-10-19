@@ -27,7 +27,7 @@ class giveawayMessage {
 
         const giveaway_emoji = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji").split(":")[2]
 
-        this.message.react(giveaway_emoji)
+        this.message.react(giveaway_emoji).catch(err => {})
     }
 
     async update() {
