@@ -2,10 +2,10 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 const getCustomEmbed = require("../../functions/getCustomEmbed");
 
 module.exports = {
-    name: "leaderboard",
+    name: "level-leaderboard",
     aliases: [
-        "lb",
-        "ranking"
+        "llb",
+        "lranking"
     ],
     fields: [
         "<page>"
@@ -14,7 +14,7 @@ module.exports = {
         "3",
         "10"
     ],
-    description: "displays a leaderboard sorted by amount of messages sent by users",
+    description: "displays a leaderboard sorted the level of users",
     cooldown: 15000,
     category: "messages",
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
@@ -25,7 +25,7 @@ module.exports = {
 
         const all_data = await client.objects.guild_members.findAll({ where: { guildID: message.guild.id }})
 
-        const data = all_data.sort((x, y) => Number(y.messages) - Number(x.messages)).filter(d => Number(d.messages) > 0)
+        const data = all_data.sort((x, y) => Number(y.level) - Number(x.level)).filter(d => Number(d.level) > 0)
 
         const content = []
 
@@ -38,7 +38,7 @@ module.exports = {
 
             t++
 
-            content.push(`${t}# - **<@${ID}>**: ${Number(d.messages).toLocaleString()} messages`)
+            content.push(`${t}# - **<@${ID}>**: level ${Number(d.level).toLocaleString()}`)
 
             if (ID === message.author.id) top = t
         
@@ -57,7 +57,7 @@ module.exports = {
 
         const embed = new MessageEmbed()
         .setColor(color)
-        .setTitle(`Message Leaderboard for ${message.guild.name}:`)
+        .setTitle(`Level Leaderboard for ${message.guild.name}:`)
         .setThumbnail(client.user.displayAvatarURL())
         .setDescription(content.slice(x, y))
         .setFooter(`Generated in ${Date.now() - execution}ms.\nYou're top ${top}#.\nPage ${page} of ${pages} (${t} users).`)

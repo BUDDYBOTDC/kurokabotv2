@@ -19,7 +19,8 @@ module.exports = {
         deny_dm: Sequelize.BOOLEAN,
         blacklistedChannels: Sequelize.STRING,
         giveaway_emoji: Sequelize.STRING,
-        invite_logs: Sequelize.STRING
+        invite_logs: Sequelize.STRING,
+        level_settings: Sequelize.STRING
     },
 
     GUILD_MEMBER: {
@@ -32,7 +33,9 @@ module.exports = {
         invited_by: Sequelize.STRING,
         inVC: Sequelize.BOOLEAN,
         inVCSince: Sequelize.BIGINT,
-        inVCTotal: Sequelize.BIGINT
+        inVCTotal: Sequelize.BIGINT,
+        level: Sequelize.BIGINT,
+        experience: Sequelize.BIGINT
     },
 
     GIVEAWAYS: {

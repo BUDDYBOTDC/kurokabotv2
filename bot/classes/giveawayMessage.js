@@ -17,7 +17,7 @@ class giveawayMessage {
 
         this.data = data
 
-        if (Date.now() >= data.endsAt && data.ended === true) return 
+        if (Date.now() >= data.endsAt && data.ended === true) return
 
         this.update()
     }

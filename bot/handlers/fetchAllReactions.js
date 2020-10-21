@@ -6,7 +6,7 @@ module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
 
     const users = new Collection()
 
-    if (!message.reactions) return
+    if (!message.reactions) return console.log(`No reactions!`)
 
     const guildData = await message.client.objects.guilds.findOne({ where: { guildID: message.guild.id }})
 

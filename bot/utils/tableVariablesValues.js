@@ -1,6 +1,7 @@
 const { Guild, User, Invite } = require("discord.js")
 const Sequelize = require("sequelize")
 const categoryColors = require("./categoryColors")
+const levelSettings = require("./levelSettings")
 
 module.exports = {
     GUILD: (guild = new Guild()) => {
@@ -21,7 +22,8 @@ module.exports = {
             entry_dm: true,
             deny_dm: true,
             giveaway_emoji: "🎉",
-            invite_logs: "0"
+            invite_logs: "0",
+            level_settings: JSON.stringify(levelSettings)
         }
     },
 
@@ -36,7 +38,9 @@ module.exports = {
             invited_by: "unknown",
             inVC: false,
             inVCSince: 0,
-            inVCTotal: 0
+            inVCTotal: 0,
+            level: 1,
+            experience: 0
         }
     },
 

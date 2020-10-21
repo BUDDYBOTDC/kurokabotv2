@@ -14,9 +14,9 @@ const entryCooldown = new Discord.Collection()
 
 module.exports = async (reaction = new MessageReaction(), user, returnCheck = false) => {
 
-    if (!user) return 
+    if (!user) return console.log(`No user object??`)
 
-    if (user.id === reaction.message.client.user.id) return
+    if (user.id === reaction.message.client.user.id) return 
 
     const { message } = reaction
     

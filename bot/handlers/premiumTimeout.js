@@ -3,6 +3,8 @@ const daysToMs = require("../utils/daysToMs");
 
 module.exports = async (client = new Client(), guild = new Guild()) => {
 
+    return
+    
     const guildData = await client.objects.guilds.findOne({ where: { guildID: guild.id }})
 
     if (guildData.get("premium") && guildData.get("premiumEndsAt") - Date.now() <= daysToMs(7)) {
