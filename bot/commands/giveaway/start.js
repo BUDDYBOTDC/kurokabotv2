@@ -34,7 +34,8 @@ badges <badge> <badge> ... [filter: --single]
 real_invites <number>
 fake_invites <number>
 total_invites <number>
-voice_duration <minutes>`
+voice_duration <minutes>
+level <number>`
 
         const color = await getCustomEmbed(client, message.guild.id, "giveaway")
 

@@ -19,7 +19,8 @@ module.exports = (client = new Client(), requirements) => {
         real_invites: "real_invites",
         fake_invites: "fake_invites",
         total_invites: "total_invites",
-        voice_duration: "voice_duration"
+        voice_duration: "voice_duration",
+        level: "guild_level"
     }
 
     for (const field of requirements.split("\n")) {

@@ -31,7 +31,8 @@ module.exports = async (d) => {
             real_invites: "Must have at least {0} real invites.",
             fake_invites: "Must not have more than {0} fake invites.",
             total_invites: "Must have a total of {0} invites or more.",
-            voice_duration: "Must have been in voice channels for at least {0} minutes."
+            voice_duration: "Must have been in voice channels for at least {0} minutes.",
+            guild_level: "Must be level {0} or higher (Guild)"
         }
 
         const text = fields[req[0]]
@@ -222,6 +223,17 @@ module.exports = async (d) => {
             if (isNaN(d) || d < 1) return { message: `:x: Invalid amount of minutes at field ${req[0]}.` }
 
             if (Number(req[1][0]) > 75000 || Number(req[1][0]) < 1) return { message: `Amount of minutes cant be less than 1 nor greater than 75000 at ${req[0]} field.` }
+
+            replacer = req[1][0]
+        } else if (req[0] === "guild_level") {
+            
+            const n = req[1][0]
+
+            const d = Number(n)
+
+            if (isNaN(d) || d < 1) return { message: `:x: Invalid amount of minutes at field ${req[0]}.` }
+
+            if (Number(req[1][0]) > 1000 || Number(req[1][0]) < 1) return { message: `Number can't be smaller than 1 nor greater than 1000 at ${req[0]} field.` }
 
             replacer = req[1][0]
         }

@@ -37,7 +37,9 @@ module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
 
     if (filter === "endGiveaway") {
         for (const user of users.array()) {
-            const meetReq = await giveawayRequirements(reaction, message.client.users.cache.get(user), true)
+            const u = await message.client.users.fetch(user, false).catch(err => {})
+
+            const meetReq = await giveawayRequirements(reaction, u, true)
             
             if (meetReq !== true) users.delete(user)
 

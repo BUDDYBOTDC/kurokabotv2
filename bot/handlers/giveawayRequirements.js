@@ -509,6 +509,27 @@ module.exports = async (reaction = new MessageReaction(), user, returnCheck = fa
                     return
                 }
             }
+        } else if (req_name === "guild_level") {
+
+            const n = Number(req_value[0])
+
+            const d = await client.objects.guild_members.findOne({ where: { guildID: reaction.message.guild.id, userID: user.id }})
+        
+            const item = d.get("level") || 1
+
+            if (n > item) {
+                if (!data.ended) {
+                    let r = await reaction.users.remove(user.id).catch(err => {})
+
+                    if (!r) return
+
+                    if (guildData.get("deny_dm")) {
+                        giveawayEntryError(`You need to be level ${n} or higher!\nYou're level ${item}.`)
+                    }   
+
+                    return
+                }
+            }
         }
     }
 

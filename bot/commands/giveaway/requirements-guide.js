@@ -35,6 +35,7 @@ real_invites
 total_invites
 fake_invites
 voice_duration
+level
 `)
         .addField(`account_older <number>`, `The account that reacted to this giveaway must be older than given <number> of days.`)
         .addField(`member_older <number>`, `The account that reacted to this giveaway must have been in the server for at least given <number> of days.`)
@@ -47,6 +48,7 @@ voice_duration
         .addField(`total_invites <number>`, "The account that reacted to this giveaway will have to have <number> total invites or more to join this giveaway.")
         .addField(`fake_invites <number>`, "The account that reacted to this giveaway has to have less than <number> fake invites to join this giveaway.")
         .addField(`voice_duration <minutes>`, "The account that reacted to this giveaway has to be in voice channels for at least <minutes> minutes.")
+        .addField(`level <number>`, "The account that reacted to this giveaway has to be level <number> or higher to participate.")
         .addField(`Note:`, `Invites aren't working as expected, so don't blame us but discord :p`)
         .addField(`Separator`, "To separate guild/role IDs or badges, use a space.")
         .addField(`Valid badges`, `${Object.keys(badges).filter(e => e !== "boost").map(key => `${badges[key]} ${key}`).join("\n")}`)

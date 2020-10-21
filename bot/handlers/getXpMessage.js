@@ -6,6 +6,8 @@ module.exports = async (client = new Client(), message = new Message()) => {
 
     if (message.author.bot || message.channel.type === "dm") return
 
+    if (!client.objects) return
+    
     const guildData = await client.objects.guilds.findOne({ where: {
         guildID: message.guild.id
     }})
