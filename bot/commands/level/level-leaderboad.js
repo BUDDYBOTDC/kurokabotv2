@@ -16,7 +16,7 @@ module.exports = {
     ],
     description: "displays a leaderboard sorted the level of users",
     cooldown: 15000,
-    category: "messages",
+    category: "level",
     execute: async (client = new Client(), message = new Message(), args = [], db) => {
 
         const execution = Date.now()

@@ -53,7 +53,7 @@ module.exports = {
 
             if (!channel) return message.channel.send(`Invalid channel has been given.`)
 
-            if (channel.type === "news") return cancelGiveaway("News channels can't be used for giveaways as per discord editing rate limits in said channels.")
+            if (channel.type === "news") return message.channel.send("News channels can't be used for giveaways as per discord editing rate limits in said channels.")
             
             args.shift()
 

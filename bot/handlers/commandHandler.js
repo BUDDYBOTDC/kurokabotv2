@@ -79,8 +79,8 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
                 }).filter(e => e)
             }
 
-            if (!message.member.roles.cache.some(r => roles.includes(r.id))) return permissionsError(message, command), deleteUserFromCache(message, message.author.id)
-        } else return permissionsError(message, command), deleteUserFromCache(message, message.author.id)
+            if (!message.member.roles.cache.some(r => roles.includes(r.id))) return permissionsError(message, command)
+        } else return permissionsError(message, command)
     }
 
     if (command.clientPermissions && !command.clientPermissions.every(perm => message.guild.me.hasPermission(perm)) && !client.owners.includes(message.author.id)) return clientPermissionsError(message, command), deleteUserFromCache(message, message.author.id)
@@ -101,7 +101,7 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
         }
     }
 
-    if (command.usages && !args.length) return usageError(message, command), deleteUserFromCache(message, message.author.id)
+    if (command.usages && !args.length) return usageError(message, command)
 
     if (command.cooldown && !client.owners.includes(message.author.id)) {
         if (cooldownError(message, command)) return deleteUserFromCache(message, message.author.id)

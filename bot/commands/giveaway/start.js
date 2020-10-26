@@ -275,6 +275,7 @@ ${fields}
 
             embed.setColor("GREEN")
             embed.setDescription(`The giveaway has been successfully set up.`)
+            embed.addField(`Vote ${client.user.username}`, `You can vote this bot [here](https://top.gg/bot/754024463137243206/vote) if you like everything for free :3`)
             embed.setFooter(`Time to win!`)
 
             await msg.edit(embed).catch(err => {})

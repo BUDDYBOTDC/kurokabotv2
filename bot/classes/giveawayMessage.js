@@ -96,7 +96,7 @@ class giveawayMessage {
 
             embed.setColor(`BLUE`)
             embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
-            embed.setURL("http://www.kurokabots.com")
+            embed.setURL("https://top.gg/bot/754024463137243206/vote")
             embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
             embed.setDescription(`
 <:DE_IconFriends:763372565716533249> **Winners**: ${this.data.winners}
@@ -150,7 +150,7 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
 
         while(this.data.winners !== 0 && users.size !== 0) {
             const id = users.random()
-            
+
             if (id) {
                 IDs.push(id)
 
@@ -163,7 +163,7 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
         if (users.size === 0 && IDs.length === 0) {
 
             embed.setColor("GREEN")
-            embed.setURL("http://www.kurokabots.com")
+            embed.setURL("https://top.gg/bot/754024463137243206/vote")
             embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
             embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
             embed.setDescription(`
@@ -179,7 +179,7 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
             this.message.channel.send({embed: {
                 color: 5570448,
                 title: "🎉 GIVEAWAY ENDED 🎉",
-                url: "http://www.kurokabots.com",
+                url: "https://top.gg/bot/754024463137243206/vote",
                 thumbnail: {
                     url: this.message.client.user.displayAvatarURL()
                 },
@@ -191,7 +191,7 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
 
         embed.setColor("GREEN")
         embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
-        embed.setURL("http://www.kurokabots.com")
+        embed.setURL("https://top.gg/bot/754024463137243206/vote")
         embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
         embed.setDescription(`
 **__Giveaway Ended__**
@@ -206,7 +206,7 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
         this.message.channel.send(`<a:gifts4days:764941341594746890> ${IDs.map(e => `<@${e}>`).join(", ")}`, {embed: {
             color: 5570448,
             title: "🎉 GIVEAWAY ENDED 🎉",
-            url: "http://www.kurokabots.com",
+            url: "https://top.gg/bot/754024463137243206/vote",
             thumbnail: {
                 url: this.message.client.user.displayAvatarURL()
             },

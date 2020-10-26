@@ -27,7 +27,7 @@ module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
         if (reactions.last()) {    
         
             for (const user of reactions.array()) {
-                users.set(user.id, user.id)
+                users.set(user.id, user)
 
                 last = reactions.last()
             }
@@ -37,29 +37,35 @@ module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
 
     if (filter === "endGiveaway") {
         for (const user of users.array()) {
-            const u = await message.client.users.fetch(user, false).catch(err => {})
-
-            const meetReq = await giveawayRequirements(reaction, u, true)
             
-            if (meetReq !== true) users.delete(user)
+            const meetReq = await giveawayRequirements(reaction, user, true)
+            
+            if (meetReq !== true) users.delete(user.id)
 
-            reaction.message.guild.members.cache.delete(user)
+            reaction.message.guild.members.cache.delete(user.id)
 
-            reaction.message.client.users.cache.delete(user)
+            reaction.message.client.users.cache.delete(user.id)
         }
     } else if (filter === "checkRequirements") {
         for (const user of users.array()) {
-            const meetReq = await giveawayRequirements(reaction, message.client.users.cache.get(user), true)
+
+            const meetReq = await giveawayRequirements(reaction, user, true)
             
             if (meetReq !== true && user !== message.client.user.id) {
                 await reaction.users.remove(user).catch(err => {})
             }
 
-            reaction.message.guild.members.cache.delete(user)
+            reaction.message.guild.members.cache.delete(user.id)
 
-            reaction.message.client.users.cache.delete(user)
+            reaction.message.client.users.cache.delete(user.id)
         }
     }
 
-    return users.filter(id => id !== message.client.user.id)
+    const  u = new Collection()
+
+    for (const user of users.array()) {
+        if (user.id !== message.client.user.id) u.set(user.id, user.id)
+    }
+
+    return u
 }

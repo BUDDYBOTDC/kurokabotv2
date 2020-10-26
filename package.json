@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@puyodead1/discord.js-redis": "^0.1.0",
     "cleverbot-free": "^1.0.4",
+    "dblapi.js": "^2.4.1",
     "discord.js": "^12.3.1",
     "fs": "0.0.1-security",
     "hastebin": "^0.2.1",

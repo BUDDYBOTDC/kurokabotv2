@@ -11,7 +11,7 @@ module.exports = async (client = new Client(), db = new Sequelize()) => {
         }
     })
 
-    for (const d of messages) {
+    for (const d of messages.filter(e => client.guilds.cache.has(e.get("guildID")))) {
 
         const data = await d.toJSON()
 
@@ -34,8 +34,6 @@ module.exports = async (client = new Client(), db = new Sequelize()) => {
                         if (data.ended === false) {
 
                             const giveaway = new giveawayMessage(m, data)
-
-                            giveaway.checkReactions()
                         
                         }
                     } else {

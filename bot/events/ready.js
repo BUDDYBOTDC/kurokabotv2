@@ -17,7 +17,7 @@ module.exports = async (client = new Client(), db = new sequelize()) => {
     await handleGuildsData(client, db)
 
     setInterval(() => {
-         if (client.users.cache.size >= 20000) {
+         if (client.users.cache.size >= 50000) {
             memoryOptimization(client, true)   
          }
     }, 600000);
