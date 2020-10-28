@@ -1,4 +1,4 @@
-const { Message, MessageMentions } = require("discord.js");
+const { Message, MessageMentions } = require("discord.js-light");
 
 module.exports = async (message = new Message(), args = [], current = true) => {
 

@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js-light");
 const hastebin = require("hastebin");
 
 module.exports = {

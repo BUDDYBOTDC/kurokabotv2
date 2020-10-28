@@ -1,4 +1,4 @@
-const { Client, Message, ReactionUserManager } = require("discord.js");
+const { Client, Message, ReactionUserManager } = require("discord.js-light");
 const isAdmin = require("../functions/isAdmin");
 const isStaff = require("../functions/isStaff");
 const shardGuild = require("../functions/shardGuild");

@@ -1,4 +1,4 @@
-const { Message, MessageEmbed, Client } = require("discord.js");
+const { Message, MessageEmbed, Client } = require("discord.js-light");
 const getCustomEmbed = require("../../functions/getCustomEmbed");
 const badges = require("../../utils/badges");
 
@@ -14,7 +14,7 @@ module.exports = {
         "rg"
     ],
     description: "information about requirement fields of k!start command",
-    category: "giveaway",
+    category: "info",
     execute: async (client = new Client(), message = new Message(), args = []) => {
 
         const color = await getCustomEmbed(client, message.guild.id, "giveaway")
@@ -49,7 +49,7 @@ level
         .addField(`fake_invites <number>`, "The account that reacted to this giveaway has to have less than <number> fake invites to join this giveaway.")
         .addField(`voice_duration <minutes>`, "The account that reacted to this giveaway has to be in voice channels for at least <minutes> minutes.")
         .addField(`level <number>`, "The account that reacted to this giveaway has to be level <number> or higher to participate.")
-        .addField(`Note:`, `Invites aren't working as expected, so don't blame us but discord :p`)
+        .addField(`Note:`, `Anything related to invites requires the bot to have 2 permissions, \`Manage Channels\` and \`Manage Guild\`.`)
         .addField(`Separator`, "To separate guild/role IDs or badges, use a space.")
         .addField(`Valid badges`, `${Object.keys(badges).filter(e => e !== "boost").map(key => `${badges[key]} ${key}`).join("\n")}`)
         .setFooter(`Did we help? Hope so.`)

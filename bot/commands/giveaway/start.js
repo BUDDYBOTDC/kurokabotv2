@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed, Collection } = require("discord.js");
+const { Client, Message, MessageEmbed, Collection } = require("discord.js-light");
 const giveawayMessage = require("../../classes/giveawayMessage");
 const ms = require("ms");
 const readRequirements = require("../../handlers/readRequirements");
@@ -226,14 +226,15 @@ ${fields}
                 requirements: readRequirements(client, m.content)
             }, message: m })
 
-            if (read.message) {
+            if (read.message || reqs.message) {
                 embed.setColor("BLUE")
                 embed.setDescription(`This giveaway will last ${m.content}, what are the requirements to join this giveaway?
 
 **Fields:**
 ${fields}
                 
-:x: ${read.message}
+${read.message ? `:x: ${read.message}` : ""}
+${reqs.message ? reqs.message : ""}
 `)
                 embed.setFooter(`Requirements field, use "skip" to skip it.\nOrder does not matter.\nA bit lost? Use ${client.prefix}requirements-guide for more information about this.`)
 

@@ -1,4 +1,4 @@
-const { Guild, User, Invite } = require("discord.js")
+const { Guild, User, Invite } = require("discord.js-light")
 const Sequelize = require("sequelize")
 const categoryColors = require("./categoryColors")
 const levelSettings = require("./levelSettings")

@@ -1,4 +1,4 @@
-const { Client, Message, MessageFlags } = require("discord.js");
+const { Client, Message, MessageFlags } = require("discord.js-light");
 const parse = require("ms-parser");
 const getRequirements = require("../../handlers/getRequirements");
 const readRequirements = require("../../handlers/readRequirements");
@@ -52,6 +52,12 @@ module.exports = {
         let req = m.get("requirements")
 
         if (args[3] && args[3] !== "skip") {
+            const isvalid = readRequirements(client, requirements)
+
+            if (isvalid.message) {
+                return message.channel.send(isvalid.message)
+            }
+
             req = await getRequirements({ data: {
                 requirements: readRequirements(client, requirements)
             }, message: message })

@@ -1,4 +1,4 @@
-const { Client, Guild, Message, MessageEmbed } = require("discord.js");
+const { Client, Guild, Message, MessageEmbed } = require("discord.js-light");
 const kuroka = require("../utils/kuroka");
 
 module.exports = async (client = new Client(), guild = new Guild()) => {

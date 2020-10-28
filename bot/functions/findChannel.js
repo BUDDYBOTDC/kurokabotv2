@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message } = require("discord.js-light");
 
 module.exports = (message = new Message(), args = [], current = true) => {
 
@@ -15,5 +15,5 @@ module.exports = (message = new Message(), args = [], current = true) => {
         }
     }
 
-    return channel 
+    return channel
 }

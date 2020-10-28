@@ -1,4 +1,4 @@
-const { Client, Guild } = require("discord.js");
+const { Client, Guild } = require("discord.js-light");
 const { Sequelize } = require("sequelize");
 const sequelize = require("sequelize");
 const tableVariables = require("../utils/tableVariables");

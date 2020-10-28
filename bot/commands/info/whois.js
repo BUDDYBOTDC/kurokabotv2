@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js-light");
 const findMember = require("../../functions/findMember");
 const isAdmin = require("../../functions/isAdmin");
 const isStaff = require("../../functions/isStaff");

@@ -1,4 +1,4 @@
-const { Client, Message, Collection } = require("discord.js");
+const { Client, Message, Collection } = require("discord.js-light");
 
 const cooldowns = new Collection()
 
@@ -64,6 +64,6 @@ module.exports = async (client = new Client(), message = new Message()) => {
             cooldowns.delete(message.guild.id + message.author.id)
         }, levelSettings.cooldown);
     
-        cooldowns.set(message.guild.id + message.author.id)
+        cooldowns.set(message.guild.id + message.author.id, true)
     }
 }

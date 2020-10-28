@@ -1,7 +1,7 @@
 const rateLimit = require("./bot/events/rateLimit")
 
-try {
-    const Discord = require("discord.js")
+try {  
+    const Discord = require("discord.js-light")
     const dbCredentials = require("./bot/utils/dbCredentials")
     const Sequelize = require("sequelize")
     const db = new Sequelize('kuroka', 'kuroka', 'SMQw2ZrQR7Qb9mHR', dbCredentials.real)
@@ -25,7 +25,12 @@ try {
             "CHANNEL",
             "MESSAGE"
         ],
-        fetchAllMembers: false,
+        cacheChannels: true,
+        cacheEmojis: true,
+        cacheGuilds: true,
+        cacheOverwrites: false,
+        cacheRoles: true,
+        cachePresences: false,
         messageCacheMaxSize: 0,
         messageSweepInterval: 0,
         messageCacheLifetime: 0,
@@ -39,6 +44,9 @@ try {
     const guildMemberUpdate = require("./bot/events/guildMemberUpdate")
     const voiceStateUpdate = require("./bot/events/voiceStateUpdate")
     
+    const DBL = require("dblapi.js");
+    const dbl = new DBL('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1NDAyNDQ2MzEzNzI0MzIwNiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjAzMjc3Njk3fQ.boxHn76d2tL1LyoUbUfL2JP8liW_RTzVpvn6L3k-fg0', client);  
+
     client.eventsFired = 0
     client.owners = ["739591551155437654", "590636977100161038"]
     client.version = "10.0.0"
@@ -76,6 +84,7 @@ try {
     client.on("rateLimit", data => rateLimit(data))
 
     client.login(config.token)
+
 } catch(err) {
     return console.log(err.message)
 }

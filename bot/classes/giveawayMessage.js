@@ -1,4 +1,4 @@
-const { Message, MessageEmbed, Collection } = require("discord.js");
+const { Message, MessageEmbed, Collection } = require("discord.js-light");
 const ms = require("parse-ms");
 const fetchAllReactions = require("../handlers/fetchAllReactions");
 const getRequirements = require("../handlers/getRequirements");
@@ -113,7 +113,7 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
             await this.message.edit(embed).catch(err => {
             })
 
-            const time = Math.floor(Math.random() * 300000) + 60000
+            const time = Math.floor(Math.random() * 600000) + 1200000
 
             if ((data.endsAt - Date.now()) - time > 0){
                 await new Promise(e => setTimeout(e, time))

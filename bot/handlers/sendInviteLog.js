@@ -1,4 +1,4 @@
-const { Client, User, Invite, MessageEmbed, GuildManager, GuildMember } = require("discord.js");
+const { Client, User, Invite, MessageEmbed, GuildManager, GuildMember } = require("discord.js-light");
 
 module.exports = async (client = new Client(), invite, inviter, target) => {
 

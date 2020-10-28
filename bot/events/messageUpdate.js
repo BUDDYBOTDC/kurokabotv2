@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message } = require("discord.js-light");
 const commandHandler = require("../handlers/commandHandler");
 const fireEvent = require("../handlers/fireEvent");
 

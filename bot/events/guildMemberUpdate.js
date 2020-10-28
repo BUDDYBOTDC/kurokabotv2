@@ -1,4 +1,4 @@
-const { GuildMember, Client } = require("discord.js");
+const { GuildMember, Client } = require("discord.js-light");
 const fireEvent = require("../handlers/fireEvent");
 const updateAllInvites = require("../handlers/updateAllInvites");
 

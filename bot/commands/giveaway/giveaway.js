@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed, Collection } = require("discord.js");
+const { Client, Message, MessageEmbed, Collection } = require("discord.js-light");
 const giveawayMessage = require("../../classes/giveawayMessage");
 const ms = require("ms");
 const readRequirements = require("../../handlers/readRequirements");
@@ -84,6 +84,10 @@ module.exports = {
             const reqs = readRequirements(client, requirements)
             
             if (reqs !== "skip") data.requirements = reqs 
+
+            if (reqs.message) {
+                return message.channel.send(reqs.message)
+            }
 
             data.mention = `${message.author}`
             data.winners = winners

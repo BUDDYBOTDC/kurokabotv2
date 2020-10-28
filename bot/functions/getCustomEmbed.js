@@ -1,4 +1,4 @@
-const { Client } = require("discord.js");
+const { Client } = require("discord.js-light");
 const { type } = require("os");
 const categoryColors = require("../utils/categoryColors");
 

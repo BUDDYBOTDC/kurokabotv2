@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message } = require("discord.js-light");
 const shardGuild = require("../../functions/shardGuild");
 const categoryColors = require("../../utils/categoryColors");
 const tableVariablesValues = require("../../utils/tableVariablesValues");

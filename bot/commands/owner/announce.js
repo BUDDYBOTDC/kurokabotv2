@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js-light");
 const messageUpdate = require("../../events/messageUpdate");
 const findChannel = require("../../functions/findChannel");
 

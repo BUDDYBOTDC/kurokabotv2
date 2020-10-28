@@ -1,4 +1,4 @@
-const { Message, MessageEmbed } = require("discord.js");
+const { Message, MessageEmbed } = require("discord.js-light");
 
 module.exports = (message = new Message(), command) => {
 

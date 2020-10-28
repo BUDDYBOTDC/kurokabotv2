@@ -1,4 +1,4 @@
-const { Client } = require("discord.js")
+const { Client } = require("discord.js-light")
 const Sequelize = require("sequelize")
 const giveawayMessage = require("../classes/giveawayMessage")
 const setGiveawayTimeout = require("./setGiveawayIntervalTimeout")
@@ -28,6 +28,8 @@ module.exports = async (client = new Client(), db = new Sequelize()) => {
     
                 if (channel) {
     
+                    await new Promise(r => setTimeout(r, 3000))
+
                     const m = await channel.messages.fetch(data.messageID).catch(err => {})
     
                     if (m) {

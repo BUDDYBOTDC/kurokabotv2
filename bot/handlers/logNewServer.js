@@ -1,4 +1,4 @@
-const { Guild, Message, MessageEmbed, Client, WebhookClient } = require("discord.js");
+const { Guild, Message, MessageEmbed, Client, WebhookClient } = require("discord.js-light");
 const webhook = new WebhookClient("761280726451617842", "LFOiBw77NlyvHbXhEDCMwdhR3Dx_SaOct3afQ1vep2wF9zojs5r4UsM4JXc3zHxs0MXn")
 module.exports = async (client = new Client(), guild = new Guild()) => {
     

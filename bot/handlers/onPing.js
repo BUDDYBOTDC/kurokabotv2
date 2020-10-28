@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message } = require("discord.js-light");
 const kuroka = require("../utils/kuroka");
 
 module.exports = (client = new Client(), message = new Message()) => {

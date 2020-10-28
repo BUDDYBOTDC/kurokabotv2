@@ -1,4 +1,4 @@
-const { Client } = require("discord.js")
+const { Client } = require("discord.js-light")
 
 module.exports = (client = new Client(), requirements) => {
 
@@ -31,6 +31,10 @@ module.exports = (client = new Client(), requirements) => {
 
         if (valid_fields[name] !== undefined){
             reqs[valid_fields[name]] = value
+        } else {
+            return {
+                message: `:x: Field ${name} is not valid.`
+            }
         }
     }
 

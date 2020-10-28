@@ -1,4 +1,4 @@
-const { Message } = require("discord.js")
+const { Message } = require("discord.js-light")
 const messageCreate = require("../events/messageCreate")
 const tableVariables = require("../utils/tableVariables")
 const tableVariablesValues = require("../utils/tableVariablesValues")

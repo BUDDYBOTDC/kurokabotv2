@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message } = require("discord.js-light");
 const giveawayMessage = require("../../classes/giveawayMessage");
 
 module.exports = {

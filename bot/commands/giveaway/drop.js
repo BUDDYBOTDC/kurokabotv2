@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed, ReactionManager } = require("discord.js");
+const { Client, Message, MessageEmbed, ReactionManager } = require("discord.js-light");
 const findChannel = require("../../functions/findChannel");
 const getCustomEmbed = require("../../functions/getCustomEmbed");
 
@@ -84,7 +84,7 @@ module.exports = {
 
         const reaction = collected.first()
 
-        const user = (await reaction.users.fetch({ limit: 1 })).first()
+        const user = (await reaction.users.fetch({ limit: 2 })).filter(e => e.id !== client.user.id).first()
 
         embed.setColor("GREEN")
         embed.setDescription(`${user} was the first user reacting!`)

@@ -1,4 +1,4 @@
-const { Client, GuildMember } = require("discord.js");
+const { Client, GuildMember } = require("discord.js-light");
 const getInviteUsed = require("../functions/getInviteUsed");
 const { real } = require("../utils/dbCredentials");
 const tableVariablesValues = require("../utils/tableVariablesValues");

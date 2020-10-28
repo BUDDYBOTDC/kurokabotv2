@@ -1,4 +1,4 @@
-const { Guild, Client } = require("discord.js");
+const { Guild, Client } = require("discord.js-light");
 const tableVariablesValues = require("../utils/tableVariablesValues");
 
 module.exports = async (client = new Client(), guild = new Guild()) => {

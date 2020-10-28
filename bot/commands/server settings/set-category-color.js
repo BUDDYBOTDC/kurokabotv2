@@ -1,4 +1,4 @@
-const { Client, Message, DiscordAPIError, MessageMentions, MessageEmbed } = require("discord.js");
+const { Client, Message, DiscordAPIError, MessageMentions, MessageEmbed } = require("discord.js-light");
 const updateCustomEmbeds = require("../../functions/updateCustomEmbeds");
 const categoryColors = require("../../utils/categoryColors");
 

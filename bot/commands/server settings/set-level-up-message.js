@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message } = require("discord.js-light");
 const ms = require("ms");
 const findChannel = require("../../functions/findChannel")
 const parser = require("ms-parser")

@@ -1,8 +1,10 @@
-const { Client, VoiceState } = require("discord.js");
+const { Client, VoiceState } = require("discord.js-light");
 
 module.exports = async (client =new Client(), oldState = new VoiceState(), newState = new VoiceState()) => {
 
-    if (!oldState.channelID && newState.channelID) {
+    if (!newState) return
+    
+    if (!oldState && newState.channelID) {
         try {
 
             client.objects.guild_members.update({

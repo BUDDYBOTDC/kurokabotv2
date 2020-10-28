@@ -1,4 +1,4 @@
-const { Client, Guild } = require("discord.js");
+const { Client, Guild } = require("discord.js-light");
 const daysToMs = require("../utils/daysToMs");
 
 module.exports = async (client = new Client(), guild = new Guild()) => {

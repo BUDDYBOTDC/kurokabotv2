@@ -1,4 +1,4 @@
-const { Client, GuildEmoji, Collection } = require("discord.js");
+const { Client, GuildEmoji, Collection } = require("discord.js-light");
 
 module.exports = async (client = new Client(), uncacheEveryone = false, forceChannelsAndRolesUncaching = false) => {
     

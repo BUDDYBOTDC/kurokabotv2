@@ -1,4 +1,4 @@
-const { Message, Guild } = require("discord.js");
+const { Message, Guild } = require("discord.js-light");
 const addGuildData = require("../handlers/addGuildData");
 const fireEvent = require("../handlers/fireEvent");
 const logNewServer = require("../handlers/logNewServer");

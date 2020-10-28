@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js-light");
 const ms = require("parse-ms");
 const addPremium = require("../../functions/addPremium");
 const parse = require("ms-parser");

@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js-light");
 const filterRoles = require("../../functions/filterRoles");
 const awaitMessage = require("../../handlers/awaitMessage");
 

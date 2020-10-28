@@ -1,4 +1,4 @@
-const { Client } = require("discord.js");
+const { Client } = require("discord.js-light");
 const premiumTimeout = require("../handlers/premiumTimeout");
 const daysToMs = require("../utils/daysToMs");
 

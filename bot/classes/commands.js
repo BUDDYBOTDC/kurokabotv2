@@ -1,4 +1,4 @@
-const { Collection, Message } = require("discord.js")
+const { Collection, Message } = require("discord.js-light")
 const categories = require("../utils/categories")
 
 class commands {

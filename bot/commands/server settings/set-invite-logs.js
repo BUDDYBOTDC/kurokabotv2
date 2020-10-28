@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message } = require("discord.js-light");
 const findChannel = require("../../functions/findChannel")
 
 module.exports = {

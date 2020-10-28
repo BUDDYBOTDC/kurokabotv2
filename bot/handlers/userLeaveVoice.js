@@ -1,13 +1,15 @@
-const { Client, VoiceState } = require("discord.js");
+const { Client, VoiceState } = require("discord.js-light");
 
 module.exports = async (client =new Client(), oldState = new VoiceState(), newState = new VoiceState()) => {
     
-    if (oldState.channelID && !newState.channelID) {
+    if (!oldState) return
+    
+    if (oldState.channelID && !newState) {
         try {
             const d = await client.objects.guild_members.findOne({
                 where: {
-                    guildID: newState.guild.id,
-                    userID: newState.member.user.id
+                    guildID: oldState.guild.id,
+                    userID: oldState.member.user.id
                 }
             })
 
@@ -23,8 +25,8 @@ module.exports = async (client =new Client(), oldState = new VoiceState(), newSt
                 inVCTotal: total
             }, {
                 where: {
-                    userID: newState.member.user.id,
-                    guildID: newState.guild.id
+                    userID: oldState.member.user.id,
+                    guildID: oldState.guild.id
                 }
             })
         } catch (error) {

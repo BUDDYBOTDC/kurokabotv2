@@ -1,4 +1,4 @@
-const { UserFlags } = require("discord.js")
+const { UserFlags } = require("discord.js-light")
 
 module.exports = {
     brilliance: "HOUSE_BRILLIANCE",

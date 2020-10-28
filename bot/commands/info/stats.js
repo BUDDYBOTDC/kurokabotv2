@@ -1,4 +1,4 @@
-const { Client, Message, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageEmbed } = require("discord.js-light");
 const ms = require("parse-ms")
 const os = require("os-utils");
 const getCustomEmbed = require("../../functions/getCustomEmbed");
@@ -43,10 +43,11 @@ module.exports = {
         .setTitle(`${client.user.username}'s Statistics:`)
         .addField(`Bot Developer`, client.users.cache.get(client.owners[0]).tag)
         .addField(`Bot Co-Dev`, client.users.cache.get(client.owners[1]).tag)
-        .addField(`Library`, "discord.js v12.3.1")
+        .addField(`Library`, "discord.js-light v12.3.1")
         .addField(`Version`, client.version)
         .addField(`Shard count`, client.shard.count)
         .addField(`Shard ID`, message.guild.shardID)
+        .addField(`Memory Usage:`, `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB`)
         .addField(`Events Fired:`, client.eventsFired.toLocaleString())
         .addField(`Average Events/m:`, `${Math.trunc(client.eventsFired / (client.uptime / 1000 / 60)).toLocaleString()}`)
         .addField(`Total Giveaways Created:`, giveaways.length.toLocaleString())

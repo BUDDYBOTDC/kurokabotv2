@@ -1,4 +1,4 @@
-const { Message, Collection } = require("discord.js");
+const { Message, Collection } = require("discord.js-light");
 
 module.exports = (message = new Message(), args = []) => {
     

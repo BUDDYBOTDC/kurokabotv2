@@ -1,4 +1,4 @@
-const { Client, MessageEmbed, Message } = require("discord.js");
+const { Client, MessageEmbed, Message } = require("discord.js-light");
 
 module.exports = {
     name: "top",

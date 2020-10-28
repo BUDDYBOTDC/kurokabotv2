@@ -1,4 +1,4 @@
-const { Client, GuildMember } = require("discord.js");
+const { Client, GuildMember } = require("discord.js-light");
 
 module.exports = async (client = new Client(), member = new GuildMember()) => {
 

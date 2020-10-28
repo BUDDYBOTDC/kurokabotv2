@@ -1,4 +1,4 @@
-const { Message, Collection } = require("discord.js");
+const { Message, Collection } = require("discord.js-light");
 const { real } = require("../utils/dbCredentials");
 const giveawayRequirements = require("./giveawayRequirements");
 

@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message } = require("discord.js-light");
 
 module.exports = {
     name: "set-giveaway-emoji",

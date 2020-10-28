@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message } = require("discord.js-light");
 const { readdirSync, readFile, readFileSync, read } = require("fs");
 
 module.exports = {

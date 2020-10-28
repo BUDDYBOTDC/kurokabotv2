@@ -1,4 +1,4 @@
-const { Client, Message, MessageManager, MessageEmbed } = require("discord.js");
+const { Client, Message, MessageManager, MessageEmbed } = require("discord.js-light");
 const { readdirSync } = require("fs");
 const getCustomEmbed = require("../../functions/getCustomEmbed");
 

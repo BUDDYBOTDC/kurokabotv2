@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message } = require("discord.js-light");
 const tableVariablesValues = require("../../utils/tableVariablesValues");
 
 module.exports = {

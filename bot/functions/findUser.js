@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message } = require("discord.js-light");
 
 module.exports = async (client = new Client(), message = new Message(), args = new Array()) => {
 

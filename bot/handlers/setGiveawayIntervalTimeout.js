@@ -1,4 +1,4 @@
-const { Client } = require("discord.js");
+const { Client } = require("discord.js-light");
 const { DATE } = require("sequelize");
 const giveawayMessage = require("../classes/giveawayMessage");
 const sendShardMessage = require("../functions/sendShardMessage");

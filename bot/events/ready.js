@@ -1,4 +1,4 @@
-const { Client } = require("discord.js")
+const { Client } = require("discord.js-light")
 const sequelize = require("sequelize")
 const shardUser = require("../functions/shardUser")
 const fetchGiveaways = require("../handlers/fetchGiveaways")
@@ -12,15 +12,11 @@ module.exports = async (client = new Client(), db = new sequelize()) => {
 
     await syncTables(client, db)
 
-    await memoryOptimization(client, true)
-    
     await handleGuildsData(client, db)
 
     setInterval(() => {
-         if (client.users.cache.size >= 50000) {
-            memoryOptimization(client, true)   
-         }
-    }, 600000);
+        client.sweepUsers(0)   
+    }, 60000);
 
     client.owner = client.user
 

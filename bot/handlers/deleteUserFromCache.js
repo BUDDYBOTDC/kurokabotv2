@@ -1,6 +1,8 @@
-const { Message, Collection } = require("discord.js");
+const { Message, Collection } = require("discord.js-light");
 
 module.exports = (message = new Message(), id) => {
+
+    return "not needed"
 
     try {
         if (id === message.client.user.id) return

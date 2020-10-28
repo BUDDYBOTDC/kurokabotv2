@@ -1,4 +1,4 @@
-const { Message, Collection, MessageEmbed } = require("discord.js")
+const { Message, Collection, MessageEmbed } = require("discord.js-light")
 const ms = require("parse-ms")
 
 module.exports = (message = new Message(), command) => {
