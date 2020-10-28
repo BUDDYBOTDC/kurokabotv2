@@ -12,7 +12,5 @@ module.exports = async (message = new Message(), command) => {
     .addField(`Example(s)`, "```" + command.examples.map(e => `${client.prefix}${command.name} ${e}`).join("\n") + "```")
     .setFooter(`<> - Required arguments\n[] - Optional Arguments`)
     
-    deleteUserFromCache(message, message.author.id)
-    
     return message.channel.send(embed)
 }

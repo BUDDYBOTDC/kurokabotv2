@@ -6,7 +6,9 @@ module.exports = (client = new Client(), oldMember = new GuildMember(), newMembe
 
     fireEvent(client)
     
-    if (newMember.hasPermission("MANAGE_GUILD") && !oldMember.hasPermission("MANAGE_GUILD")) {
+    if (client.user.id !== newMember.user.id) return
+
+    if (newMember.hasPermission("MANAGE_GUILD")) {
         updateAllInvites(client, newMember.guild)
     }
 }

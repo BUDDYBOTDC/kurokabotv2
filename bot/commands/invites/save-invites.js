@@ -8,6 +8,11 @@ module.exports = {
     permissions: [
         "MANAGE_GUILD"
     ],
+    aliases: [
+        "saveinvites",
+        "update-invites",
+        "updateinvites"
+    ],
     clientPermissions: [
         "MANAGE_GUILD",
         "MANAGE_CHANNELS"

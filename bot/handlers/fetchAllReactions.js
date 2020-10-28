@@ -16,8 +16,12 @@ module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
 
     let last = message.client.user.id
 
-    await reaction.fetch()
-    
+    try {
+        await reaction.fetch()   
+    } catch (error) {
+        return console.log(error.message + ", file: fetchAllReactions.js")
+    }
+
     for(let i = 0;i < reaction.count / 100;i++) {
 
         const reactions = await reaction.users.fetch({
