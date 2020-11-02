@@ -39,6 +39,6 @@ module.exports = {
             redeemed: false,
         })
 
-        message.channel.send(`Premium code with value of ${time.string} generated.\nKey: \`${key}\``)
+        message.channel.send(`<:DE_IconStoreChannel:763371794320457758> Premium code with value of ${time.string} generated.\nKey: \`${key}\``)
     }
 }
