@@ -66,8 +66,8 @@ module.exports = {
 
 **Giveaway Emoji**: ${d.get("giveaway_emoji") === "🎉" ? "🎉" : "<" + d.get("giveaway_emoji") + ">"}
 
-${data.entry_dm ? "DMs for approved entries are **enabled**." : "DMs for approved entries are **disabled**." }
-${data.deny_dm ? "DMs for denied entries are **enabled**." : "DMs for denied entries are **disabled**." }
+${data.entry_dm ? "DMs for approved entries are <:enabled:763372741817663518>" : "DMs for approved entries are <:disabled:763372752035381259>" }
+${data.deny_dm ? "DMs for denied entries are <:enabled:763372741817663518>" : "DMs for denied entries are <:disabled:763372752035381259>" }
 
 `)
 
