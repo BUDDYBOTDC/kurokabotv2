@@ -83,6 +83,10 @@ module.exports = async (client = new Client(), message = new Message(), db) => {
         } else return permissionsError(message, command)
     }
 
+    if (command.clientPermissions) {
+        await message.guild.me.fetch()
+    }
+
     if (command.clientPermissions && !command.clientPermissions.every(perm => message.guild.me.hasPermission(perm)) && !client.owners.includes(message.author.id)) return clientPermissionsError(message, command), deleteUserFromCache(message, message.author.id)
 
     if (command.maxGiveaways) {
