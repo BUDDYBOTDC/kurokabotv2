@@ -12,6 +12,8 @@ module.exports = async (message = new Message(), filter = "endGiveaway") =>  {
 
     const giveaway_emoji = guildData.get("giveaway_emoji") === "🎉" ? "🎉" : guildData.get("giveaway_emoji").split(":")[2]
 
+    message = await message.fetch()
+    
     const reaction = message.reactions.cache.get(giveaway_emoji)
 
     let last = message.client.user.id

@@ -4,6 +4,7 @@ const fireEvent = require("../handlers/fireEvent");
 const logNewServer = require("../handlers/logNewServer");
 const memoryOptimization = require("../handlers/memoryOptimization");
 const sendServerMessage = require("../handlers/sendServerMessage");
+const updateAllInvites = require("../handlers/updateAllInvites");
 
 module.exports = async (client = new Client(), guild = new Guild(), db) => {
 
@@ -13,5 +14,7 @@ module.exports = async (client = new Client(), guild = new Guild(), db) => {
 
     sendServerMessage(client, guild)
 
+    updateAllInvites(client, guild)
+    
     addGuildData(client, guild, db)
 }

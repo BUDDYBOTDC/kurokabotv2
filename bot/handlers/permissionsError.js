@@ -31,7 +31,5 @@ module.exports = async (message = new Message(), command) => {
     .setDescription(`You are missing \`${perms.join(", ")}\` permission to use this command${text}.`)
     .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
     
-    deleteUserFromCache(message, message.author.id)
-    
     return message.channel.send(embed)
 }
