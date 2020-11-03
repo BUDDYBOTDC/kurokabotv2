@@ -71,7 +71,7 @@ level <number>`
 
             data.title = m.content
 
-            embed.setDescription(`So you're giving away a ${m.content}, ok, which channel should be this giveaway in?`)
+            embed.setDescription(` Which channel should be this giveaway in?`)
             embed.setFooter(`Either mention the channel, give ID or name, or "here" for this channel.\nType "cancel" to cancel the setup.`)
 
             m.delete().catch(err => {})
@@ -107,7 +107,7 @@ level <number>`
             
             data.channelID = channel.id
 
-            embed.setDescription(`Channel set to ${channel}, how many winners for this giveaway?`)
+            embed.setDescription(`How many winners will this giveaway have?`)
             embed.setFooter(`Give a valid number of winners\nMinimum is 1, maximum is 20.\nType "cancel" to cancel the setup.`)
 
             m.delete().catch(err => {})
@@ -139,8 +139,8 @@ level <number>`
 
             data.winners = winners
 
-            embed.setDescription(`Amount of winners for this giveaway set to ${winners}, How much time should this giveaway last for?`)
-            embed.setFooter(`Give a valid time to parse, example: 5h (h stand for hours)\nMinimum time is a minute, maximum time is a month.\nType "cancel" to cancel the setup.`)
+            embed.setDescription(`How much time should this giveaway last for?`)
+            embed.setFooter(`Give a valid time to parse, example: 5h,\nMinimum time is a minute, maximum time is a month.\n \n You can use: \n s = seconds \n m = Minutes \n h = hours \n d = days \n w = weeks \n Type "cancel" to cancel the setup.`)
 
             m.delete().catch(err => {})
 
@@ -182,7 +182,7 @@ level <number>`
 
             data.time = time.ms
 
-            embed.setDescription(`This giveaway will last ${time.string}, what are the requirements to join this giveaway?
+            embed.setDescription(`What are the requirements to join this giveaway?
 
 **Fields:**
 ${fields}
