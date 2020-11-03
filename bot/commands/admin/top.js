@@ -9,7 +9,7 @@ module.exports = {
         try {
             const embed = new MessageEmbed()
             .setColor("GREEN")
-            .setTitle(`Top 10 Guilds - Members - Shard ${message.guild.shardID}`)
+            .setTitle(`Top 10 Guilds -- Members -- Shard ${message.guild.shardID}`)
             .setFooter(`Nice`)
     
             let y = 1
