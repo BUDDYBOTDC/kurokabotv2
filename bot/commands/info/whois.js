@@ -35,7 +35,7 @@ module.exports = {
 
         if (owner) {
             role = "Developer"
-            url = "https://cdn.discordapp.com/attachments/591309464506859551/764931954645794877/IMG_20201011_222547.png"
+            url = "https://t4.rbxcdn.com/bde2fc0c5a331ad7f3d37be0f03356d8"
         } else if (admin) {
             role = "Admin"
             url = "https://cdn.discordapp.com/attachments/591309464506859551/764931954482085908/IMG_20201011_222604.png"

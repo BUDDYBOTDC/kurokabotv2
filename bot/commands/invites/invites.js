@@ -38,9 +38,9 @@ module.exports = {
             .setColor(color)
             .setAuthor(`${member.user.username}'s Invites:`, member.user.displayAvatarURL({dynamic:true}))
             .setThumbnail(client.user.displayAvatarURL())
-            .setDescription(`${invitedBy}**Total Invites**: ${data.invites_real + data.invites_fake || 0}
-**Real Invites**: ${data.invites_real || 0}
-**Fake Invites**: ${data.invites_fake || 0}
+            .setDescription(`${invitedBy}**<:total_invites:773163544543100949> Total Invites**: ${data.invites_real + data.invites_fake || 0}
+**<:real_invites:763386537743745085> Real Invites**: ${data.invites_real || 0}
+**<:fake_invites:763377244525559898> Fake Invites**: ${data.invites_fake || 0}
 `)
     
             message.channel.send(embed)

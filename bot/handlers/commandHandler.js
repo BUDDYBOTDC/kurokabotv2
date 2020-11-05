@@ -10,8 +10,13 @@ const permissionsError = require("./permissionsError");
 const usageError = require("./usageError");
 
 module.exports = async (client = new Client(), message = new Message(), db) => {
+    if (message.author.bot || message.channel.type === "dm") {
+        if (!message.author.bot && message.content === "k!invite") {
+            client.commands.get("invite").execute(client, message, [])
+        }
 
-    if (message.author.bot || message.channel.type === "dm") return deleteUserFromCache(message, message.author.id)
+        return
+    }
 
     const prefix = client.prefixes.find(p => message.content.toLowerCase().startsWith(p.toLowerCase()))
 
