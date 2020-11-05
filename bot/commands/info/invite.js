@@ -14,10 +14,18 @@ module.exports = {
         .setColor(color)
         .setAuthor(`Invite ${client.user.username}`, message.author.displayAvatarURL({dynamic:true}), "https://discord.gg/f7MCvQJ")
         .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
-        .setDescription(
-            `https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8`
+        .setDescription( 
+            `:link: | Administrator Invite ( recommended ) \n
+            <https://discord.com/oauth2/authorize?client_id=754024463137243206&scope=bot&permissions=8> \n
+            
+            :link: | Basic Permissions Invite \n
+            <https://discord.com/oauth2/authorize?client_id=754024463137243206&scope=bot&permissions=388192> \n
+            
+            :link: | Website: <https://kurokabots.com> \n
+            
+            :link: | Twitter: <https://twitter.com/KurokaBot>`
         )
-        .setFooter(`Permissions are set to admin by default. (recommended perms)`)
+        .setFooter(`Made by Droplet Development - https://droplet.gg/discord`)
 
         message.channel.send(embed)
     }
