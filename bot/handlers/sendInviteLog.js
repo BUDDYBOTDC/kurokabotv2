@@ -27,14 +27,14 @@ module.exports = async (client = new Client(), invite, inviter, target) => {
             embed.setColor("RED")
             embed.setAuthor(`${target.user.tag} joined the guild:`, target.user.displayAvatarURL({dynamic:true}))
             embed.setThumbnail(client.user.displayAvatarURL())
-            embed.setDescription(`I couldn't figure out how they joined.`)
+            embed.setDescription(`I couldn't figure out how they joined because they used a vanity URL!`)
 
         } else {
 
             embed.setColor("GREEN")
             embed.setAuthor(`${target.user.tag} joined the guild:`, target.user.displayAvatarURL({dynamic:true}))
             embed.setThumbnail(client.user.displayAvatarURL())
-            embed.setDescription(`They were invited by ${inviter.tag}, using the code \`${invite.code}\`.`)
+            embed.setDescription(`They were invited by ${inviter.tag}, by using the code \`${invite.code}\` and they now have ${data.invites_real || 0} invites!`)
 
         }
 
