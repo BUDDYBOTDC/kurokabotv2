@@ -27,7 +27,7 @@ module.exports = async (client = new Client(), invite, inviter, target) => {
             embed.setColor("RED")
             embed.setAuthor(`${target.user.tag} joined the guild:`, target.user.displayAvatarURL({dynamic:true}))
             embed.setThumbnail(client.user.displayAvatarURL())
-            embed.setDescription(`I couldn't figure out how they joined because they used a vanity URL!`)
+            embed.setDescription(`I couldn't figure out how they joined.`)
 
         } else {
 
