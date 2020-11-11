@@ -97,7 +97,7 @@ class giveawayMessage {
             embed.setColor(`BLUE`)
             embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
             embed.setURL("https://top.gg/bot/754024463137243206/vote")
-            embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
+            embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://top.gg/bot/754024463137243206/vote")
             embed.setDescription(`
 <:DE_IconFriends:763372565716533249> **Winners**: ${this.data.winners}
 <:DE_IconPin:763372926283284520> **Hosted by**: ${this.data.mention}

@@ -21,7 +21,6 @@ module.exports = async (d) => {
     for (const req of Object.entries(task)) {
 
         const fields = {
-            guild_member: "Must be a member of {0}",
             guild_messages: "Must have at least {0} messages sent",
             guild_roles: "Must have the roles {0}",
             account_older: "Account must be older than {0} days",

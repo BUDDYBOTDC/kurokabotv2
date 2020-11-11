@@ -18,7 +18,7 @@ module.exports = {
         (async () => {
             let amount = 0
             for (const g of this.guilds.cache.array()) {
-                amount += g.memberCount   
+                if (g.memberCount) amount += g.memberCount   
             }
 
             return amount

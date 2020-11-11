@@ -37,7 +37,7 @@ module.exports = {
         }
 
         try {
-            const giveaways = await client.objects.giveaways.findOne({
+            const giveaways = await client.objects.giveaways.findAll({
                 where: {
                     guildID: message.guild.id,
                     ended: false,
@@ -45,7 +45,7 @@ module.exports = {
                 }
             })
     
-            if (giveaways) return message.channel.send(`You can't change the giveaway emoji because there are active giveaways.`)
+            if (giveaways.filter(d => d.endsAt > Date.now()).length) return message.channel.send(`You can't change the giveaway emoji because there are active giveaways.`)
     
             const id = args[0].split("<")[1].split(">")[0]
 

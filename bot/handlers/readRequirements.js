@@ -7,7 +7,6 @@ module.exports = (client = new Client(), requirements) => {
     const reqs = {}
 
     const valid_fields = {
-        guilds: "guild_member",
         messages: "guild_messages",
         roles: "guild_roles",
         account_older: "account_older",

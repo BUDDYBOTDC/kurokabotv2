@@ -68,7 +68,7 @@ module.exports = async (reaction = new MessageReaction(), user, returnCheck = fa
         .setColor("GREEN")
         .setThumbnail(client.user.displayAvatarURL())
         .setTitle(`Giveaway Entry Accepted!`)
-        .setDescription(`Your entry for the giveaway \`${data.title}\` has been accepted!\nGuild: ${reaction.message.guild.name} \n Want to invite Kuroka to power your own giveaways? Use \`k!invite\` `)
+        .setDescription(`Your entry for the giveaway \`${data.title}\` has been accepted!\nGuild: ${reaction.message.guild.name} \n \n <:DE_IconPin:763372926283284520> Want to invite Kuroka to power your own giveaways? Use \`k!invite\` `)
         .setTimestamp()
         
 
@@ -90,7 +90,7 @@ module.exports = async (reaction = new MessageReaction(), user, returnCheck = fa
         .setColor("RED")
         .setTitle(`Failed to join the giveaway`)
         .setThumbnail(client.user.displayAvatarURL())
-        .setDescription(`Sorry ${user.tag}, but looks like you don't meet one of the giveaway requirements:\n${error} \n \n Want to invite Kuroka to power your own giveaways? Use \`k!invite\` `)
+        .setDescription(`Sorry ${user.tag}, but looks like you don't meet one of the giveaway requirements:\n${error} \n \n <:DE_IconPin:763372926283284520> Want to invite Kuroka to power your own giveaways? Use \`k!invite\` `)
         .setTimestamp()
 
         cooldown.set(user.id, true)
