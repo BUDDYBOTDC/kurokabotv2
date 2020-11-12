@@ -10,10 +10,10 @@ module.exports = {
         host: "199.127.60.203",
         logging: false,
         pool: {
-            max: 5,
+            max: 1000,
             min: 0,
-            acquire: 30000,
-            idle: 10000
+            idle: 10000,
+            acquire: 120000
         }
     }
 }
