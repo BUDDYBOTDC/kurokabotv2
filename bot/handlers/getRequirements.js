@@ -243,7 +243,7 @@ module.exports = async (d) => {
             } else if (oneBadgeOnly) {
                 requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("the badges", "one of the badges: ").replace("{0}", replacer)}`)
             } else {
-                requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("{0}", replacer)}`)
+                if (text) requirements.push(`<:DE_ArrowJoin:763377170655477780> ${text.replace("{0}", replacer)}`)
             }
         }
     }
