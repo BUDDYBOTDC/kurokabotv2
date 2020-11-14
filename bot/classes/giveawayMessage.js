@@ -107,7 +107,7 @@ class giveawayMessage {
             }).filter(e => e).join("")).array.map(e => e.replace("and", "")).slice(0, 2).join(" and ")}
 ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
 `)
-            embed.setFooter(`React with 🎉 to enter the giveaway\nEnds at:`)
+            embed.setFooter(`Click the reaction below to enter!\nEnds at:`)
             embed.setTimestamp(this.data.endsAt)
 
             await this.message.edit(embed).catch(err => {
