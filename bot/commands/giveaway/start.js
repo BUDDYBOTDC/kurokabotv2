@@ -275,7 +275,7 @@ ${reqs.message ? reqs.message : ""}
 
             embed.setColor("GREEN")
             embed.setDescription(`The giveaway has been successfully set up.`)
-            embed.addField(`Vote ${client.user.username}`, `You can vote this bot [here](https://discord.boats/bot/754024463137243206/vote) if you like all this features that we provide for free :3`)
+            embed.addField(`Vote ${client.user.username}`, `You can vote this bot [here](https://discord.boats/bot/kuroka) if you like all this features that we provide for free :3`)
             embed.setFooter(`Time to win!`)
 
             await msg.edit(embed).catch(err => {})
