@@ -10,8 +10,8 @@ module.exports = async (client = new Client(), guild = new Guild()) => {
         const embed = new MessageEmbed()
         .setColor("BLUE")
         .setThumbnail(client.owner.displayAvatarURL({dynamic:true}))
-        .setDescription(`Hey! thanks for adding me, my prefix is \`${client.prefix}\`, use \`${client.prefix}help\` for a full command list ${kuroka(client)}`)
-        .setFooter(`Found any bugs? Join the support server at https://discord.gg/sarfdEp`)
+        .setDescription(`Hey there! thanks for adding me, my prefix is \`${client.prefix}\`, use \`${client.prefix}help\` for a full command list ${kuroka(client)}`)
+        .setFooter(`Have a lovely day! ❤️`)
         .setURL("https://discord.gg/f7MCvQJ")
         .setTitle(`${client.user.username}`)
 
