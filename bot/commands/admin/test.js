@@ -3,9 +3,9 @@ const messageUpdate = require("../../events/messageUpdate");
 const findChannel = require("../../functions/findChannel");
 
 module.exports = {
-    name: "announce",
+    name: "test",
     description: "send a message to the channel you want to",
-    category: "owner",
+    category: "ADMIN",
     usages: [
         "[channel] <color> \"<title>\" \"<message>\""
     ],
