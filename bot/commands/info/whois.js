@@ -54,7 +54,6 @@ module.exports = {
         const color = await getCustomEmbed(client, message.guild.id, "info")
 
         const embed = new MessageEmbed()
-        .setColor(COLOR)
         .setThumbnail(client.user.displayAvatarURL())
         .setAuthor(`${user.username}'s Information`, user.displayAvatarURL({dynamic:true}))
         .addField(`ID`, user.id)
