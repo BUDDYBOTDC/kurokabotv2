@@ -1,17 +1,17 @@
 const { Client } = require("discord.js-light");
 
-module.exports = async (client = new Client(), id = new String()) => {
+module.exports = async (client = new Client(), id) => {
 
-    const admin = await client.shard.broadcastEval(`
+    const partner = await client.shard.broadcastEval(`
     (async () => {
-        const guild = this.guilds.cache.get("550516279652515880")
+        let guild = this.guilds.cache.get("550516279652515880")
         if (guild) {
-            const member = await guild.members.fetch({
+            let member = await guild.members.fetch({
                 user: "${id}",
                 cache: false
             }).catch(err => {})
             if (member) {
-                if (["738360527184461844", "704683932112781313"].some(id => member.roles.cache.has(id))) return true
+                if (member.roles.cache.has("738360527184461844")) return true
             }
         }
         return false
