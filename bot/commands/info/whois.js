@@ -35,13 +35,17 @@ module.exports = {
 
         if (owner) {
             role = "Developer"
-            url = "https://t4.rbxcdn.com/bde2fc0c5a331ad7f3d37be0f03356d8"
+            url = "https://cdn.discordapp.com/emojis/506624306252349452.png?v=1"
         } else if (admin) {
             role = "Admin"
-            url = "https://cdn.discordapp.com/attachments/591309464506859551/764931954482085908/IMG_20201011_222604.png"
+            url = "https://cdn.discordapp.com/emojis/506624224723730462.png?v=1"
         } else if (staff) {
-            url = "https://cdn.discordapp.com/attachments/591309464506859551/764931954306842674/IMG_20201011_222620.png"
+            url = "https://cdn.discordapp.com/emojis/516837111530258452.png?v=1"
             role = "Staff"
+        }
+        else if (partner) {
+            url = "https://cdn.discordapp.com/emojis/700940624957800468.png?v=1"
+            role = "Droplet Partner"
         }
 
         const color = await getCustomEmbed(client, message.guild.id, "info")
