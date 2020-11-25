@@ -2,6 +2,7 @@ const { Client, Message, MessageEmbed } = require("discord.js-light");
 const findMember = require("../../functions/findMember");
 const isAdmin = require("../../functions/isAdmin");
 const isStaff = require("../../functions/isStaff");
+const isPartner = require("../../functions/isPartner");
 const getCustomEmbed = require("../../functions/getCustomEmbed")
 const parse = require("ms-parser")
 const ms = require("parse-ms");
