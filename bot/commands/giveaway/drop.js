@@ -43,7 +43,7 @@ module.exports = {
 
         const embed = new MessageEmbed()
         .setColor(color)
-        .setAuthor(`🎉 DROP 🎉`, undefined, "https://discord.gg/f7MCvQJ")
+        .setAuthor(`🎉 DROP 🎉`, undefined, "https://discord.boats/bot/kuroka")
         .setThumbnail(client.user.displayAvatarURL())
         .setTitle(title)
         .setDescription(`First to react wins the giveaway!`)
