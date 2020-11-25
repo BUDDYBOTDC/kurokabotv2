@@ -43,7 +43,7 @@ module.exports = {
             role = "Admin"
             url = "https://cdn.discordapp.com/emojis/506624224723730462.png?v=1"
         } else if (staff) {
-            url = "https://cdn.discordapp.com/emojis/516837111530258452.png?v=1"
+            url = "https://cdn.discordapp.com/attachments/776874228229734460/781279028170457098/image0.png"
             role = "Staff"
         }
         else if (partner) {
