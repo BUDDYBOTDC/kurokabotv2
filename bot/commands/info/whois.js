@@ -30,6 +30,8 @@ module.exports = {
         const admin = await isAdmin(client, user.id)
         
         const staff = await isStaff(client, user.id)
+        
+        const partner = await isPartner(client, user.id)
 
         let url 
         let role 
