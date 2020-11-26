@@ -37,17 +37,17 @@ module.exports = {
         let role 
 
         if (owner) {
-            role = "Developer"
-            url = "https://cdn.discordapp.com/emojis/506624306252349452.png?v=1"
+            role = "Bot Developer"
+            url = "https://cdn.discordapp.com/attachments/776874228229734460/781517475098525746/image0.png"
         } else if (admin) {
-            role = "Admin"
-            url = "https://cdn.discordapp.com/emojis/506624224723730462.png?v=1"
+            role = "Droplet & Bot Admin"
+            url = "https://cdn.discordapp.com/attachments/776874228229734460/781517381209948181/image0.png"
         } else if (staff) {
             url = "https://cdn.discordapp.com/attachments/776874228229734460/781279028170457098/image0.png"
-            role = "Staff"
+            role = "Droplet & Bot Staff"
         }
         else if (partner) {
-            url = "https://cdn.discordapp.com/emojis/700940624957800468.png?v=1"
+            url = "https://cdn.discordapp.com/attachments/776874228229734460/781532751965978634/image0.png"
             role = "Droplet Partner"
         }
 
@@ -59,7 +59,7 @@ module.exports = {
         .addField(`ID`, user.id)
         .addField(`Tag`, user.tag)
         .addField(`Created`, parse(Object.entries(ms(Date.now() - new Date(user.createdTimestamp).getTime())).filter(x => ["days", "hours", "minutes", "seconds"].includes(x[0]) && x[1]).map((x) => x[1] + x[0][0]).join("")).array.slice(0, 2).map(e => e.replace(" and", "")).join(" and ") + " ago")
-        if (role) embed.addField(`Bot Rank`, role)
+        if (role) embed.addField(`Rank`, role)
         .setThumbnail(url)
 
         message.channel.send(embed)
