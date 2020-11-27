@@ -42,7 +42,7 @@ module.exports = {
                 total++
             }
 
-            msg.edit(`Successfully reset everyone's messages sent in this guild!!! ${total} total users`)
+            msg.edit(`Successfully reset everyone's messages sent in this guild!!! ${total} total users!`)
 
         } else {
 
