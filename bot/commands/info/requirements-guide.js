@@ -50,7 +50,7 @@ level
         .addField(`Note:`, `Anything related to invites requires the bot to have 2 permissions, \`Manage Channels\` and \`Manage Guild\`.`)
         .addField(`Separator`, "To separate guild/role IDs or badges, use a space.")
         .addField(`Valid badges`, `${Object.keys(badges).filter(e => e !== "boost").map(key => `${badges[key]} ${key}`).join("\n")}`)
-        .setFooter(`Did we help? Hope so.`)
+        .setFooter(`⚠️ If you want to use Invite Requirements it's recommended to use k!save-invites after or before the giveaway set-up! ⚠️`)
 
         message.channel.send(embed)
     }
