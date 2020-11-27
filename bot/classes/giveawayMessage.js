@@ -2,7 +2,6 @@ const { Message, MessageEmbed, Collection } = require("discord.js-light");
 const ms = require("parse-ms");
 const fetchAllReactions = require("../handlers/fetchAllReactions");
 const getRequirements = require("../handlers/getRequirements");
-const getCustomEmbed = require("../functions/getCustomEmbed");
 const { type } = require("os");
 const Sequelize = require("sequelize");
 const parse = require("ms-parser");
@@ -95,12 +94,12 @@ class giveawayMessage {
     
                 if (blroles.length) roles.push(`<:checkred:763434105190613082> Members with one of these roles: ${blroles.join(", ")}, can't join the giveaway.`)
             }
-            const embed = new MessageEmbed()
-            setColor(color)
-            setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
-            setURL("https://discord.boats/bot/kuroka")
-            setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.boats/bot/754024463137243206/vote")
-            setDescription(`
+
+            embed.setColor("GREEN")
+            embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
+            embed.setURL("https://discord.boats/bot/kuroka")
+            embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.boats/bot/754024463137243206/vote")
+            embed.setDescription(`
 <:DE_IconFriends:763372565716533249> **Winners**: ${this.data.winners}
 <:DE_IconPin:763372926283284520> **Hosted by**: ${this.data.mention}
 <:DE_IconSlowmode:763372481444577281> **Time Remaining**: ${parse(Object.entries(ms(this.data.endsAt - date)).map((x, y) => {
@@ -109,8 +108,8 @@ class giveawayMessage {
             }).filter(e => e).join("")).array.map(e => e.replace("and", "")).slice(0, 2).join(" and ")}
 ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
 `)
-            setFooter(`Click the reaction below to enter!\nEnds at:`)
-            setTimestamp(this.data.endsAt)
+            embed.setFooter(`Click the reaction below to enter!\nEnds at:`)
+            embed.setTimestamp(this.data.endsAt)
 
             await this.message.edit(embed).catch(err => {
             })
@@ -164,7 +163,7 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
 
         if (users.size === 0 && IDs.length === 0) {
 
-            embed.setColor("GREEN")
+            embed.setColor("RED")
             embed.setURL("https://top.gg/bot/754024463137243206/vote")
             embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
             embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
@@ -191,7 +190,7 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
             return    
         }
 
-        embed.setColor("GREEN")
+        embed.setColor("RED")
         embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
         embed.setURL("https://top.gg/bot/754024463137243206/vote")
         embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.gg/f7MCvQJ")
