@@ -3,6 +3,7 @@ const ms = require("parse-ms");
 const fetchAllReactions = require("../handlers/fetchAllReactions");
 const getRequirements = require("../handlers/getRequirements");
 const { type } = require("os");
+const getCustomEmbed = require("../../functions/getCustomEmbed")
 const Sequelize = require("sequelize");
 const parse = require("ms-parser")
 
@@ -94,7 +95,7 @@ class giveawayMessage {
                 if (blroles.length) roles.push(`<:checkred:763434105190613082> Members with one of these roles: ${blroles.join(", ")}, can't join the giveaway.`)
             }
 
-            embed.setColor(`BLUE`)
+            embed.setColor(`color`)
             embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
             embed.setURL("https://discord.boats/bot/kuroka")
             embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.boats/bot/754024463137243206/vote")
