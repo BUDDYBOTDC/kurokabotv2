@@ -4,7 +4,8 @@ const fetchAllReactions = require("../handlers/fetchAllReactions");
 const getRequirements = require("../handlers/getRequirements");
 const { type } = require("os");
 const Sequelize = require("sequelize");
-const parse = require("ms-parser")
+const parse = require("ms-parser");
+const getCustomEmbed = require("../../functions/getCustomEmbed")
 
 class giveawayMessage {
     constructor(msg = new Message(), data = {}) {
