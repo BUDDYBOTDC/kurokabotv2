@@ -95,12 +95,12 @@ class giveawayMessage {
     
                 if (blroles.length) roles.push(`<:checkred:763434105190613082> Members with one of these roles: ${blroles.join(", ")}, can't join the giveaway.`)
             }
-
-            embed.setColor(color)
-            embed.setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
-            embed.setURL("https://discord.boats/bot/kuroka")
-            embed.setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.boats/bot/754024463137243206/vote")
-            embed.setDescription(`
+            const embed = new MessageEmbed()
+            setColor(color)
+            setTitle("<:DE_IconGift:763372175951527946> " + this.data.title)
+            setURL("https://discord.boats/bot/kuroka")
+            setAuthor(`🎉 GIVEAWAY 🎉`, undefined, "https://discord.boats/bot/754024463137243206/vote")
+            setDescription(`
 <:DE_IconFriends:763372565716533249> **Winners**: ${this.data.winners}
 <:DE_IconPin:763372926283284520> **Hosted by**: ${this.data.mention}
 <:DE_IconSlowmode:763372481444577281> **Time Remaining**: ${parse(Object.entries(ms(this.data.endsAt - date)).map((x, y) => {
@@ -109,8 +109,8 @@ class giveawayMessage {
             }).filter(e => e).join("")).array.map(e => e.replace("and", "")).slice(0, 2).join(" and ")}
 ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
 `)
-            embed.setFooter(`Click the reaction below to enter!\nEnds at:`)
-            embed.setTimestamp(this.data.endsAt)
+            setFooter(`Click the reaction below to enter!\nEnds at:`)
+            setTimestamp(this.data.endsAt)
 
             await this.message.edit(embed).catch(err => {
             })
