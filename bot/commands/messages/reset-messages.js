@@ -7,7 +7,9 @@ module.exports = {
     aliases: [
         "r-messages",
         "resetmessages",
-        "rmessages"
+        "rmessages",
+        "rmsgs"
+        
     ],
     cooldown: 5000,
     category: "messages",
@@ -28,7 +30,7 @@ module.exports = {
 
         if (args[0].toLowerCase() === "everyone") {
 
-            const msg = await message.channel.send(`Resetting everyone's messages, this may take a while...`)
+            const msg = await message.channel.send(`<a:loading:722220099947331605> Resetting everyone's messages, this may take a while..!`)
 
             const all_data = await client.objects.guild_members.findAll({ where: { guildID: message.guild.id }})
 
@@ -40,7 +42,7 @@ module.exports = {
                 total++
             }
 
-            msg.edit(`Successfully reset everyone's messages sent in this guild! (${total} users)`)
+            msg.edit(`Successfully reset everyone's messages sent in this guild!!! ${total} total users`)
 
         } else {
 
