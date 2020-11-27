@@ -111,9 +111,10 @@ ${requirements.join("\n")}${roles.length ? "\n" + roles.join("\n") : ""}
             embed.setFooter(`Click the reaction below to enter!\nEnds at:`)
             embed.setTimestamp(this.data.endsAt)
 
-            await this.message.edit(embed).catch(err => {
-            })
+            const m = await this.message.edit(embed).catch(err => null)
 
+            if (!m) await this.message.edit(embed).catch(err => null)
+            
             const time = Math.floor(Math.random() * 600000) + 1200000
 
             if ((data.endsAt - Date.now()) - time > 0){
