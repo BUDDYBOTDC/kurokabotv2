@@ -30,14 +30,14 @@ module.exports = {
 
         if (args[0].toLowerCase() === "everyone") {
 
-            const msg = await message.channel.send(`<a:loading:722220099947331605> Resetting everyone's messages, this may take a while..`)
+            const msg = await message.channel.send(`<a:loading:722220099947331605> Resetting everyone's messages, this may take a while.. we're aware that this command may not work, the team is working on a fix, visit our support server for more info!`)
 
             const all_data = await client.objects.guild_members.findAll({ where: { guildID: message.guild.id }})
 
-            let total = 1
+            let total = 0
 
             for (const d of all_data) {
-                await client.objects.guild_members.update({ messages: 1 }, { where: { guildID: message.guild.id, userID: d.userID }})
+                await client.objects.guild_members.update({ messages: 0 }, { where: { guildID: message.guild.id, userID: d.userID }})
 
                 total++
             }
