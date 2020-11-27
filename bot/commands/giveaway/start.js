@@ -34,7 +34,9 @@ real_invites <number>
 fake_invites <number>
 total_invites <number>
 voice_duration <minutes>
-level <number>`
+level <number>
+<a:exclamation~1:722067130786513046> If you want to use **Invite Requirements** it's recommended to use k!save-invites after the giveaway set-up! <a:exclamation~1:722067130786513046>`
+       
 
         const color = await getCustomEmbed(client, message.guild.id, "giveaway")
 
